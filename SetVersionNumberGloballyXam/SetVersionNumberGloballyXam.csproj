@@ -61,6 +61,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\VersionInformation.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
       <Generator>VsixManifestGenerator</Generator>
