@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Linq;
-using SolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
 
 namespace SetVersionNumberGloballyXam
 {
@@ -24,14 +23,21 @@ namespace SetVersionNumberGloballyXam
 
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
-			SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-			SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
+			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+
 
 		}
 
-		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete(object sender, EventArgs e)
+		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
 		{
 			_ = SetVisibilityDependIfXamForProjAsync();
+		}
+
+		private void SolutionEvents_OnAfterCloseSolution()
+		{
+			HasBeenSetInvisible = true;
+			Visibility = Visibility.Hidden;
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()
@@ -47,12 +53,6 @@ namespace SetVersionNumberGloballyXam
 			}
 		}
 
-
-		private void SolutionEvents_OnAfterCloseSolution(object sender, EventArgs e)
-		{
-			HasBeenSetInvisible = true;
-			Visibility = Visibility.Hidden;
-		}
 
 		private void SetVersionNumberControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{

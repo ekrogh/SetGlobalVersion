@@ -1,7 +1,4 @@
-﻿using SolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
-
-
-namespace SetVersionNumberGloballyXam
+﻿namespace SetVersionNumberGloballyXam
 {
 	[Command(PackageIds.MyCommand)]
 	internal sealed class MyToolWindowCommand : BaseCommand<MyToolWindowCommand>
@@ -13,20 +10,20 @@ namespace SetVersionNumberGloballyXam
 		}
 		protected override Task ExecuteAsync(OleMenuCmdEventArgs e)
 		{
-			SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-			SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
+			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
 
 			return MyToolWindow.ShowAsync();
 		}
 
-		private void SolutionEvents_OnAfterCloseSolution(object sender, EventArgs e)
-		{
-			Command.Visible = false;
-		}
-
-		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete(object sender, EventArgs e)
+		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
 		{
 			_ = SetVisibilityDependIfXamForProjAsync();
+		}
+
+		private void SolutionEvents_OnAfterCloseSolution()
+		{
+			Command.Visible = false;
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()
