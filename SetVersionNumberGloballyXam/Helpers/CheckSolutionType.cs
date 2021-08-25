@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell.Interop;
+using NuGet.VisualStudio.Contracts;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SetVersionNumberGloballyXam
@@ -15,23 +16,35 @@ namespace SetVersionNumberGloballyXam
 			try
 			{
 
-				Solution Sln = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
+
+				Community.VisualStudio.Toolkit.Solution Sln = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
 
 				if (Sln != null)
 				{
 
-					IEnumerable<SolutionItem> Projs = Sln.Children.Where(x => x.Type == SolutionItemType.Project);
+					NuGet.VisualStudio.IVsPackageInstallerServices installerServices =
+						await VS.GetMefServiceAsync<NuGet.VisualStudio.IVsPackageInstallerServices>();
 
-					if (Projs.Any())
+					DTE2 dte = await VS.GetRequiredServiceAsync<DTE, DTE2>();
+					Projects projs = dte.Solution.Projects;
+
+					foreach (EnvDTE.Project proj in projs)
 					{
-						foreach (SolutionItem si in Projs)
+						try
 						{
-							ProjectType ProjType = GetProjectType(si);
+							IEnumerable<NuGet.VisualStudio.IVsPackageMetadata> installedPackages =
+								installerServices.GetInstalledPackages(proj);
 
-							if (ProjType == ProjectType.XamarinForms)
+							foreach (NuGet.VisualStudio.IVsPackageMetadata installedPack in installedPackages)
 							{
-								return true;
+								if (installedPack.Id.ToLower().Contains("xamarin.forms"))
+								{
+									return true;
+								}
 							}
+						}
+						catch (Exception)
+						{
 						}
 					}
 				}
@@ -45,32 +58,6 @@ namespace SetVersionNumberGloballyXam
 			}
 
 			return false;
-		}
-
-		private static ProjectType GetProjectType(SolutionItem SlnItem)
-		{
-			string ProjPath = SlnItem.FullPath.Substring(0, SlnItem.FullPath.LastIndexOf(Path.DirectorySeparatorChar));
-			foreach (string FilePath in Directory.GetFiles(ProjPath, @"*.*proj", SearchOption.AllDirectories))
-			{
-				string FilePathLower = FilePath.ToLower();
-				if
-				(
-					!FilePathLower.Contains("obj")
-					&&
-					!FilePathLower.Contains("debug")
-					&&
-					!FilePathLower.Contains("release")
-					&&
-					!FilePathLower.Contains("bin")
-				)
-				{
-					if (System.IO.File.ReadAllText(FilePath).ToLower().Contains("xamarin"))
-					{
-						return ProjectType.XamarinForms;
-					}
-				}
-			}
-			return ProjectType.Unknown;
 		}
 	}
 }
