@@ -16,17 +16,13 @@ namespace SetVersionNumberGloballyXam
 			try
 			{
 
+				DTE2 dte = await VS.GetRequiredServiceAsync<DTE, DTE2>();
+				Projects projs = dte.Solution.Projects;
 
-				Community.VisualStudio.Toolkit.Solution Sln = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
-
-				if (Sln != null)
+				if (projs.Count != 0)
 				{
-
 					NuGet.VisualStudio.IVsPackageInstallerServices installerServices =
 						await VS.GetMefServiceAsync<NuGet.VisualStudio.IVsPackageInstallerServices>();
-
-					DTE2 dte = await VS.GetRequiredServiceAsync<DTE, DTE2>();
-					Projects projs = dte.Solution.Projects;
 
 					foreach (EnvDTE.Project proj in projs)
 					{
