@@ -38,6 +38,7 @@ namespace SetVersionNumberGloballyXam
 		{
 			HasBeenSetInvisible = true;
 			Visibility = Visibility.Hidden;
+			CheckSolutionType.XamarinFormsProjectsList.Clear();
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()

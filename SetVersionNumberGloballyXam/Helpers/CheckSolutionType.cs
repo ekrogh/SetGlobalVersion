@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell.Interop;
-using NuGet.VisualStudio.Contracts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,51 +8,67 @@ namespace SetVersionNumberGloballyXam
 {
 	public class CheckSolutionType
 	{
+		public static List<EnvDTE.Project> XamarinFormsProjectsList = new List<EnvDTE.Project>();
 		public static async Task<bool> ThisIsXamarinAsync()
 		{
-			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-			try
+			if (XamarinFormsProjectsList.Count != 0)
 			{
+				return true;
+			}
+			else
+			{
+				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				DTE2 dte = await VS.GetRequiredServiceAsync<DTE, DTE2>();
-				Projects projs = dte.Solution.Projects;
-
-				if (projs.Count != 0)
+				try
 				{
-					NuGet.VisualStudio.IVsPackageInstallerServices installerServices =
-						await VS.GetMefServiceAsync<NuGet.VisualStudio.IVsPackageInstallerServices>();
 
-					foreach (EnvDTE.Project proj in projs)
+					DTE2 dte = await VS.GetRequiredServiceAsync<DTE, DTE2>();
+					Projects projs = dte.Solution.Projects;
+
+					if (projs.Count != 0)
 					{
-						try
-						{
-							IEnumerable<NuGet.VisualStudio.IVsPackageMetadata> installedPackages =
-								installerServices.GetInstalledPackages(proj);
+						NuGet.VisualStudio.IVsPackageInstallerServices installerServices =
+							await VS.GetMefServiceAsync<NuGet.VisualStudio.IVsPackageInstallerServices>();
 
-							foreach (NuGet.VisualStudio.IVsPackageMetadata installedPack in installedPackages)
+						foreach (EnvDTE.Project proj in projs)
+						{
+							try
 							{
-								if (installedPack.Id.ToLower().Contains("xamarin.forms"))
+								IEnumerable<NuGet.VisualStudio.IVsPackageMetadata> installedPackages =
+									installerServices.GetInstalledPackages(proj);
+
+								foreach (NuGet.VisualStudio.IVsPackageMetadata installedPack in installedPackages)
 								{
-									return true;
+									if (installedPack.Id.ToLower().Contains("xamarin.forms"))
+									{
+										XamarinFormsProjectsList.Add(proj);
+									}
 								}
 							}
-						}
-						catch (Exception)
-						{
+							catch (Exception)
+							{
+							}
 						}
 					}
 				}
-			}
-			catch (Exception e)
-			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-			}
-			finally
-			{
-			}
+				catch (Exception e)
+				{
+					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				}
+				finally
+				{
+				}
 
-			return false;
+				if (XamarinFormsProjectsList.Count != 0)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+
+			}
 		}
 	}
 }
