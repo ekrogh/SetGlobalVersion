@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -147,7 +149,7 @@ namespace SetVersionNumberGloballyXam
 							);
 
 
-						foreach (Project proj in CheckSolutionItems.XamarinFormsProjectsList)
+						foreach (Community.VisualStudio.Toolkit.Project proj in CheckSolutionItems.XamarinFormsProjectsList)
 						{
 							if (CheckSolutionItems.ThisIsXamarinFormsProject(proj.Children))
 							{
@@ -203,9 +205,15 @@ namespace SetVersionNumberGloballyXam
 							}
 						}
 
+						DTE2 dte = await VS.GetServiceAsync<DTE, DTE2>();
+
+						dte.SourceControl.CheckOutItem(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+
 						if (!System.IO.File.Exists(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
 						{
 							System.IO.File.WriteAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, "justCreated");
+							var t1 = await CheckSolutionItems.TheSolution.AddSolutionFolderAsync("Version");
+
 						}
 						if (System.IO.File.ReadAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile)
 							!= "justCreated")
