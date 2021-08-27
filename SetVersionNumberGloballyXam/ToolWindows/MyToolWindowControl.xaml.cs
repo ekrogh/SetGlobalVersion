@@ -38,12 +38,12 @@ namespace SetVersionNumberGloballyXam
 		{
 			HasBeenSetInvisible = true;
 			Visibility = Visibility.Hidden;
-			CheckSolutionType.XamarinFormsProjectsList.Clear();
+			CheckSolutionItems.XamarinFormsProjectsList.Clear();
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()
 		{
-			if (await CheckSolutionType.ThisIsXamarinAsync().ConfigureAwait(true))
+			if (await CheckSolutionItems.ThisIsXamarinAsync().ConfigureAwait(true))
 			{
 				Visibility = Visibility.Visible;
 			}
@@ -97,124 +97,104 @@ namespace SetVersionNumberGloballyXam
 			{
 				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				Solution Sln = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
-
-				if (Sln != null)
+				if (await CheckSolutionItems.ThisIsXamarinAsync().ConfigureAwait(true))
 				{
-					// Sln folder
-					PathToSolutionFolder =
-					   Sln.FullPath.Substring
-					   (
-						   0
-						   ,
-						   Sln.FullPath.LastIndexOf
+
+					if (CheckSolutionItems.TheSolution != null)
+					{
+						// Sln folder
+						PathToSolutionFolder =
+						   CheckSolutionItems.TheSolution.FullPath.Substring
 						   (
-							   Path.DirectorySeparatorChar
-						   )
-					   );
-					PathToSolutionFolderEntry.Text = PathToSolutionFolder;
+							   0
+							   ,
+							   CheckSolutionItems.TheSolution.FullPath.LastIndexOf
+							   (
+								   Path.DirectorySeparatorChar
+							   )
+						   );
+						PathToSolutionFolderEntry.Text = PathToSolutionFolder;
 
-					// MajorMinorBuildRevisionNumbers.xml
-					PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
-					NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
-					PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
-						PathToMajorMinorBuildRevisionNumbersXmlFile
-						+
-						Path.DirectorySeparatorChar
-						+
-						NameOfMajorMinorBuildRevisionNumbersXmlFile;
-					string[] MMRNXml =
-						Directory.GetFiles
-							(
-								PathToSolutionFolder
-								,
-								NameOfMajorMinorBuildRevisionNumbersXmlFile
-								,
-								SearchOption.AllDirectories
-							);
-					if (MMRNXml.Length != 0)
-					{
-						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
-					}
-
-					PathToMajorMinorBuildRevisionNumbersXmlFile =
-						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.Substring
-						(
-							0
-							,
-							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.LastIndexOf(Path.DirectorySeparatorChar)
-						);
-
-					IEnumerable<SolutionItem> Projs = Sln.Children.Where(x => x.Type == SolutionItemType.Project);
-
-					if (Projs.Any())
-					{
-						foreach (SolutionItem si in Projs)
+						// MajorMinorBuildRevisionNumbers.xml
+						PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
+						NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
+						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
+							PathToMajorMinorBuildRevisionNumbersXmlFile
+							+
+							Path.DirectorySeparatorChar
+							+
+							NameOfMajorMinorBuildRevisionNumbersXmlFile;
+						string[] MMRNXml =
+							Directory.GetFiles
+								(
+									PathToSolutionFolder
+									,
+									NameOfMajorMinorBuildRevisionNumbersXmlFile
+									,
+									SearchOption.AllDirectories
+								);
+						if (MMRNXml.Length != 0)
 						{
-							if (si.FullPath.ToLower().Contains("droid"))
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
+						}
+
+						PathToMajorMinorBuildRevisionNumbersXmlFile =
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.Substring
+							(
+								0
+								,
+								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.LastIndexOf(Path.DirectorySeparatorChar)
+							);
+
+
+						foreach (Project proj in CheckSolutionItems.XamarinFormsProjectsList)
+						{
+							if (CheckSolutionItems.ThisIsXamarinFormsProject(proj.Children))
 							{
-								string AndroidPath = si.FullPath.Substring(0, si.FullPath.LastIndexOf(Path.DirectorySeparatorChar));
-								foreach (string FilePath in Directory.GetFiles(AndroidPath, @"*.xml", SearchOption.AllDirectories))
+								if (proj.Name.ToLower().Contains("droid"))
 								{
-									string FilePathLower = FilePath.ToLower();
-									if
-									(
-										!FilePathLower.Contains("obj")
-										&&
-										!FilePathLower.Contains("debug")
-										&&
-										!FilePathLower.Contains("release")
-										&&
-										!FilePathLower.Contains("bin")
-									)
+									if (CheckSolutionItems.SearchFileInProject(proj.Children, "manifest", out string pathAndFile))
 									{
-										if (System.IO.File.ReadAllText(FilePath).Contains("manifest"))
+										if (File.ReadAllText(pathAndFile).Contains("manifest"))
 										{
-											PathToAndNameOfAndroidManifestFile = FilePath;
-											break;
-										}
-									}
-								}
-							}
-							else
-							{
-								if (si.FullPath.ToLower().Contains("ios"))
-								{
-									string iOSPath = si.FullPath.Substring(0, si.FullPath.LastIndexOf(Path.DirectorySeparatorChar));
-									foreach (string FilePath in Directory.GetFiles(iOSPath, @"*.plist", SearchOption.AllDirectories))
-									{
-										if (System.IO.File.ReadAllText(FilePath).Contains("CFBundleShortVersionString"))
-										{
-											PathToAndNameOfiOSInfoPlist = FilePath;
-											break;
+											PathToAndNameOfAndroidManifestFile = pathAndFile;
 										}
 									}
 								}
 								else
 								{
-									if (si.FullPath.ToLower().Contains("mac"))
+									if (proj.Name.ToLower().Contains("uwp"))
 									{
-										string macOSPath = si.FullPath.Substring(0, si.FullPath.LastIndexOf(Path.DirectorySeparatorChar));
-										foreach (string FilePath in Directory.GetFiles(macOSPath, @"*.plist", SearchOption.AllDirectories))
+										if (CheckSolutionItems.SearchFileInProject(proj.Children, "manifest", out string pathAndFile))
 										{
-											if (System.IO.File.ReadAllText(FilePath).Contains("CFBundleShortVersionString"))
+											if (File.ReadAllText(pathAndFile).Contains("Identity"))
 											{
-												PathToAndNameOfmacOSInfoPlist = FilePath;
-												break;
+												PathToAndNameOfUWPPackageAppxmanifest = pathAndFile;
 											}
 										}
 									}
 									else
 									{
-										if (si.FullPath.ToLower().Contains("uwp"))
+										if (proj.FullPath.ToLower().Contains("ios"))
 										{
-											string UWPPath = si.FullPath.Substring(0, si.FullPath.LastIndexOf(Path.DirectorySeparatorChar));
-											foreach (string FilePath in Directory.GetFiles(UWPPath, @"*.appxmanifest", SearchOption.AllDirectories))
+											if (CheckSolutionItems.SearchFileInProject(proj.Children, @"info.plist", out string pathAndFile))
 											{
-												if (System.IO.File.ReadAllText(FilePath).Contains("Identity"))
+												if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
 												{
-													PathToAndNameOfUWPPackageAppxmanifest = FilePath;
-													break;
+													PathToAndNameOfiOSInfoPlist = pathAndFile;
+												}
+											}
+										}
+										else
+										{
+											if (proj.FullPath.ToLower().Contains("mac"))
+											{
+												if (CheckSolutionItems.SearchFileInProject(proj.Children, @"info.plist", out string pathAndFile))
+												{
+													if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
+													{
+														PathToAndNameOfmacOSInfoPlist = pathAndFile;
+													}
 												}
 											}
 										}
@@ -397,7 +377,6 @@ namespace SetVersionNumberGloballyXam
 						{
 							SetNumbersButton.IsEnabled = true;
 						}
-
 					}
 				}
 			}

@@ -24,12 +24,12 @@
 		private void SolutionEvents_OnAfterCloseSolution()
 		{
 			Command.Visible = false;
-			CheckSolutionType.XamarinFormsProjectsList.Clear();
+			CheckSolutionItems.XamarinFormsProjectsList.Clear();
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()
 		{
-			if (await CheckSolutionType.ThisIsXamarinAsync().ConfigureAwait(true))
+			if (await CheckSolutionItems.ThisIsXamarinAsync().ConfigureAwait(true))
 			{
 				Command.Visible = true;
 			}
