@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 using System.Xml.Linq;
+using static SetVersionNumberGloballyXam.Helpers.CheckSolutionItems;
 
 namespace SetVersionNumberGloballyXam
 {
@@ -40,12 +41,12 @@ namespace SetVersionNumberGloballyXam
 		{
 			HasBeenSetInvisible = true;
 			Visibility = Visibility.Hidden;
-			CheckSolutionItems.XamarinFormsProjectsList.Clear();
+			XamarinFormsProjectsList.Clear();
 		}
 
 		private async Task SetVisibilityDependIfXamForProjAsync()
 		{
-			if (await CheckSolutionItems.ThisIsXamarinAsync().ConfigureAwait(true))
+			if (await ThisIsXamarinAsync().ConfigureAwait(true))
 			{
 				Visibility = Visibility.Visible;
 			}
@@ -99,18 +100,18 @@ namespace SetVersionNumberGloballyXam
 			{
 				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				if (await CheckSolutionItems.ThisIsXamarinAsync().ConfigureAwait(true))
+				if (await ThisIsXamarinAsync().ConfigureAwait(true))
 				{
 
-					if (CheckSolutionItems.TheSolution != null)
+					if (TheSolution != null)
 					{
 						// Sln folder
 						PathToSolutionFolder =
-						   CheckSolutionItems.TheSolution.FullPath.Substring
+						   TheSolution.FullPath.Substring
 						   (
 							   0
 							   ,
-							   CheckSolutionItems.TheSolution.FullPath.LastIndexOf
+							   TheSolution.FullPath.LastIndexOf
 							   (
 								   Path.DirectorySeparatorChar
 							   )
@@ -149,13 +150,20 @@ namespace SetVersionNumberGloballyXam
 							);
 
 
-						foreach (Community.VisualStudio.Toolkit.Project proj in CheckSolutionItems.XamarinFormsProjectsList)
+						foreach (Community.VisualStudio.Toolkit.Project proj in XamarinFormsProjectsList)
 						{
-							if (CheckSolutionItems.ThisIsXamarinFormsProject(proj.Children))
+							if (ThisIsXamarinFormsProject(proj.Children))
 							{
 								if (proj.Name.ToLower().Contains("droid"))
 								{
-									if (CheckSolutionItems.SearchFileInProject(proj.Children, "manifest", out string pathAndFile))
+									if (SearchFileInProject
+										(
+											proj.Children
+											,
+											out FilesContainingVersionTypes fileType
+											,
+											out string pathAndFile
+										))
 									{
 										if (File.ReadAllText(pathAndFile).Contains("manifest"))
 										{
@@ -167,7 +175,14 @@ namespace SetVersionNumberGloballyXam
 								{
 									if (proj.Name.ToLower().Contains("uwp"))
 									{
-										if (CheckSolutionItems.SearchFileInProject(proj.Children, "manifest", out string pathAndFile))
+										if (SearchFileInProject
+											(
+												proj.Children
+												,
+												out FilesContainingVersionTypes fileType
+												,
+												out string pathAndFile
+											))
 										{
 											if (File.ReadAllText(pathAndFile).Contains("Identity"))
 											{
@@ -179,7 +194,14 @@ namespace SetVersionNumberGloballyXam
 									{
 										if (proj.FullPath.ToLower().Contains("ios"))
 										{
-											if (CheckSolutionItems.SearchFileInProject(proj.Children, @"info.plist", out string pathAndFile))
+											if (SearchFileInProject
+												(
+													proj.Children
+													,
+													out FilesContainingVersionTypes fileType
+													,
+													out string pathAndFile
+												))
 											{
 												if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
 												{
@@ -191,7 +213,14 @@ namespace SetVersionNumberGloballyXam
 										{
 											if (proj.FullPath.ToLower().Contains("mac"))
 											{
-												if (CheckSolutionItems.SearchFileInProject(proj.Children, @"info.plist", out string pathAndFile))
+												if (SearchFileInProject
+													(
+														proj.Children
+														,
+														out FilesContainingVersionTypes fileType
+														,
+														out string pathAndFile
+													))
 												{
 													if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
 													{
@@ -212,7 +241,7 @@ namespace SetVersionNumberGloballyXam
 						if (!System.IO.File.Exists(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
 						{
 							System.IO.File.WriteAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, "justCreated");
-							var t1 = await CheckSolutionItems.TheSolution.AddSolutionFolderAsync("Version");
+							Community.VisualStudio.Toolkit.SolutionFolder t1 = await TheSolution.AddSolutionFolderAsync("Version");
 
 						}
 						if (System.IO.File.ReadAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile)
