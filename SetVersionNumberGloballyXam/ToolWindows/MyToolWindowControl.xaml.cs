@@ -22,39 +22,23 @@ namespace SetVersionNumberGloballyXam
 
 			_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
 
-			_ = SetVisibilityDependIfXamForProjAsync();
-
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
 			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+			//VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
 
 
 		}
 
-		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
-		{
-			_ = SetVisibilityDependIfXamForProjAsync();
-		}
+		//private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
+		//{
+		//	Visibility = Visibility.Visible;
+		//}
 
 		private void SolutionEvents_OnAfterCloseSolution()
 		{
 			HasBeenSetInvisible = true;
 			Visibility = Visibility.Hidden;
-			XamarinFormsProjectsList.Clear();
-		}
-
-		private async Task SetVisibilityDependIfXamForProjAsync()
-		{
-			if (await ThisIsXamarinAsync().ConfigureAwait(true))
-			{
-				Visibility = Visibility.Visible;
-			}
-			else
-			{
-				Visibility = Visibility.Hidden;
-				HasBeenSetInvisible = true;
-			}
 		}
 
 
@@ -81,17 +65,6 @@ namespace SetVersionNumberGloballyXam
 		private int BuildNumber = int.MinValue;
 		private int RevisionNumber = int.MinValue;
 
-		private string PathToSolutionFolder { get; set; } = "";
-		private string PathToMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
-		private string NameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
-		private string PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
-		private bool MajorMinorBuildRevisionNumbersXmlFileExistsAtStart { get; set; } = false;
-		private bool MajorMinorBuildRevisionNumbersXmlFilejustCreated { get; set; } = false;
-
-		private string PathToAndNameOfAndroidManifestFile { get; set; } = "";
-		private string PathToAndNameOfiOSInfoPlist { get; set; } = "";
-		private string PathToAndNameOfmacOSInfoPlist { get; set; } = "";
-		private string PathToAndNameOfUWPPackageAppxmanifest { get; set; } = "";
 
 
 		private async Task GetShowPathsToAndroidiOSmacOSUWPAsync()
@@ -100,55 +73,118 @@ namespace SetVersionNumberGloballyXam
 			{
 				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+				if (await FindVersionContainingFilesInSolutionAsync())
+				{
+					if (MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+					{
+						XDocument TheXDocument = ReadFromXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+						if (TheXDocument != null)
+						{
+							IEnumerable<XElement> XElementList = TheXDocument.Elements();
+							foreach (XElement theXElement in XElementList)
+							{
+								if (theXElement.Name.LocalName == "MAJORMINORBUILDNUMBERS")
+								{
+									IEnumerable<XAttribute> XAttributesList = theXElement.Attributes();
+									foreach (XAttribute theXAttribute in XAttributesList)
+									{
+										switch (theXAttribute.Name.LocalName)
+										{
+											case "VersionMajor":
+												{
+													if (int.TryParse(theXAttribute.Value, out VersionMajor))
+													{
+														VersionMajorEntryName.Text = theXAttribute.Value;
+													}
+													else
+													{
+														_ = VS.MessageBox.ShowAsync
+															(
+																"Invalid \"VersionMajor\" in file"
+																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+																, OLEMSGICON.OLEMSGICON_CRITICAL
+																, OLEMSGBUTTON.OLEMSGBUTTON_OK
+															);
+														VersionMajor = int.MinValue;
+														VersionMajorEntryName.Text = "";
+													}
+													break;
+												}
+											case "VersionMinor":
+												{
+													if (int.TryParse(theXAttribute.Value, out VersionMinor))
+													{
+														VersionMinorEntryName.Text = theXAttribute.Value;
+													}
+													else
+													{
+														_ = VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
+															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+															);
+														VersionMinor = int.MinValue;
+														VersionMinorEntryName.Text = "";
+													}
+													break;
+												}
+											case "BuildNumber":
+												{
+													if (int.TryParse(theXAttribute.Value, out BuildNumber))
+													{
+														BuildNumberEntryName.Text = theXAttribute.Value;
+													}
+													else
+													{
+														_ = VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
+															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+															);
+														BuildNumber = int.MinValue;
+														BuildNumberEntryName.Text = "";
+													}
+													break;
+												}
+											case "RevisionNumber":
+												{
+													if (int.TryParse(theXAttribute.Value, out RevisionNumber))
+													{
+														RevisionNumberEntryName.Text = theXAttribute.Value;
+													}
+													else
+													{
+														_ = VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
+															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+															);
+														RevisionNumber = int.MinValue;
+														RevisionNumberEntryName.Text = "";
+													}
+													break;
+												}
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+						}
+					}
+
+					// Show paths
+					foreach (VersionFilePathAndProj vfpp in infoplistFiles)
+					{
+
+					}
+				}
 				if (await ThisIsXamarinAsync().ConfigureAwait(true))
 				{
 
 					if (TheSolution != null)
 					{
-						// Sln folder
-						PathToSolutionFolder =
-						   TheSolution.FullPath.Substring
-						   (
-							   0
-							   ,
-							   TheSolution.FullPath.LastIndexOf
-							   (
-								   Path.DirectorySeparatorChar
-							   )
-						   );
+
 						PathToSolutionFolderEntry.Text = PathToSolutionFolder;
-
-						// MajorMinorBuildRevisionNumbers.xml
-						PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
-						NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
-						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
-							PathToMajorMinorBuildRevisionNumbersXmlFile
-							+
-							Path.DirectorySeparatorChar
-							+
-							NameOfMajorMinorBuildRevisionNumbersXmlFile;
-						string[] MMRNXml =
-							Directory.GetFiles
-								(
-									PathToSolutionFolder
-									,
-									NameOfMajorMinorBuildRevisionNumbersXmlFile
-									,
-									SearchOption.AllDirectories
-								);
-						if (MMRNXml.Length != 0)
-						{
-							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
-						}
-
-						PathToMajorMinorBuildRevisionNumbersXmlFile =
-							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.Substring
-							(
-								0
-								,
-								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile.LastIndexOf(Path.DirectorySeparatorChar)
-							);
-
 
 						foreach (Community.VisualStudio.Toolkit.Project proj in XamarinFormsProjectsList)
 						{
@@ -234,119 +270,6 @@ namespace SetVersionNumberGloballyXam
 							}
 						}
 
-						DTE2 dte = await VS.GetServiceAsync<DTE, DTE2>();
-
-						dte.SourceControl.CheckOutItem(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
-
-						if (!System.IO.File.Exists(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
-						{
-							System.IO.File.WriteAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, "justCreated");
-							Community.VisualStudio.Toolkit.SolutionFolder t1 = await TheSolution.AddSolutionFolderAsync("Version");
-
-						}
-						if (System.IO.File.ReadAllText(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile)
-							!= "justCreated")
-						{
-							MajorMinorBuildRevisionNumbersXmlFileExistsAtStart = true;
-
-							XDocument TheXDocument = ReadFromXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
-							if (TheXDocument != null)
-							{
-								IEnumerable<XElement> XElementList = TheXDocument.Elements();
-								foreach (XElement theXElement in XElementList)
-								{
-									if (theXElement.Name.LocalName == "MAJORMINORBUILDNUMBERS")
-									{
-										IEnumerable<XAttribute> XAttributesList = theXElement.Attributes();
-										foreach (XAttribute theXAttribute in XAttributesList)
-										{
-											switch (theXAttribute.Name.LocalName)
-											{
-												case "VersionMajor":
-													{
-														if (int.TryParse(theXAttribute.Value, out VersionMajor))
-														{
-															VersionMajorEntryName.Text = theXAttribute.Value;
-														}
-														else
-														{
-															_ = VS.MessageBox.ShowAsync
-																(
-																	"Invalid \"VersionMajor\" in file"
-																	, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-																	, OLEMSGICON.OLEMSGICON_CRITICAL
-																	, OLEMSGBUTTON.OLEMSGBUTTON_OK
-																);
-															VersionMajor = int.MinValue;
-															VersionMajorEntryName.Text = "";
-														}
-														break;
-													}
-												case "VersionMinor":
-													{
-														if (int.TryParse(theXAttribute.Value, out VersionMinor))
-														{
-															VersionMinorEntryName.Text = theXAttribute.Value;
-														}
-														else
-														{
-															_ = VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
-																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-																);
-															VersionMinor = int.MinValue;
-															VersionMinorEntryName.Text = "";
-														}
-														break;
-													}
-												case "BuildNumber":
-													{
-														if (int.TryParse(theXAttribute.Value, out BuildNumber))
-														{
-															BuildNumberEntryName.Text = theXAttribute.Value;
-														}
-														else
-														{
-															_ = VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
-																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-																);
-															BuildNumber = int.MinValue;
-															BuildNumberEntryName.Text = "";
-														}
-														break;
-													}
-												case "RevisionNumber":
-													{
-														if (int.TryParse(theXAttribute.Value, out RevisionNumber))
-														{
-															RevisionNumberEntryName.Text = theXAttribute.Value;
-														}
-														else
-														{
-															_ = VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
-																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-																);
-															RevisionNumber = int.MinValue;
-															RevisionNumberEntryName.Text = "";
-														}
-														break;
-													}
-											}
-										}
-									}
-								}
-							}
-							else
-							{
-								_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-							}
-						}
-						else
-						{
-							MajorMinorBuildRevisionNumbersXmlFilejustCreated = true;
-						}
 
 						// Android
 						if (System.IO.File.Exists(PathToAndNameOfAndroidManifestFile))
@@ -946,6 +869,12 @@ namespace SetVersionNumberGloballyXam
 
 		private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
+			_ = OnSetNumbersButtonClickedAsync();
+		}
+		private async Task OnSetNumbersButtonClickedAsync(/*object sender, System.Windows.RoutedEventArgs e*/)
+		{
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
 			if ((VersionMajorEntryName.Text == null)
 				|| (VersionMajorEntryName.Text.Length == 0)
 				|| !int.TryParse(VersionMajorEntryName.Text, out int LocalVersionMajor)
@@ -1043,11 +972,25 @@ namespace SetVersionNumberGloballyXam
 					new XDeclaration("1.0", "utf-8", "yes")
 				);
 			TheXDocument.Add(MAJORMINORBUILDNUMBERS);
-			if (!WriteToXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, TheXDocument)
 
-				)
+			if (MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+			{
+				DTE2 dte = await VS.GetServiceAsync<DTE, DTE2>();
+
+				dte.SourceControl.CheckOutItem(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+			}
+
+			if (!WriteToXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, TheXDocument))
 			{
 				_ = VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			}
+
+			if (!MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+			{
+				Community.VisualStudio.Toolkit.SolutionFolder SolutionFolderMajorMinorBuildRevisionNumbersXmlFile =
+					await TheSolution.AddSolutionFolderAsync("MajorMinorBuildRevisionNumbersXmlFile").ConfigureAwait(true);
+
+				System.Threading.Tasks.Task<IEnumerable<PhysicalFile>> refMajorMinorBuildRevisionNumbersXmlFile = SolutionFolderMajorMinorBuildRevisionNumbersXmlFile.AddExistingFilesAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
 			}
 
 
@@ -1062,10 +1005,10 @@ namespace SetVersionNumberGloballyXam
 			}
 
 
-			if (!MajorMinorBuildRevisionNumbersXmlFileExistsAtStart)
-			{
-				_ = VS.MessageBox.ShowAsync("Remember to add to Source Control ", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-			}
+			//if (!MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+			//{
+			//	_ = VS.MessageBox.ShowAsync("Remember to add to Source Control ", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//}
 
 		}
 

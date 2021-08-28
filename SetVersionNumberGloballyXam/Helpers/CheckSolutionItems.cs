@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using EnvDTE;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,11 +10,27 @@ namespace SetVersionNumberGloballyXam.Helpers
 {
 	public class CheckSolutionItems
 	{
+		public static Solution TheSolution;
+		public struct VersionFilePathAndProj
+		{
+			public string project;
+			public string filePath;
+		};
+
+		public static List<VersionFilePathAndProj> infoplistFiles = new();
+		public static List<VersionFilePathAndProj> appxmanifestFiles = new();
+		public static List<VersionFilePathAndProj> manifestxmlFiles = new();
+		public static string PathToSolutionFolder { get; set; } = "";
+		public static string PathToMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
+		public static string NameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
+		public static string PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
+		public static bool MajorMinorBuildRevisionNumbersXmlFileExistedAtStart { get; set; } = false;
+
 		private const string splist = $".plist";
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
-		private static string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml };
-		private enum FilesContainingVersionTypes
+		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml };
+		public enum FilesContainingVersionTypes
 		{
 			infoplist
 			,
@@ -23,33 +41,95 @@ namespace SetVersionNumberGloballyXam.Helpers
 			none
 		}
 
-		public struct VersionFilePathAndProj
-		{
-			private string project;
-			private string filePath;
-		};
-
-		public static List<VersionFilePathAndProj> infoplistFiles = new();
-		public static List<VersionFilePathAndProj> appxmanifestFiles = new();
-		public static List<VersionFilePathAndProj> manifestxmlFiles = new();
-
 		public static async Task<bool> FindVersionContainingFilesInSolutionAsync()
 		{
-			bool versionContainingFileFound = false;
 
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+			PathToSolutionFolder = "";
+			PathToMajorMinorBuildRevisionNumbersXmlFile = "";
+			NameOfMajorMinorBuildRevisionNumbersXmlFile = "";
+			PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = "";
+			MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = false;
+
+			infoplistFiles.Clear();
+			appxmanifestFiles.Clear();
+			manifestxmlFiles.Clear();
+
+			bool versionContainingFileFound = false;
+
 			try
 			{
-				Solution TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
+				TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
 
 				if (TheSolution != null)
 				{
-					IEnumerable<SolutionItem> Projs = TheSolution.Children.Where(x => x.Type == SolutionItemType.Project);
+
+					// Sln folder
+					PathToSolutionFolder = Path.GetDirectoryName(TheSolution.FullPath);
+
+					// MajorMinorBuildRevisionNumbers.xml
+					PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
+					NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
+					PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
+						PathToMajorMinorBuildRevisionNumbersXmlFile
+						+
+						Path.DirectorySeparatorChar
+						+
+						NameOfMajorMinorBuildRevisionNumbersXmlFile;
+
+					string[] MMRNXml =
+						Directory.GetFiles
+							(
+								PathToSolutionFolder
+								,
+								NameOfMajorMinorBuildRevisionNumbersXmlFile
+								,
+								SearchOption.AllDirectories
+							);
+					if (MMRNXml.Length != 0)
+					{
+						MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
+
+						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
+
+						PathToMajorMinorBuildRevisionNumbersXmlFile =
+							Path.GetDirectoryName(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+
+						if (PathToMajorMinorBuildRevisionNumbersXmlFile != PathToSolutionFolder)
+						{
+							_ = (await VS.GetServiceAsync<DTE, DTE2>().ConfigureAwait(true)).SourceControl.CheckOutItem
+									(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+
+							Directory.Move
+									(
+										PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+										,
+										(
+											PathToSolutionFolder
+											+
+											Path.DirectorySeparatorChar
+											+
+											NameOfMajorMinorBuildRevisionNumbersXmlFile
+										)
+									);
+							PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
+										PathToSolutionFolder
+										+
+										Path.DirectorySeparatorChar
+										+
+										NameOfMajorMinorBuildRevisionNumbersXmlFile;
+
+						}
+					}
+
+					IEnumerable<SolutionItem> Projs = TheSolution.Children.Where
+						(x => x.Type == SolutionItemType.Project);
 
 					if (Projs.Any())
 					{
-						foreach (Project proj in Projs)
+						foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
 						{
 							if
 							(
@@ -68,7 +148,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 								VersionFilePathAndProj vfpp = new()
 								{
 									project = proj.Name
-									,
+										,
 									filePath = pathAndFile
 								};
 
@@ -170,7 +250,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 												(
 													"manifest"
 												)
-)
+										)
 										{
 											fileType = FilesContainingVersionTypes.manifestxml;
 											return true;
