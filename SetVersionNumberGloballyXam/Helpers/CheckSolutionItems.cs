@@ -15,6 +15,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 		public static List<VersionFilePathAndProj> infoplistFiles = new();
 		public static List<VersionFilePathAndProj> appxmanifestFiles = new();
 		public static List<VersionFilePathAndProj> manifestxmlFiles = new();
+		public static List<VersionFilePathAndProj> notsupportedFiles = new();
 		public static string PathToSolutionFolder { get; set; } = "";
 		public static string PathToMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
 		public static string NameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
@@ -34,7 +35,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 	,
 			manifestxml
 	,
-			none
+			notsupported
 		}
 
 
@@ -51,6 +52,8 @@ namespace SetVersionNumberGloballyXam.Helpers
 			infoplistFiles.Clear();
 			appxmanifestFiles.Clear();
 			manifestxmlFiles.Clear();
+			notsupportedFiles.Clear();
+
 			PathToSolutionFolder = "";
 			PathToMajorMinorBuildRevisionNumbersXmlFile = "";
 			NameOfMajorMinorBuildRevisionNumbersXmlFile = "";
@@ -148,6 +151,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 
 					if (Projs.Any())
 					{
+						VersionFilePathAndProj vfpp;
 						foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
 						{
 							if
@@ -164,7 +168,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 							{
 								versionContainingFileFound = true;
 
-								VersionFilePathAndProj vfpp = new()
+								vfpp = new VersionFilePathAndProj()
 								{
 									project = proj.Name
 										,
@@ -188,13 +192,24 @@ namespace SetVersionNumberGloballyXam.Helpers
 											manifestxmlFiles.Add(vfpp);
 											break;
 										}
-									case FilesContainingVersionTypes.none:
+									case FilesContainingVersionTypes.notsupported:
 										{
 											break;
 										}
 									default:
 										break;
 								}
+							}
+							else
+							{
+								vfpp = new VersionFilePathAndProj()
+								{
+									project = proj.Name
+										,
+									filePath = "Not supported type"
+								};
+
+								notsupportedFiles.Add(vfpp);
 							}
 						}
 					}
@@ -302,7 +317,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 			}
 
 			// Not found
-			fileType = FilesContainingVersionTypes.none;
+			fileType = FilesContainingVersionTypes.notsupported;
 			pathAndFile = "";
 			return false;
 		}
