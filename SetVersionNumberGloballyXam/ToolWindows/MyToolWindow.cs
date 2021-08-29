@@ -8,7 +8,7 @@ namespace SetVersionNumberGloballyXam
 {
 	public class MyToolWindow : BaseToolWindow<MyToolWindow>
 	{
-		public override string GetTitle(int toolWindowId) => "My Tool Window";
+		public override string GetTitle(int toolWindowId) => "Set Global Version Number";
 
 		public override Type PaneType => typeof(Pane);
 

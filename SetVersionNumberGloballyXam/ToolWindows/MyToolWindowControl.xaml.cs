@@ -2,10 +2,9 @@
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Xml;
 using System.Xml.Linq;
 using static SetVersionNumberGloballyXam.Helpers.CheckSolutionItems;
@@ -25,18 +24,22 @@ namespace SetVersionNumberGloballyXam
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
 			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-			//VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
 
 
 		}
 
-		//private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
-		//{
-		//	Visibility = Visibility.Visible;
-		//}
+		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
+		{
+			_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
+
+			Visibility = Visibility.Visible;
+		}
 
 		private void SolutionEvents_OnAfterCloseSolution()
 		{
+			GetShowPathsToAndroidiOSmacOSUWPAsynHasBeenRun = false;
+
 			HasBeenSetInvisible = true;
 			Visibility = Visibility.Hidden;
 		}
@@ -65,287 +68,347 @@ namespace SetVersionNumberGloballyXam
 		private int BuildNumber = int.MinValue;
 		private int RevisionNumber = int.MinValue;
 
+		// Solution
+		public struct MySolutionData
+		{
+			public string thisSolutionName { set; get; }
+			public string thisSolutionPath { set; get; }
+		}
 
+		// Project
+		public struct MyProjectsData
+		{
+			public string thisSolutionProject { set; get; }
+			public string thisSolutionProjectPath { set; get; }
+		}
 
+		private bool GetShowPathsToAndroidiOSmacOSUWPAsynHasBeenRun { get; set; } = false;
 		private async Task GetShowPathsToAndroidiOSmacOSUWPAsync()
 		{
-			try
+			if (!GetShowPathsToAndroidiOSmacOSUWPAsynHasBeenRun)
 			{
-				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+				GetShowPathsToAndroidiOSmacOSUWPAsynHasBeenRun = true;
 
-				if (await FindVersionContainingFilesInSolutionAsync())
+				try
 				{
-					if (MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+					await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+					// Clear datagrids
+					mySolutionDataGrid.Items.Clear();
+					myProjectsDataGrid.Items.Clear();
+
+					if (await FindVersionContainingFilesInSolutionAsync())
 					{
-						XDocument TheXDocument = ReadFromXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
-						if (TheXDocument != null)
+						Style DataGridTextColumnElementStyle = new(typeof(TextBlock));
+						DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+
+
+						// Show solution and its path
+
+						DataGridTextColumn col0 = new DataGridTextColumn();
+						DataGridTextColumn col1 = new DataGridTextColumn();
+						mySolutionDataGrid.Columns.Add(col0);
+						mySolutionDataGrid.Columns.Add(col1);
+						col0.Binding = new Binding("thisSolutionName");
+						col1.Binding = new Binding("thisSolutionPath");
+						col0.Header = "Solution";
+						col1.Header = "Path";
+						col1.ElementStyle = DataGridTextColumnElementStyle;
+
+						mySolutionDataGrid.Items.Add(new MySolutionData { thisSolutionName = TheSolution.Name, thisSolutionPath = TheSolution.FullPath });
+
+
+						// Show paths to files containing version
+
+						col0 = new DataGridTextColumn();
+						col1 = new DataGridTextColumn();
+						myProjectsDataGrid.Columns.Add(col0);
+						myProjectsDataGrid.Columns.Add(col1);
+						col0.Binding = new Binding("thisSolutionProject");
+						col1.Binding = new Binding("thisSolutionProjectPath");
+						col0.Header = "Project";
+						col1.Header = "File containing version";
+						col1.ElementStyle = DataGridTextColumnElementStyle;
+
+						foreach (VersionFilePathAndProj vfpp in infoplistFiles)
 						{
-							IEnumerable<XElement> XElementList = TheXDocument.Elements();
-							foreach (XElement theXElement in XElementList)
+							myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						}
+						foreach (VersionFilePathAndProj vfpp in appxmanifestFiles)
+						{
+							myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						}
+						foreach (VersionFilePathAndProj vfpp in manifestxmlFiles)
+						{
+							myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						}
+
+						if (MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
+						{
+							XDocument TheXDocument = ReadFromXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+							if (TheXDocument != null)
 							{
-								if (theXElement.Name.LocalName == "MAJORMINORBUILDNUMBERS")
+								IEnumerable<XElement> XElementList = TheXDocument.Elements();
+								foreach (XElement theXElement in XElementList)
 								{
-									IEnumerable<XAttribute> XAttributesList = theXElement.Attributes();
-									foreach (XAttribute theXAttribute in XAttributesList)
+									if (theXElement.Name.LocalName == "MAJORMINORBUILDNUMBERS")
 									{
-										switch (theXAttribute.Name.LocalName)
+										IEnumerable<XAttribute> XAttributesList = theXElement.Attributes();
+										foreach (XAttribute theXAttribute in XAttributesList)
 										{
-											case "VersionMajor":
-												{
-													if (int.TryParse(theXAttribute.Value, out VersionMajor))
+											switch (theXAttribute.Name.LocalName)
+											{
+												case "VersionMajor":
 													{
-														VersionMajorEntryName.Text = theXAttribute.Value;
+														if (int.TryParse(theXAttribute.Value, out VersionMajor))
+														{
+															VersionMajorEntryName.Text = theXAttribute.Value;
+														}
+														else
+														{
+															_ = VS.MessageBox.ShowAsync
+																(
+																	"Invalid \"VersionMajor\" in file"
+																	, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+																	, OLEMSGICON.OLEMSGICON_CRITICAL
+																	, OLEMSGBUTTON.OLEMSGBUTTON_OK
+																);
+															VersionMajor = int.MinValue;
+															VersionMajorEntryName.Text = "";
+														}
+														break;
 													}
-													else
+												case "VersionMinor":
 													{
-														_ = VS.MessageBox.ShowAsync
-															(
-																"Invalid \"VersionMajor\" in file"
+														if (int.TryParse(theXAttribute.Value, out VersionMinor))
+														{
+															VersionMinorEntryName.Text = theXAttribute.Value;
+														}
+														else
+														{
+															_ = VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
 																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-																, OLEMSGICON.OLEMSGICON_CRITICAL
-																, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
-														VersionMajor = int.MinValue;
-														VersionMajorEntryName.Text = "";
+																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+																);
+															VersionMinor = int.MinValue;
+															VersionMinorEntryName.Text = "";
+														}
+														break;
 													}
-													break;
-												}
-											case "VersionMinor":
-												{
-													if (int.TryParse(theXAttribute.Value, out VersionMinor))
+												case "BuildNumber":
 													{
-														VersionMinorEntryName.Text = theXAttribute.Value;
+														if (int.TryParse(theXAttribute.Value, out BuildNumber))
+														{
+															BuildNumberEntryName.Text = theXAttribute.Value;
+														}
+														else
+														{
+															_ = VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
+																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+																);
+															BuildNumber = int.MinValue;
+															BuildNumberEntryName.Text = "";
+														}
+														break;
 													}
-													else
+												case "RevisionNumber":
 													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
-															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
-														VersionMinor = int.MinValue;
-														VersionMinorEntryName.Text = "";
+														if (int.TryParse(theXAttribute.Value, out RevisionNumber))
+														{
+															RevisionNumberEntryName.Text = theXAttribute.Value;
+														}
+														else
+														{
+															_ = VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
+																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+																, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
+																);
+															RevisionNumber = int.MinValue;
+															RevisionNumberEntryName.Text = "";
+														}
+														break;
 													}
-													break;
-												}
-											case "BuildNumber":
-												{
-													if (int.TryParse(theXAttribute.Value, out BuildNumber))
-													{
-														BuildNumberEntryName.Text = theXAttribute.Value;
-													}
-													else
-													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
-															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
-														BuildNumber = int.MinValue;
-														BuildNumberEntryName.Text = "";
-													}
-													break;
-												}
-											case "RevisionNumber":
-												{
-													if (int.TryParse(theXAttribute.Value, out RevisionNumber))
-													{
-														RevisionNumberEntryName.Text = theXAttribute.Value;
-													}
-													else
-													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
-															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
-														RevisionNumber = int.MinValue;
-														RevisionNumberEntryName.Text = "";
-													}
-													break;
-												}
+											}
 										}
 									}
 								}
 							}
-						}
-						else
-						{
-							_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							else
+							{
+								_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							}
 						}
 					}
+					//if (await ThisIsXamarinAsync().ConfigureAwait(true))
+					//{
 
-					// Show paths
-					foreach (VersionFilePathAndProj vfpp in infoplistFiles)
-					{
+					//	if (TheSolution != null)
+					//	{
 
-					}
+					//		PathToSolutionFolderEntry.Text = PathToSolutionFolder;
+
+					//		foreach (Community.VisualStudio.Toolkit.Project proj in XamarinFormsProjectsList)
+					//		{
+					//			if (ThisIsXamarinFormsProject(proj.Children))
+					//			{
+					//				if (proj.Name.ToLower().Contains("droid"))
+					//				{
+					//					if (SearchFileInProject
+					//						(
+					//							proj.Children
+					//							,
+					//							out FilesContainingVersionTypes fileType
+					//							,
+					//							out string pathAndFile
+					//						))
+					//					{
+					//						if (File.ReadAllText(pathAndFile).Contains("manifest"))
+					//						{
+					//							PathToAndNameOfAndroidManifestFile = pathAndFile;
+					//						}
+					//					}
+					//				}
+					//				else
+					//				{
+					//					if (proj.Name.ToLower().Contains("uwp"))
+					//					{
+					//						if (SearchFileInProject
+					//							(
+					//								proj.Children
+					//								,
+					//								out FilesContainingVersionTypes fileType
+					//								,
+					//								out string pathAndFile
+					//							))
+					//						{
+					//							if (File.ReadAllText(pathAndFile).Contains("Identity"))
+					//							{
+					//								PathToAndNameOfUWPPackageAppxmanifest = pathAndFile;
+					//							}
+					//						}
+					//					}
+					//					else
+					//					{
+					//						if (proj.FullPath.ToLower().Contains("ios"))
+					//						{
+					//							if (SearchFileInProject
+					//								(
+					//									proj.Children
+					//									,
+					//									out FilesContainingVersionTypes fileType
+					//									,
+					//									out string pathAndFile
+					//								))
+					//							{
+					//								if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
+					//								{
+					//									PathToAndNameOfiOSInfoPlist = pathAndFile;
+					//								}
+					//							}
+					//						}
+					//						else
+					//						{
+					//							if (proj.FullPath.ToLower().Contains("mac"))
+					//							{
+					//								if (SearchFileInProject
+					//									(
+					//										proj.Children
+					//										,
+					//										out FilesContainingVersionTypes fileType
+					//										,
+					//										out string pathAndFile
+					//									))
+					//								{
+					//									if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
+					//									{
+					//										PathToAndNameOfmacOSInfoPlist = pathAndFile;
+					//									}
+					//								}
+					//							}
+					//						}
+					//					}
+					//				}
+					//			}
+					//		}
+
+
+					//		// Android
+					//		if (System.IO.File.Exists(PathToAndNameOfAndroidManifestFile))
+					//		{
+					//			AndroidManifestFileLabel.Content = PathToAndNameOfAndroidManifestFile;
+					//		}
+					//		else
+					//		{
+					//			PathToAndNameOfAndroidManifestFile = "";
+					//			AndroidManifestFileLabel.Content = "-";
+					//		}
+
+					//		// iOS
+					//		if (System.IO.File.Exists(PathToAndNameOfiOSInfoPlist))
+					//		{
+					//			PathToiOSInfoPlistLabel.Content = PathToAndNameOfiOSInfoPlist;
+					//		}
+					//		else
+					//		{
+					//			PathToAndNameOfiOSInfoPlist = "";
+					//			PathToiOSInfoPlistLabel.Content = "-";
+					//		}
+
+					//		//	macOS
+					//		if (System.IO.File.Exists(PathToAndNameOfmacOSInfoPlist))
+					//		{
+					//			PathTomacOSInfoPlistLabel.Content = PathToAndNameOfmacOSInfoPlist;
+					//		}
+					//		else
+					//		{
+					//			PathToAndNameOfmacOSInfoPlist = "";
+					//			PathTomacOSInfoPlistLabel.Content = "-";
+					//		}
+					//		// UWP
+					//		if (System.IO.File.Exists(PathToAndNameOfUWPPackageAppxmanifest))
+					//		{
+					//			PathToUWPPackageAppxmanifestLabel.Content = PathToAndNameOfUWPPackageAppxmanifest;
+					//		}
+					//		else
+					//		{
+					//			PathToAndNameOfUWPPackageAppxmanifest = "";
+					//			PathToUWPPackageAppxmanifestLabel.Content = "-";
+					//		}
+
+					//		if
+					//		(
+					//			PathToAndNameOfAndroidManifestFile == ""
+					//			&&
+					//			PathToAndNameOfiOSInfoPlist == ""
+					//			&&
+					//			PathToAndNameOfmacOSInfoPlist == ""
+					//			&&
+					//			PathToAndNameOfUWPPackageAppxmanifest == ""
+					//		)
+					//		{
+					//			SetNumbersButton.IsEnabled = false;
+					//			_ = VS.MessageBox.ShowAsync("Error: ", "No project folders found !", OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+
+					//			if (MajorMinorBuildRevisionNumbersXmlFilejustCreated)
+					//			{
+					//				System.IO.File.Delete(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+					//			}
+					//		}
+					//		else
+					//		{
+					//			SetNumbersButton.IsEnabled = true;
+					//		}
+					//	}
+					//}
 				}
-				if (await ThisIsXamarinAsync().ConfigureAwait(true))
+				catch (Exception e)
 				{
-
-					if (TheSolution != null)
-					{
-
-						PathToSolutionFolderEntry.Text = PathToSolutionFolder;
-
-						foreach (Community.VisualStudio.Toolkit.Project proj in XamarinFormsProjectsList)
-						{
-							if (ThisIsXamarinFormsProject(proj.Children))
-							{
-								if (proj.Name.ToLower().Contains("droid"))
-								{
-									if (SearchFileInProject
-										(
-											proj.Children
-											,
-											out FilesContainingVersionTypes fileType
-											,
-											out string pathAndFile
-										))
-									{
-										if (File.ReadAllText(pathAndFile).Contains("manifest"))
-										{
-											PathToAndNameOfAndroidManifestFile = pathAndFile;
-										}
-									}
-								}
-								else
-								{
-									if (proj.Name.ToLower().Contains("uwp"))
-									{
-										if (SearchFileInProject
-											(
-												proj.Children
-												,
-												out FilesContainingVersionTypes fileType
-												,
-												out string pathAndFile
-											))
-										{
-											if (File.ReadAllText(pathAndFile).Contains("Identity"))
-											{
-												PathToAndNameOfUWPPackageAppxmanifest = pathAndFile;
-											}
-										}
-									}
-									else
-									{
-										if (proj.FullPath.ToLower().Contains("ios"))
-										{
-											if (SearchFileInProject
-												(
-													proj.Children
-													,
-													out FilesContainingVersionTypes fileType
-													,
-													out string pathAndFile
-												))
-											{
-												if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
-												{
-													PathToAndNameOfiOSInfoPlist = pathAndFile;
-												}
-											}
-										}
-										else
-										{
-											if (proj.FullPath.ToLower().Contains("mac"))
-											{
-												if (SearchFileInProject
-													(
-														proj.Children
-														,
-														out FilesContainingVersionTypes fileType
-														,
-														out string pathAndFile
-													))
-												{
-													if (File.ReadAllText(pathAndFile).Contains("CFBundleShortVersionString"))
-													{
-														PathToAndNameOfmacOSInfoPlist = pathAndFile;
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-
-
-						// Android
-						if (System.IO.File.Exists(PathToAndNameOfAndroidManifestFile))
-						{
-							AndroidManifestFileLabel.Content = PathToAndNameOfAndroidManifestFile;
-						}
-						else
-						{
-							PathToAndNameOfAndroidManifestFile = "";
-							AndroidManifestFileLabel.Content = "-";
-						}
-
-						// iOS
-						if (System.IO.File.Exists(PathToAndNameOfiOSInfoPlist))
-						{
-							PathToiOSInfoPlistLabel.Content = PathToAndNameOfiOSInfoPlist;
-						}
-						else
-						{
-							PathToAndNameOfiOSInfoPlist = "";
-							PathToiOSInfoPlistLabel.Content = "-";
-						}
-
-						//	macOS
-						if (System.IO.File.Exists(PathToAndNameOfmacOSInfoPlist))
-						{
-							PathTomacOSInfoPlistLabel.Content = PathToAndNameOfmacOSInfoPlist;
-						}
-						else
-						{
-							PathToAndNameOfmacOSInfoPlist = "";
-							PathTomacOSInfoPlistLabel.Content = "-";
-						}
-						// UWP
-						if (System.IO.File.Exists(PathToAndNameOfUWPPackageAppxmanifest))
-						{
-							PathToUWPPackageAppxmanifestLabel.Content = PathToAndNameOfUWPPackageAppxmanifest;
-						}
-						else
-						{
-							PathToAndNameOfUWPPackageAppxmanifest = "";
-							PathToUWPPackageAppxmanifestLabel.Content = "-";
-						}
-
-						if
-						(
-							PathToAndNameOfAndroidManifestFile == ""
-							&&
-							PathToAndNameOfiOSInfoPlist == ""
-							&&
-							PathToAndNameOfmacOSInfoPlist == ""
-							&&
-							PathToAndNameOfUWPPackageAppxmanifest == ""
-						)
-						{
-							SetNumbersButton.IsEnabled = false;
-							_ = VS.MessageBox.ShowAsync("Error: ", "No project folders found !", OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-
-							if (MajorMinorBuildRevisionNumbersXmlFilejustCreated)
-							{
-								System.IO.File.Delete(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
-							}
-						}
-						else
-						{
-							SetNumbersButton.IsEnabled = true;
-						}
-					}
+					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
 				}
+				finally { }
 			}
-			catch (Exception e)
-			{
-				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-			}
-			finally { }
 		}
 
 		private void OnVersionMajorEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
@@ -505,15 +568,6 @@ namespace SetVersionNumberGloballyXam
 			RevisionNumberEntryName.Text = "";
 
 			PathToSolutionFolder = "";
-			PathToSolutionFolderEntry.Text = "";
-			PathToAndNameOfAndroidManifestFile = "";
-			AndroidManifestFileLabel.Content = "-";
-			PathToAndNameOfiOSInfoPlist = "";
-			PathToiOSInfoPlistLabel.Content = "-";
-			PathToAndNameOfmacOSInfoPlist = "";
-			PathTomacOSInfoPlistLabel.Content = "-";
-			PathToAndNameOfUWPPackageAppxmanifest = "";
-			PathToUWPPackageAppxmanifestLabel.Content = "-";
 
 			SetNumbersButton.IsEnabled = false;
 
@@ -523,349 +577,359 @@ namespace SetVersionNumberGloballyXam
 
 		private bool SetAndroidVersionNumbers()
 		{
-			string PathToAndNameOfTheFile = PathToAndNameOfAndroidManifestFile;
+			return false;
+			//	//string PathToAndNameOfTheFile = PathToAndNameOfAndroidManifestFile;
 
-			bool RetVal = true;
+			//	bool RetVal = true;
 
-			if (PathToAndNameOfAndroidManifestFile != "")
-			{
-				try
-				{
-					int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
-					string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
-					string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
+			//	if (PathToAndNameOfAndroidManifestFile != "")
+			//	{
+			//		try
+			//		{
+			//			int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
+			//			string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
+			//			string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
 
-					if (System.IO.File.Exists(PathToAndNameOfTheFile))
-					{
-						// Read the version numbers for use next time
-						XDocument TheXDocument =
-							ReadFromXmlFile(PathToAndNameOfTheFile);
+			//			if (System.IO.File.Exists(PathToAndNameOfTheFile))
+			//			{
+			//				// Read the version numbers for use next time
+			//				XDocument TheXDocument =
+			//					ReadFromXmlFile(PathToAndNameOfTheFile);
 
-						if (TheXDocument != null)
-						{
-							bool versionCodeFound = false;
-							bool versionNameFound = false;
+			//				if (TheXDocument != null)
+			//				{
+			//					bool versionCodeFound = false;
+			//					bool versionNameFound = false;
 
-							XElement element = TheXDocument.Descendants("manifest").Single();
+			//					XElement element = TheXDocument.Descendants("manifest").Single();
 
-							IEnumerable<XAttribute> XAttributesList = TheXDocument.Descendants("manifest").Single().Attributes();
+			//					IEnumerable<XAttribute> XAttributesList = TheXDocument.Descendants("manifest").Single().Attributes();
 
-							using (IEnumerator<XAttribute> sequenceEnum = XAttributesList.GetEnumerator())
-							{
-								while (sequenceEnum.MoveNext())
-								{
-									// Do something with sequenceEnum.Current.
-									switch (sequenceEnum.Current.Name.LocalName)
-									{
-										case "versionCode":
-											{
-												sequenceEnum.Current.Value = BuildNumber.ToString();
-												versionCodeFound = true;
-												break;
-											}
-										case "versionName":
-											{
-												sequenceEnum.Current.Value = VersionMajor.ToString() + '.' + VersionMinor.ToString();
-												versionNameFound = true;
-												break;
-											}
-									}
-								}
-							}
-							if (versionCodeFound && versionNameFound)
-							{
-								if (!WriteToXmlFile(PathToAndNameOfTheFile, TheXDocument))
-								{
-									RetVal = false;
-									_ = VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-								}
-							}
-							else
-							{
-								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-						}
-					}
-					else
-					{
-						RetVal = false;
-						_ = VS.MessageBox.ShowAsync("File not found: ", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-					}
-				}
-				catch (Exception e)
-				{
-					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-				}
-				finally { }
-			}
+			//					using (IEnumerator<XAttribute> sequenceEnum = XAttributesList.GetEnumerator())
+			//					{
+			//						while (sequenceEnum.MoveNext())
+			//						{
+			//							// Do something with sequenceEnum.Current.
+			//							switch (sequenceEnum.Current.Name.LocalName)
+			//							{
+			//								case "versionCode":
+			//									{
+			//										sequenceEnum.Current.Value = BuildNumber.ToString();
+			//										versionCodeFound = true;
+			//										break;
+			//									}
+			//								case "versionName":
+			//									{
+			//										sequenceEnum.Current.Value = VersionMajor.ToString() + '.' + VersionMinor.ToString();
+			//										versionNameFound = true;
+			//										break;
+			//									}
+			//							}
+			//						}
+			//					}
+			//					if (versionCodeFound && versionNameFound)
+			//					{
+			//						if (!WriteToXmlFile(PathToAndNameOfTheFile, TheXDocument))
+			//						{
+			//							RetVal = false;
+			//							_ = VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//						}
+			//					}
+			//					else
+			//					{
+			//						RetVal = false;
+			//						_ = VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//					}
+			//				}
+			//				else
+			//				{
+			//					RetVal = false;
+			//					_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//				}
+			//			}
+			//			else
+			//			{
+			//				RetVal = false;
+			//				_ = VS.MessageBox.ShowAsync("File not found: ", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//			}
+			//		}
+			//		catch (Exception e)
+			//		{
+			//			System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+			//			RetVal = false;
+			//			_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//		}
+			//		finally { }
+			//	}
 
-			return RetVal;
+			//	return RetVal;
 		}
 
 
 		private bool SetiOSVersionNumbers()
 		{
-			bool RetVal = true;
-
-			string PathToAndNameOfTheFile = PathToAndNameOfiOSInfoPlist;
-
-			if (PathToAndNameOfTheFile != "")
-			{
-				try
-				{
-					int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
-					string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
-					string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
-
-					if (System.IO.File.Exists(PathToAndNameOfTheFile))
-					{
-						// Read the version numbers for use next time
-						XDocument TheXDocument =
-							ReadFromXmlFile(PathToAndNameOfTheFile);
-						if (TheXDocument != null)
-						{
-							IEnumerable<XElement> keyValues = TheXDocument.Descendants("dict");
-
-							// Check if CFBundleVersion exists
-							IEnumerable<XElement> CFBundleVersion_keyValue = keyValues
-										 .SelectMany(d => d.Elements("key")
-												.Where(e => e.Value == "CFBundleVersion"));
-							// Check if CFBundleShortVersionString exists
-							IEnumerable<XElement> CFBundleShortVersionString_keyValue = keyValues
-										 .SelectMany(d => d.Elements("key")
-												.Where(e => e.Value == "CFBundleShortVersionString"));
-							// Add missing elements
-							XElement dictEntry = keyValues.FirstOrDefault();
-							if ((!CFBundleVersion_keyValue.Any() || !CFBundleShortVersionString_keyValue.Any()) && (dictEntry != null))
-							{
-
-								if (!CFBundleVersion_keyValue.Any())
-								{
-									// Add CFBundleVersion
-									dictEntry.Add(new XElement("key", "CFBundleVersion"));
-									dictEntry.Add(new XElement("string", "1.1"));
-								}
-
-								if (!CFBundleShortVersionString_keyValue.Any())
-								{
-									// Add CFBundleShortVersionString
-									dictEntry.Add(new XElement("key", "CFBundleShortVersionString"));
-									dictEntry.Add(new XElement("string", "1.1"));
-								}
-
-								_ = WriteToXmlFile(PathToAndNameOfTheFile, TheXDocument);
-							}
-
-							string thePlist = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
-							if (thePlist != "Error")
-							{
-								// CFBundleVersion
-								int indexOfVersionKey = thePlist.IndexOf("CFBundleVersion");
-								int indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
-								int indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
-								if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-								{
-									int VersionLength = indexOfVersionEnd - indexOfVersion;
-									string newVersion = BuildNumber.ToString() + '.' + RevisionNumber.ToString();
-									thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
-
-									// CFBundleShortVersionString
-									if ((indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString")) < 0)
-									{
-									}
-									indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString");
-									indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
-									indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
-									if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-									{
-										VersionLength = indexOfVersionEnd - indexOfVersion;
-										newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString();
-										thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
-
-										System.IO.File.WriteAllText(PathToAndNameOfTheFile, thePlist);
-									}
-									else
-									{
-										RetVal = false;
-										_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-									}
-								}
-								else
-								{
-									RetVal = false;
-									_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-								}
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-				}
-				finally { }
-			}
-
-			return RetVal;
+			return false;
 		}
+		//{
+		//	bool RetVal = true;
+
+		//	//string PathToAndNameOfTheFile = PathToAndNameOfiOSInfoPlist;
+
+		//	if (PathToAndNameOfTheFile != "")
+		//	{
+		//		try
+		//		{
+		//			int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
+		//			string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
+		//			string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
+
+		//			if (System.IO.File.Exists(PathToAndNameOfTheFile))
+		//			{
+		//				// Read the version numbers for use next time
+		//				XDocument TheXDocument =
+		//					ReadFromXmlFile(PathToAndNameOfTheFile);
+		//				if (TheXDocument != null)
+		//				{
+		//					IEnumerable<XElement> keyValues = TheXDocument.Descendants("dict");
+
+		//					// Check if CFBundleVersion exists
+		//					IEnumerable<XElement> CFBundleVersion_keyValue = keyValues
+		//								 .SelectMany(d => d.Elements("key")
+		//										.Where(e => e.Value == "CFBundleVersion"));
+		//					// Check if CFBundleShortVersionString exists
+		//					IEnumerable<XElement> CFBundleShortVersionString_keyValue = keyValues
+		//								 .SelectMany(d => d.Elements("key")
+		//										.Where(e => e.Value == "CFBundleShortVersionString"));
+		//					// Add missing elements
+		//					XElement dictEntry = keyValues.FirstOrDefault();
+		//					if ((!CFBundleVersion_keyValue.Any() || !CFBundleShortVersionString_keyValue.Any()) && (dictEntry != null))
+		//					{
+
+		//						if (!CFBundleVersion_keyValue.Any())
+		//						{
+		//							// Add CFBundleVersion
+		//							dictEntry.Add(new XElement("key", "CFBundleVersion"));
+		//							dictEntry.Add(new XElement("string", "1.1"));
+		//						}
+
+		//						if (!CFBundleShortVersionString_keyValue.Any())
+		//						{
+		//							// Add CFBundleShortVersionString
+		//							dictEntry.Add(new XElement("key", "CFBundleShortVersionString"));
+		//							dictEntry.Add(new XElement("string", "1.1"));
+		//						}
+
+		//						_ = WriteToXmlFile(PathToAndNameOfTheFile, TheXDocument);
+		//					}
+
+		//					string thePlist = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
+		//					if (thePlist != "Error")
+		//					{
+		//						// CFBundleVersion
+		//						int indexOfVersionKey = thePlist.IndexOf("CFBundleVersion");
+		//						int indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
+		//						int indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
+		//						if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//						{
+		//							int VersionLength = indexOfVersionEnd - indexOfVersion;
+		//							string newVersion = BuildNumber.ToString() + '.' + RevisionNumber.ToString();
+		//							thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+
+		//							// CFBundleShortVersionString
+		//							if ((indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString")) < 0)
+		//							{
+		//							}
+		//							indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString");
+		//							indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
+		//							indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
+		//							if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//							{
+		//								VersionLength = indexOfVersionEnd - indexOfVersion;
+		//								newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString();
+		//								thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+
+		//								System.IO.File.WriteAllText(PathToAndNameOfTheFile, thePlist);
+		//							}
+		//							else
+		//							{
+		//								RetVal = false;
+		//								_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//							}
+		//						}
+		//						else
+		//						{
+		//							RetVal = false;
+		//							_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//						}
+		//					}
+		//				}
+		//				else
+		//				{
+		//					RetVal = false;
+		//					_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//				}
+		//			}
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//			RetVal = false;
+		//			_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//		}
+		//		finally { }
+		//	}
+
+		//	return RetVal;
+		//}
 
 		private bool SetmacOSVersionNumbers()
 		{
-			bool RetVal = true;
-
-			string PathToAndNameOfTheFile = PathToAndNameOfmacOSInfoPlist;
-
-			if (PathToAndNameOfTheFile != "")
-			{
-				try
-				{
-					int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
-					string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
-					string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
-
-					if (System.IO.File.Exists(PathToAndNameOfTheFile))
-					{
-						string thePlist = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
-						if (thePlist != "Error")
-						{
-							// CFBundleVersion
-							int indexOfVersionKey = thePlist.IndexOf("CFBundleVersion");
-							int indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
-							int indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
-							if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-							{
-								int VersionLength = indexOfVersionEnd - indexOfVersion;
-								string newVersion = BuildNumber.ToString() + '.' + RevisionNumber.ToString();
-								thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
-
-								// CFBundleShortVersionString
-								indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString");
-								indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
-								indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
-								if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-								{
-									VersionLength = indexOfVersionEnd - indexOfVersion;
-									newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString();
-									thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
-
-									System.IO.File.WriteAllText(PathToAndNameOfTheFile, thePlist);
-								}
-								else
-								{
-									RetVal = false;
-									_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-								}
-							}
-							else
-							{
-								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-				}
-				finally { }
-			}
-
-			return RetVal;
+			return false;
 		}
+		//{
+		//	bool RetVal = true;
+
+		//	string PathToAndNameOfTheFile = PathToAndNameOfmacOSInfoPlist;
+
+		//	if (PathToAndNameOfTheFile != "")
+		//	{
+		//		try
+		//		{
+		//			int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
+		//			string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
+		//			string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
+
+		//			if (System.IO.File.Exists(PathToAndNameOfTheFile))
+		//			{
+		//				string thePlist = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
+		//				if (thePlist != "Error")
+		//				{
+		//					// CFBundleVersion
+		//					int indexOfVersionKey = thePlist.IndexOf("CFBundleVersion");
+		//					int indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
+		//					int indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
+		//					if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//					{
+		//						int VersionLength = indexOfVersionEnd - indexOfVersion;
+		//						string newVersion = BuildNumber.ToString() + '.' + RevisionNumber.ToString();
+		//						thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+
+		//						// CFBundleShortVersionString
+		//						indexOfVersionKey = thePlist.IndexOf("CFBundleShortVersionString");
+		//						indexOfVersion = thePlist.IndexOf("string>", indexOfVersionKey) + 7;
+		//						indexOfVersionEnd = thePlist.IndexOf("</", indexOfVersion);
+		//						if ((indexOfVersionKey >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//						{
+		//							VersionLength = indexOfVersionEnd - indexOfVersion;
+		//							newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString();
+		//							thePlist = thePlist.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+
+		//							System.IO.File.WriteAllText(PathToAndNameOfTheFile, thePlist);
+		//						}
+		//						else
+		//						{
+		//							RetVal = false;
+		//							_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//						}
+		//					}
+		//					else
+		//					{
+		//						RetVal = false;
+		//						_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					RetVal = false;
+		//					_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//				}
+		//			}
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//			RetVal = false;
+		//			_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//		}
+		//		finally { }
+		//	}
+
+		//	return RetVal;
+		//}
 
 		private bool SetUWPVersionNumbers()
 		{
-			bool RetVal = true;
-
-			string PathToAndNameOfTheFile = PathToAndNameOfUWPPackageAppxmanifest;
-
-			if (PathToAndNameOfTheFile != "")
-			{
-				try
-				{
-					int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
-					string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
-					string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
-
-					if (System.IO.File.Exists(PathToAndNameOfTheFile))
-					{
-						string theAppxmanifest = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
-						if (theAppxmanifest != "Error")
-						{
-							// Version
-							int indexOfPublisherAttribute = theAppxmanifest.IndexOf("Publisher");
-							int indexOfVersionAttribute = theAppxmanifest.IndexOf("Version", indexOfPublisherAttribute);
-							int indexOfVersion = theAppxmanifest.IndexOf('"', indexOfVersionAttribute) + 1;
-							int indexOfVersionEnd = theAppxmanifest.IndexOf('"', indexOfVersion);
-							if ((indexOfPublisherAttribute >= 0) && (indexOfVersionAttribute >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-							{
-								int VersionLength = indexOfVersionEnd - indexOfVersion;
-								string newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString() + '.' + BuildNumber.ToString() + ".0"; // Revision must be 0 (used be Microsoft store)
-								theAppxmanifest = theAppxmanifest.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
-
-								// Publisher
-								int indexOfPublisher = theAppxmanifest.IndexOf('"', indexOfPublisherAttribute) + 1;
-								int indexOfPublisherEnd = theAppxmanifest.IndexOf('"', indexOfPublisher);
-								if ((indexOfPublisher >= 0) && (indexOfPublisherEnd >= 0))
-								{
-									int PublisherLength = indexOfPublisherEnd - indexOfPublisher;
-									theAppxmanifest = theAppxmanifest.Remove(indexOfPublisher, PublisherLength).Insert(indexOfPublisher, "CN=Eigil Krogh Sorensen");
-
-									System.IO.File.WriteAllText(PathToAndNameOfTheFile, theAppxmanifest);
-								}
-								else
-								{
-									RetVal = false;
-									_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-								}
-							}
-							else
-							{
-								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-				}
-				finally { }
-			}
-
-			return RetVal;
+			return false;
 		}
+		//{
+		//	bool RetVal = true;
+
+		//	string PathToAndNameOfTheFile = PathToAndNameOfUWPPackageAppxmanifest;
+
+		//	if (PathToAndNameOfTheFile != "")
+		//	{
+		//		try
+		//		{
+		//			int LastIndexOfFolderSeperator = PathToAndNameOfTheFile.LastIndexOf(Path.DirectorySeparatorChar);
+		//			string PathToTheFile = PathToAndNameOfTheFile.Substring(0, LastIndexOfFolderSeperator);
+		//			string NameOfTheFile = PathToAndNameOfTheFile.Substring(LastIndexOfFolderSeperator + 1);
+
+		//			if (System.IO.File.Exists(PathToAndNameOfTheFile))
+		//			{
+		//				string theAppxmanifest = System.IO.File.ReadAllText(PathToAndNameOfTheFile);
+		//				if (theAppxmanifest != "Error")
+		//				{
+		//					// Version
+		//					int indexOfPublisherAttribute = theAppxmanifest.IndexOf("Publisher");
+		//					int indexOfVersionAttribute = theAppxmanifest.IndexOf("Version", indexOfPublisherAttribute);
+		//					int indexOfVersion = theAppxmanifest.IndexOf('"', indexOfVersionAttribute) + 1;
+		//					int indexOfVersionEnd = theAppxmanifest.IndexOf('"', indexOfVersion);
+		//					if ((indexOfPublisherAttribute >= 0) && (indexOfVersionAttribute >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//					{
+		//						int VersionLength = indexOfVersionEnd - indexOfVersion;
+		//						string newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString() + '.' + BuildNumber.ToString() + ".0"; // Revision must be 0 (used be Microsoft store)
+		//						theAppxmanifest = theAppxmanifest.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+
+		//						// Publisher
+		//						int indexOfPublisher = theAppxmanifest.IndexOf('"', indexOfPublisherAttribute) + 1;
+		//						int indexOfPublisherEnd = theAppxmanifest.IndexOf('"', indexOfPublisher);
+		//						if ((indexOfPublisher >= 0) && (indexOfPublisherEnd >= 0))
+		//						{
+		//							int PublisherLength = indexOfPublisherEnd - indexOfPublisher;
+		//							theAppxmanifest = theAppxmanifest.Remove(indexOfPublisher, PublisherLength).Insert(indexOfPublisher, "CN=Eigil Krogh Sorensen");
+
+		//							System.IO.File.WriteAllText(PathToAndNameOfTheFile, theAppxmanifest);
+		//						}
+		//						else
+		//						{
+		//							RetVal = false;
+		//							_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//						}
+		//					}
+		//					else
+		//					{
+		//						RetVal = false;
+		//						_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					RetVal = false;
+		//					_ = VS.MessageBox.ShowAsync("Error reading file", PathToAndNameOfTheFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//				}
+		//			}
+		//		}
+		//		catch (Exception e)
+		//		{
+		//			System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//			RetVal = false;
+		//			_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+		//		}
+		//		finally { }
+		//	}
+
+		//	return RetVal;
+		//}
 
 		private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
@@ -948,17 +1012,17 @@ namespace SetVersionNumberGloballyXam
 			}
 
 
-			if ((PathToSolutionFolderEntry.Text == null)
-				|| (PathToSolutionFolderEntry.Text.Length == 0)
-				|| !(Directory.Exists(PathToSolutionFolderEntry.Text))
-				)
-			{
-				string TextHolder = PathToSolutionFolderEntry.Text;
-				PathToSolutionFolderEntry.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Path to Projects Folder\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-				PathToSolutionFolderEntry.Focus();
-				return;
-			}
+			//if ((PathToSolutionFolderEntry.Text == null)
+			//	|| (PathToSolutionFolderEntry.Text.Length == 0)
+			//	|| !(Directory.Exists(PathToSolutionFolderEntry.Text))
+			//	)
+			//{
+			//	string TextHolder = PathToSolutionFolderEntry.Text;
+			//	PathToSolutionFolderEntry.Text = "";
+			//	_ = VS.MessageBox.ShowAsync("Invalid \"Path to Projects Folder\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			//	PathToSolutionFolderEntry.Focus();
+			//	return;
+			//}
 
 			// Save the version numbers for use next time
 			XElement MAJORMINORBUILDNUMBERS = new XElement("MAJORMINORBUILDNUMBERS"

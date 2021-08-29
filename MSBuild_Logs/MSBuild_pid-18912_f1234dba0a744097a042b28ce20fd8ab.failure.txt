@@ -1,0 +1,9 @@
+UNHANDLED EXCEPTIONS FROM PROCESS 18912:
+=====================
+29-08-2021 03:21:40
+System.IO.IOException: Pipe is broken.
+   at System.IO.Pipes.PipeStream.WinIOError(Int32 errorCode)
+   at System.IO.Pipes.PipeStream.EndWrite(IAsyncResult asyncResult)
+   at System.IO.Pipes.PipeStream.WriteCore(Byte[] buffer, Int32 offset, Int32 count)
+   at Microsoft.Build.BackEnd.NodeEndpointOutOfProcBase.RunReadLoop(Stream localReadPipe, Stream localWritePipe, ConcurrentQueue`1 localPacketQueue, AutoResetEvent localPacketAvailable, AutoResetEvent localTerminatePacketPump)
+===================

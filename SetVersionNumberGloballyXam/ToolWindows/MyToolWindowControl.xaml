@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="SetVersionNumberGloballyXam.MyToolWindowControl"
+﻿<UserControl
+	x:Class="SetVersionNumberGloballyXam.MyToolWindowControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,248 +9,98 @@
 	x:Name="Set_Version_Number"
 	Padding="10"
 	mc:Ignorable="d"
-	HorizontalAlignment="Left"
-	VerticalAlignment="Center">
+	HorizontalAlignment="Left">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<Style
+				x:Key="DataGridTextColumnStyle">
+				<Setter
+					Property="TextBlock.TextWrapping"
+					Value="Wrap" />
+			</Style>
+
+		</ResourceDictionary>
+	</UserControl.Resources>
+
 	<UserControl.Content>
-		<StackPanel
-			Margin="20">
 
+		<StackPanel>
+
+			<Separator />
+			
 			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-				</Grid.RowDefinitions>
-
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="*" />
-					<ColumnDefinition
-						Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Label
-					Grid.Row="0"
-					Grid.Column="0"
-					IsTabStop="False">
-					Path to Solution Folder
-				</Label>
-				<TextBox
-					x:Name="PathToSolutionFolderEntry"
-					Grid.Row="0"
-					Grid.Column="1"
-					Text="Path to ProjectsFolder"
-					IsReadOnly="True"
-					IsTabStop="False"
-					HorizontalAlignment="Stretch" />
-
-				<Label
-					Grid.Row="1"
-					Grid.Column="0"
-					IsTabStop="False">
-					Android Manifest File
-				</Label>
-				<Label
-					x:Name="AndroidManifestFileLabel"
-					Grid.Row="1"
-					Grid.Column="1"
-					IsTabStop="False" />
-
-				<Label
-					Grid.Row="2"
-					Grid.Column="0"
-					IsTabStop="False">
-					Path to iOS Info.plist
-				</Label>
-				<Label
-					x:Name="PathToiOSInfoPlistLabel"
-					Grid.Row="2"
-					Grid.Column="1"
-					IsTabStop="False" />
-
-				<Label
-					Grid.Row="3"
-					Grid.Column="0"
-					IsTabStop="False">
-					Path to macOS Info.plist
-				</Label>
-				<Label
-					x:Name="PathTomacOSInfoPlistLabel"
-					Grid.Row="3"
-					Grid.Column="1"
-					IsTabStop="False" />
-
-				<Label
-					Grid.Row="4"
-					Grid.Column="0"
-					IsTabStop="False">
-					Path to UWP Package.appxmanifest
-				</Label>
-				<Label
-					x:Name="PathToUWPPackageAppxmanifestLabel"
-					Grid.Row="4"
-					Grid.Column="1"
-					IsTabStop="False" />
-
+				<DataGrid
+					x:Name="mySolutionDataGrid"
+					IsReadOnly="True">
+				</DataGrid>
+			</Grid>
+			
+			<Separator />
+			
+			<Grid>
+				<DataGrid
+					x:Name="myProjectsDataGrid"
+					IsReadOnly="True">
+				</DataGrid>
 			</Grid>
 
-			<Grid
-				VerticalAlignment="Stretch">
-				<Grid.RowDefinitions>
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-					<RowDefinition
-						Height="Auto" />
-				</Grid.RowDefinitions>
+			<Separator />
 
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="Auto" />
-					<ColumnDefinition
-						Width="Auto" />
-				</Grid.ColumnDefinitions>
-
+			<StackPanel>
 				<Label
-					Grid.Row="1"
-					Grid.Column="0"
-					IsTabStop="False">
-					Version Major vv
-				</Label>
-
-				<Label
-					Grid.Row="1"
-					Grid.Column="1"
-					IsTabStop="False">
-					Version Minor vv
-				</Label>
-
-				<Label
-					Grid.Row="1"
-					Grid.Column="2"
-					IsTabStop="False">
-					Build Number bb
-				</Label>
-
-				<Label
-					Grid.Row="1"
-					Grid.Column="3"
-					IsTabStop="False">
-					Revision Number rr
-				</Label>
-				<Label
-					Grid.Row="0"
-					Grid.Column="4"
 					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					(Version Major + Version Minor must always
-				</Label>
-				<Label
-					Grid.Row="1"
-					Grid.Column="4"
-					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					be increased because Apple OS' are using
-				</Label>
-				<Label
-					Grid.Row="2"
-					Grid.Column="4"
-					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					it.&#10;Build Number is used  as  'versioncode'
-				</Label>
-				<Label
-					Grid.Row="3"
-					Grid.Column="4"
-					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					in Android and must always be
-				</Label>
-				<Label
-					Grid.Row="4"
-					Grid.Column="4"
-					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					increased.&#10;Revision Number is only used
-				</Label>
-				<Label
-					Grid.Row="5"
-					Grid.Column="4"
-					IsTabStop="False"
-					VerticalAlignment="Top"
-					FontStyle="Italic">
-					iOS and macOS. Always 0 in UWP.)
-				</Label>
+					Content="Version Major vv" />
 				<TextBox
 					x:Name="VersionMajorEntryName"
-					Grid.Row="1"
-					Grid.Column="0"
 					LostFocus="OnVersionMajorEntryCompleted"
 					ManipulationCompleted="OnVersionMajorEntryCompleted"
 					IsTabStop="true"
 					TabIndex="2"
 					VerticalAlignment="Top"
 					AutomationProperties.HelpText="vv" />
+			</StackPanel>
+			<StackPanel>
+				<Label
+					IsTabStop="False"
+					Content="Version Minor vv" />
 				<TextBox
 					x:Name="VersionMinorEntryName"
-					Grid.Row="1"
-					Grid.Column="1"
 					AutomationProperties.HelpText="vv"
 					LostFocus="OnVersionMinorEntryCompleted"
 					ManipulationCompleted="OnVersionMinorEntryCompleted"
 					IsTabStop="true"
 					TabIndex="3" />
+			</StackPanel>
+
+			<StackPanel>
+				<Label
+					IsTabStop="False"
+					Content="Build Number bb" />
 				<TextBox
 					x:Name="BuildNumberEntryName"
-					Grid.Row="1"
-					Grid.Column="2"
 					AutomationProperties.HelpText="bb"
 					LostFocus="OnBuildNumberEntryCompleted"
 					ManipulationCompleted="OnBuildNumberEntryCompleted"
 					IsTabStop="true"
 					TabIndex="4" />
+			</StackPanel>
+
+			<StackPanel>
+				<Label
+					IsTabStop="False"
+					Content="Revision Number rr" />
 				<TextBox
 					x:Name="RevisionNumberEntryName"
-					Grid.Row="1"
-					Grid.Column="3"
 					AutomationProperties.HelpText="rr"
 					LostFocus="OnRevisionNumberEntryCompleted"
 					ManipulationCompleted="OnRevisionNumberEntryCompleted"
 					IsTabStop="true"
 					TabIndex="5" />
-
-
+			</StackPanel>
+			<Separator />
+			<StackPanel>
 				<Button
-					Grid.Row="3"
-					Grid.Column="0"
 					Content="Refresh"
 					Click="OnRefreshButtonClicked"
 					IsTabStop="true"
@@ -257,18 +108,29 @@
 
 				<Button
 					x:Name="SetNumbersButton"
-					Grid.Row="3"
-					Grid.Column="2"
 					Content="Set Numbers"
 					Click="OnSetNumbersButtonClicked"
 					IsEnabled="False"
 					IsTabStop="true"
 					TabIndex="6" />
+			</StackPanel>
+			<Separator />
+			<StackPanel>
+				<TextBlock
+					FontFamily="Verdana"
+					FontStyle="Italic"
+					TextWrapping="Wrap"
+					FontWeight="Light"
+					TextTrimming="WordEllipsis"
+					LineStackingStrategy="BlockLineHeight"
+					FontStretch="Condensed">
+(Version Major + Version Minor must alway be increased because Apple OS' are using it. Build Number is used as 'versioncode' in Android and must always be increased. Revision Number is only used iOS and macOS. Always 0 in UWP.)
+				</TextBlock>
+			</StackPanel>
 
-			</Grid>
 
 		</StackPanel>
 
 	</UserControl.Content>
-	
+
 </UserControl>
