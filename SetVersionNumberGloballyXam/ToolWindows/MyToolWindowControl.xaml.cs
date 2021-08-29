@@ -19,7 +19,7 @@ namespace SetVersionNumberGloballyXam
 		{
 			InitializeComponent();
 
-			//_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
+			_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
 
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
@@ -31,6 +31,7 @@ namespace SetVersionNumberGloballyXam
 
 		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
 		{
+			InitializeComponent();
 			_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
 
 			HasBeenSetInvisible = false;
@@ -58,6 +59,7 @@ namespace SetVersionNumberGloballyXam
 				if (HasBeenSetInvisible && ((bool)e.NewValue))
 				{
 					Visibility = Visibility.Visible;
+					InitializeComponent();
 					_ = GetShowPathsToAndroidiOSmacOSUWPAsync();
 				}
 			}
@@ -104,10 +106,11 @@ namespace SetVersionNumberGloballyXam
 				mySolutionDataGrid.Items.Clear();
 				myProjectsDataGrid.Items.Clear();
 
+				Style DataGridTextColumnElementStyle = new(typeof(TextBlock));
+				DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+
 				if (await FindVersionContainingFilesInSolutionAsync())
 				{
-					Style DataGridTextColumnElementStyle = new(typeof(TextBlock));
-					DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
 
 					// Show solution and its path
 
@@ -255,12 +258,20 @@ namespace SetVersionNumberGloballyXam
 				}
 				else
 				{
-					// Show "error"  message
-					DataGridTextColumn col0 = new DataGridTextColumn();
-					mySolutionDataGrid.Columns.Add(col0);
-					col0.Binding = new Binding("thisSolutionName");
-					col0.Header = "Project types not supported.";
-					mySolutionDataGrid.Items.Add(new MySolutionData { thisSolutionName = "-", thisSolutionPath = "" });
+					if (TheSolution != null)
+					{
+						// Show "error"  message
+						DataGridTextColumn col0 = new DataGridTextColumn();
+						DataGridTextColumn col1 = new DataGridTextColumn();
+						mySolutionDataGrid.Columns.Add(col0);
+						mySolutionDataGrid.Columns.Add(col1);
+						col0.Binding = new Binding("thisSolutionName");
+						col1.Binding = new Binding("thisSolutionPath");
+						col0.Header = "Solution";
+						col1.Header = "Path";
+						col1.ElementStyle = DataGridTextColumnElementStyle;
+						mySolutionDataGrid.Items.Add(new MySolutionData { thisSolutionName = "Not Supported.", thisSolutionPath = "" });
+					}
 				}
 				//if (await ThisIsXamarinAsync().ConfigureAwait(true))
 				//{
