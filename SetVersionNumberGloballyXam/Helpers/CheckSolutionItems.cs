@@ -29,6 +29,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 		public static string NameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
 		public static string PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = "";
 		public static bool MajorMinorBuildRevisionNumbersXmlFileExistedAtStart { get; set; } = false;
+		public static bool MajorMinorBuildRevisionNumbersXmlFileJustCreated { get; set; } = false;
 
 		public struct VersionFilePathAndProj
 		{
@@ -69,6 +70,8 @@ namespace SetVersionNumberGloballyXam.Helpers
 			NameOfMajorMinorBuildRevisionNumbersXmlFile = "";
 			PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = "";
 			MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = false;
+			MajorMinorBuildRevisionNumbersXmlFileJustCreated = false;
+
 		}
 
 		public static async Task<bool> GetVersionContainingFilesInSolutionAsync()
