@@ -12,7 +12,7 @@ namespace SetVersionNumberGloballyXam
 {
 	public partial class MyToolWindowControl : UserControl
 	{
-		private bool HasBeenSetInvisible { get; set; } = false;
+		private bool WasInvisible { get; set; } = false;
 
 		public MyToolWindowControl()
 		{
@@ -33,7 +33,7 @@ namespace SetVersionNumberGloballyXam
 			InitializeComponent();
 			_ = GetShowPathsToVersionContainingFilesAsync();
 
-			HasBeenSetInvisible = false;
+			WasInvisible = false;
 			Visibility = Visibility.Visible;
 		}
 
@@ -41,7 +41,7 @@ namespace SetVersionNumberGloballyXam
 		{
 			SetNumbersButton.IsEnabled = false;
 
-			HasBeenSetInvisible = true;
+			WasInvisible = true;
 			Visibility = Visibility.Hidden;
 		}
 
@@ -50,12 +50,12 @@ namespace SetVersionNumberGloballyXam
 		{
 			if (!(bool)e.NewValue && (bool)e.OldValue)
 			{
-				HasBeenSetInvisible = true;
+				WasInvisible = true;
 
 			}
 			else
 			{
-				if (HasBeenSetInvisible && ((bool)e.NewValue))
+				if (WasInvisible && ((bool)e.NewValue))
 				{
 					Visibility = Visibility.Visible;
 					InitializeComponent();
