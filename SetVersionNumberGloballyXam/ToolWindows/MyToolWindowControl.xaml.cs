@@ -109,7 +109,7 @@ namespace SetVersionNumberGloballyXam
 				Style DataGridTextColumnElementStyle = new(typeof(TextBlock));
 				DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
 
-				if (await FindVersionContainingFilesInSolutionAsync())
+				if (await GetVersionContainingFilesInSolutionAsync())
 				{
 
 					// Show solution and its path
@@ -1071,10 +1071,10 @@ namespace SetVersionNumberGloballyXam
 
 			if (!MajorMinorBuildRevisionNumbersXmlFileExistedAtStart)
 			{
-				Community.VisualStudio.Toolkit.SolutionFolder SolutionFolderMajorMinorBuildRevisionNumbersXmlFile =
-					await TheSolution.AddSolutionFolderAsync("MajorMinorBuildRevisionNumbersXmlFile").ConfigureAwait(true);
+				//Community.VisualStudio.Toolkit.SolutionFolder SolutionFolderMajorMinorBuildRevisionNumbersXmlFile =
+				//	await TheSolution.AddSolutionFolderAsync("MajorMinorBuildRevisionNumbersXmlFile").ConfigureAwait(true);
 
-				System.Threading.Tasks.Task<IEnumerable<PhysicalFile>> refMajorMinorBuildRevisionNumbersXmlFile = SolutionFolderMajorMinorBuildRevisionNumbersXmlFile.AddExistingFilesAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
+				//System.Threading.Tasks.Task<IEnumerable<PhysicalFile>> refMajorMinorBuildRevisionNumbersXmlFile = SolutionFolderMajorMinorBuildRevisionNumbersXmlFile.AddExistingFilesAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile);
 			}
 
 

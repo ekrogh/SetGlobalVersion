@@ -46,7 +46,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\CheckSolutionItems.cs" />
-    <Compile Include="Helpers\Class1.cs" />
     <Compile Include="Helpers\ProjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MyToolWindowCommand.cs" />
@@ -112,9 +111,6 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.3177-preview3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="NuGet.VisualStudio">
-      <Version>6.0.0-preview.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
