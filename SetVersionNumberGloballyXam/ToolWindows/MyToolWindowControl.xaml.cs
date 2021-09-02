@@ -13,10 +13,25 @@ namespace SetVersionNumberGloballyXam
 	public partial class MyToolWindowControl : UserControl
 	{
 		private bool WasInvisible { get; set; } = false;
-
+		Style DataGridTextColumnElementStyle;
 		public MyToolWindowControl()
 		{
 			InitializeComponent();
+
+			DataGridTextColumnElementStyle = new(typeof(TextBlock));
+			DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+
+			solCol0.Binding = new Binding("ThisSolutionName");
+			solCol1.Binding = new Binding("ThisSolutionPath");
+			solCol0.Header = "Solution";
+			solCol1.Header = "Path";
+			solCol1.ElementStyle = DataGridTextColumnElementStyle;
+
+			projCol0.Binding = new Binding("ThisSolutionProject");
+			projCol1.Binding = new Binding("ThisSolutionProjectPath");
+			projCol0.Header = "Project";
+			projCol1.Header = "File containing version";
+			projCol1.ElementStyle = DataGridTextColumnElementStyle;
 
 			_ = GetShowPathsToVersionContainingFilesAsync();
 
@@ -30,6 +45,8 @@ namespace SetVersionNumberGloballyXam
 
 		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
 		{
+			CleanUp();
+
 			InitializeComponent();
 			_ = GetShowPathsToVersionContainingFilesAsync();
 
@@ -43,6 +60,9 @@ namespace SetVersionNumberGloballyXam
 
 			WasInvisible = true;
 			Visibility = Visibility.Hidden;
+
+			CleanUp();
+
 		}
 
 
@@ -57,6 +77,8 @@ namespace SetVersionNumberGloballyXam
 			{
 				if (WasInvisible && ((bool)e.NewValue))
 				{
+					CleanUp();
+
 					Visibility = Visibility.Visible;
 					InitializeComponent();
 					_ = GetShowPathsToVersionContainingFilesAsync();
@@ -84,59 +106,35 @@ namespace SetVersionNumberGloballyXam
 			public string ThisSolutionProjectPath { set; get; }
 		}
 
+		DataGridTextColumn solCol0 = new();
+		DataGridTextColumn solCol1 = new();
+		DataGridTextColumn projCol0 = new();
+		DataGridTextColumn projCol1 = new();
+
 		private async Task GetShowPathsToVersionContainingFilesAsync()
 		{
 			try
 			{
 				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-				// Clear 
-				VersionMajor = int.MinValue;
-				VersionMajorEntryName.Text = "";
-				VersionMinor = int.MinValue;
-				VersionMinorEntryName.Text = "";
-				BuildNumber = int.MinValue;
-				BuildNumberEntryName.Text = "";
-				RevisionNumber = int.MinValue;
-				RevisionNumberEntryName.Text = "";
+				CleanUp();
 
-				SetNumbersButton.IsEnabled = false;
-
-				mySolutionDataGrid.Items.Clear();
-				myProjectsDataGrid.Items.Clear();
-
-				Style DataGridTextColumnElementStyle = new(typeof(TextBlock));
-				DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
 
 				if (await GetVersionContainingFilesInSolutionAsync())
 				{
 
 					// Show solution and its path
-
-					DataGridTextColumn col0 = new();
-					DataGridTextColumn col1 = new();
-					mySolutionDataGrid.Columns.Add(col0);
-					mySolutionDataGrid.Columns.Add(col1);
-					col0.Binding = new Binding("ThisSolutionName");
-					col1.Binding = new Binding("ThisSolutionPath");
-					col0.Header = "Solution";
-					col1.Header = "Path";
-					col1.ElementStyle = DataGridTextColumnElementStyle;
+					mySolutionDataGrid.Columns.Clear();
+					mySolutionDataGrid.Columns.Add(solCol0);
+					mySolutionDataGrid.Columns.Add(solCol1);
 
 					mySolutionDataGrid.Items.Add(new MySolutionData { ThisSolutionName = TheSolution.Name, ThisSolutionPath = TheSolution.FullPath });
 
 
 					// Show paths to files containing version
-
-					col0 = new DataGridTextColumn();
-					col1 = new DataGridTextColumn();
-					myProjectsDataGrid.Columns.Add(col0);
-					myProjectsDataGrid.Columns.Add(col1);
-					col0.Binding = new Binding("ThisSolutionProject");
-					col1.Binding = new Binding("ThisSolutionProjectPath");
-					col0.Header = "Project";
-					col1.Header = "File containing version";
-					col1.ElementStyle = DataGridTextColumnElementStyle;
+					myProjectsDataGrid.Columns.Clear();
+					myProjectsDataGrid.Columns.Add(projCol0);
+					myProjectsDataGrid.Columns.Add(projCol1);
 
 					foreach (VersionFilePathAndProj vfpp in infoplistFiles)
 					{
@@ -260,15 +258,11 @@ namespace SetVersionNumberGloballyXam
 					if (TheSolution != null)
 					{
 						// Show "error"  message
-						DataGridTextColumn col0 = new();
-						DataGridTextColumn col1 = new();
-						mySolutionDataGrid.Columns.Add(col0);
-						mySolutionDataGrid.Columns.Add(col1);
-						col0.Binding = new Binding("ThisSolutionName");
-						col1.Binding = new Binding("ThisSolutionPath");
-						col0.Header = "Solution";
-						col1.Header = "Path";
-						col1.ElementStyle = DataGridTextColumnElementStyle;
+
+						mySolutionDataGrid.Columns.Clear();
+						mySolutionDataGrid.Columns.Add(solCol0);
+						mySolutionDataGrid.Columns.Add(solCol1);
+
 						mySolutionDataGrid.Items.Add(new MySolutionData { ThisSolutionName = "Not Supported.", ThisSolutionPath = "" });
 					}
 				}
@@ -279,6 +273,26 @@ namespace SetVersionNumberGloballyXam
 				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
 			}
 			finally { }
+		}
+
+		private void CleanUp()
+		{
+			// Clear 
+			VersionMajor = int.MinValue;
+			VersionMajorEntryName.Text = "";
+			VersionMinor = int.MinValue;
+			VersionMinorEntryName.Text = "";
+			BuildNumber = int.MinValue;
+			BuildNumberEntryName.Text = "";
+			RevisionNumber = int.MinValue;
+			RevisionNumberEntryName.Text = "";
+
+			SetNumbersButton.IsEnabled = false;
+
+			mySolutionDataGrid.Items.Clear();
+			myProjectsDataGrid.Items.Clear();
+			mySolutionDataGrid.Columns.Clear();
+			myProjectsDataGrid.Columns.Clear();
 		}
 
 		private void OnVersionMajorEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
@@ -423,6 +437,7 @@ namespace SetVersionNumberGloballyXam
 
 		private void OnRefreshButtonClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
+			CleanUp();
 
 			InitializeComponent();
 

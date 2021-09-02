@@ -69,6 +69,171 @@ namespace SetVersionNumberGloballyXam.Helpers
 
 		}
 
+		public static async Task<bool> SearchProjectFilesContainingVersionAsync(IEnumerable<SolutionItem> Projs)
+		{
+			bool VersionContainingProjectFileFound = false;
+
+			VersionFilePathAndProj vfpp;
+			foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
+			{
+				if
+				(
+					SearchVersionContainingFileInProject
+					(
+						proj.Children
+						,
+						out FilesContainingVersionTypes fileType
+						,
+						out string pathAndFile
+					)
+				)
+				{
+					VersionContainingProjectFileFound = true;
+
+					vfpp = new VersionFilePathAndProj()
+					{
+						project = proj.Name
+							,
+						filePath = pathAndFile
+					};
+
+					switch (fileType)
+					{
+						case FilesContainingVersionTypes.infoplist:
+							{
+								infoplistFiles.Add(vfpp);
+								break;
+							}
+						case FilesContainingVersionTypes.appxmanifest:
+							{
+								appxmanifestFiles.Add(vfpp);
+								break;
+							}
+						case FilesContainingVersionTypes.manifestxml:
+							{
+								manifestxmlFiles.Add(vfpp);
+								break;
+							}
+						case FilesContainingVersionTypes.notsupported:
+							{
+								break;
+							}
+						default:
+							break;
+					}
+					if
+					(
+						!
+						await CheckOutFromSourceControlAsync
+						(
+							pathAndFile
+						)
+					)
+					{
+						VersionContainingProjectFileFound = false;
+						return false;
+					}
+
+				}
+				else
+				{
+					vfpp = new VersionFilePathAndProj()
+					{
+						project = proj.Name
+							,
+						filePath = "Not supported type"
+					};
+
+					notsupportedFiles.Add(vfpp);
+				}
+			}
+
+			return VersionContainingProjectFileFound;
+		}
+
+		public static async Task<bool> AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync()
+		{
+			if (!MajorMinorBuildRevisionNumbersxmlExistsInProject)
+			{
+				// Add to solution (To ensure source control check in)
+				Community.VisualStudio.Toolkit.SolutionFolder SolutionFolderMajorMinorBuildRevisionNumbersXmlFile =
+					await TheSolution.AddSolutionFolderAsync
+					(
+						"MajorMinorBuildRevisionNumbersXmlFile"
+					).ConfigureAwait(true);
+
+				// Not found in project. Search directory
+				PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
+				NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
+				PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
+					PathToMajorMinorBuildRevisionNumbersXmlFile
+					+
+					Path.DirectorySeparatorChar
+					+
+					NameOfMajorMinorBuildRevisionNumbersXmlFile;
+
+				string[] MMRNXml =
+					Directory.GetFiles
+						(
+							PathToSolutionFolder
+							,
+							NameOfMajorMinorBuildRevisionNumbersXmlFile
+							,
+							SearchOption.AllDirectories
+						);
+
+				if (MMRNXml.Length == 0)
+				{
+					// Not found. Create it
+					File.WriteAllText
+						(
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+							,
+							"justcreated"
+						);
+				}
+				else
+				{
+					PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
+
+					if
+					(
+						!
+						await CheckOutFromSourceControlAsync
+						(
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+						)
+					)
+					{
+						return false;
+					}
+
+					MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
+				}
+
+				PathToMajorMinorBuildRevisionNumbersXmlFile =
+					Path.GetDirectoryName
+					(
+						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+					);
+
+
+				PhysicalFile[] refMajorMinorBuildRevisionNumbersXmlFile =
+						(await SolutionFolderMajorMinorBuildRevisionNumbersXmlFile.AddExistingFilesAsync
+						(
+							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+						)).ToArray();
+
+				PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = refMajorMinorBuildRevisionNumbersXmlFile[0].FullPath;
+				MajorMinorBuildRevisionNumbersxmlContainingProject = refMajorMinorBuildRevisionNumbersXmlFile[0].ContainingProject;
+
+				MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
+
+			}
+
+			return true;
+		}
+
 		public static async Task<bool> GetVersionContainingFilesInSolutionAsync()
 		{
 
@@ -76,7 +241,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 
 			CleanUpHelpers();
 
-			bool versionContainingFileFound = false;
+			bool ResultToReturn = false;
 
 			try
 			{
@@ -124,164 +289,18 @@ namespace SetVersionNumberGloballyXam.Helpers
 						}
 					}
 
-
-					if (!MajorMinorBuildRevisionNumbersxmlExistsInProject)
-					{
-						// Add to solution (To ensure source control check in)
-						Community.VisualStudio.Toolkit.SolutionFolder SolutionFolderMajorMinorBuildRevisionNumbersXmlFile =
-							await TheSolution.AddSolutionFolderAsync
-							(
-								"MajorMinorBuildRevisionNumbersXmlFile"
-							).ConfigureAwait(true);
-
-						// Not found in project. Search directory
-						PathToMajorMinorBuildRevisionNumbersXmlFile = PathToSolutionFolder;
-						NameOfMajorMinorBuildRevisionNumbersXmlFile = "MajorMinorBuildRevisionNumbers.xml";
-						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile =
-							PathToMajorMinorBuildRevisionNumbersXmlFile
-							+
-							Path.DirectorySeparatorChar
-							+
-							NameOfMajorMinorBuildRevisionNumbersXmlFile;
-
-						string[] MMRNXml =
-							Directory.GetFiles
-								(
-									PathToSolutionFolder
-									,
-									NameOfMajorMinorBuildRevisionNumbersXmlFile
-									,
-									SearchOption.AllDirectories
-								);
-
-						if (MMRNXml.Length == 0)
-						{
-							// Not found. Create it
-							File.WriteAllText
-								(
-									PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-									,
-									"justcreated"
-								);
-						}
-						else
-						{
-							PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = MMRNXml[0];
-
-							if
-							(
-								!
-								await CheckOutFromSourceControlAsync
-								(
-									PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-								)
-							)
-							{
-								return false;
-							}
-
-							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
-						}
-
-						PathToMajorMinorBuildRevisionNumbersXmlFile =
-							Path.GetDirectoryName
-							(
-								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-							);
-
-
-						PhysicalFile[] refMajorMinorBuildRevisionNumbersXmlFile =
-								(await SolutionFolderMajorMinorBuildRevisionNumbersXmlFile.AddExistingFilesAsync
-								(
-									PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-								)).ToArray();
-
-						PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = refMajorMinorBuildRevisionNumbersXmlFile[0].FullPath;
-						MajorMinorBuildRevisionNumbersxmlContainingProject = refMajorMinorBuildRevisionNumbersXmlFile[0].ContainingProject;
-
-						MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
-
-					}
-
 					// Search in projects
 					IEnumerable<SolutionItem> Projs = TheSolution.Children.Where
 						(x => x.Type == SolutionItemType.Project);
 
 					if (Projs.Any())
 					{
-						VersionFilePathAndProj vfpp;
-						foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
+						ResultToReturn =
+							await SearchProjectFilesContainingVersionAsync(Projs);
+
+						if (ResultToReturn)
 						{
-							if
-							(
-								SearchVersionContainingFileInProject
-								(
-									proj.Children
-									,
-									out FilesContainingVersionTypes fileType
-									,
-									out string pathAndFile
-								)
-							)
-							{
-								versionContainingFileFound = true;
-
-								vfpp = new VersionFilePathAndProj()
-								{
-									project = proj.Name
-										,
-									filePath = pathAndFile
-								};
-
-								switch (fileType)
-								{
-									case FilesContainingVersionTypes.infoplist:
-										{
-											infoplistFiles.Add(vfpp);
-											break;
-										}
-									case FilesContainingVersionTypes.appxmanifest:
-										{
-											appxmanifestFiles.Add(vfpp);
-											break;
-										}
-									case FilesContainingVersionTypes.manifestxml:
-										{
-											manifestxmlFiles.Add(vfpp);
-											break;
-										}
-									case FilesContainingVersionTypes.notsupported:
-										{
-											break;
-										}
-									default:
-										break;
-								}
-								if
-								(
-									!
-									await CheckOutFromSourceControlAsync
-									(
-										pathAndFile
-									)
-								)
-								{
-									versionContainingFileFound = false;
-									return false;
-								}
-
-							}
-							else
-							{
-								vfpp = new VersionFilePathAndProj()
-								{
-									project = proj.Name
-										,
-									filePath = "Not supported type"
-								};
-
-								notsupportedFiles.Add(vfpp);
-							}
+							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
 						}
 					}
 				}
@@ -291,7 +310,7 @@ namespace SetVersionNumberGloballyXam.Helpers
 				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
 			}
 
-			return versionContainingFileFound;
+			return ResultToReturn;
 
 		}
 
