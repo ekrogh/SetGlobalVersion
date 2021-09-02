@@ -73,15 +73,15 @@ namespace SetVersionNumberGloballyXam
 		// Solution
 		public struct MySolutionData
 		{
-			public string thisSolutionName { set; get; }
-			public string thisSolutionPath { set; get; }
+			public string ThisSolutionName { set; get; }
+			public string ThisSolutionPath { set; get; }
 		}
 
 		// Project
 		public struct MyProjectsData
 		{
-			public string thisSolutionProject { set; get; }
-			public string thisSolutionProjectPath { set; get; }
+			public string ThisSolutionProject { set; get; }
+			public string ThisSolutionProjectPath { set; get; }
 		}
 
 		private async Task GetShowPathsToVersionContainingFilesAsync()
@@ -113,17 +113,17 @@ namespace SetVersionNumberGloballyXam
 
 					// Show solution and its path
 
-					DataGridTextColumn col0 = new DataGridTextColumn();
-					DataGridTextColumn col1 = new DataGridTextColumn();
+					DataGridTextColumn col0 = new();
+					DataGridTextColumn col1 = new();
 					mySolutionDataGrid.Columns.Add(col0);
 					mySolutionDataGrid.Columns.Add(col1);
-					col0.Binding = new Binding("thisSolutionName");
-					col1.Binding = new Binding("thisSolutionPath");
+					col0.Binding = new Binding("ThisSolutionName");
+					col1.Binding = new Binding("ThisSolutionPath");
 					col0.Header = "Solution";
 					col1.Header = "Path";
 					col1.ElementStyle = DataGridTextColumnElementStyle;
 
-					mySolutionDataGrid.Items.Add(new MySolutionData { thisSolutionName = TheSolution.Name, thisSolutionPath = TheSolution.FullPath });
+					mySolutionDataGrid.Items.Add(new MySolutionData { ThisSolutionName = TheSolution.Name, ThisSolutionPath = TheSolution.FullPath });
 
 
 					// Show paths to files containing version
@@ -132,27 +132,27 @@ namespace SetVersionNumberGloballyXam
 					col1 = new DataGridTextColumn();
 					myProjectsDataGrid.Columns.Add(col0);
 					myProjectsDataGrid.Columns.Add(col1);
-					col0.Binding = new Binding("thisSolutionProject");
-					col1.Binding = new Binding("thisSolutionProjectPath");
+					col0.Binding = new Binding("ThisSolutionProject");
+					col1.Binding = new Binding("ThisSolutionProjectPath");
 					col0.Header = "Project";
 					col1.Header = "File containing version";
 					col1.ElementStyle = DataGridTextColumnElementStyle;
 
 					foreach (VersionFilePathAndProj vfpp in infoplistFiles)
 					{
-						myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
 					foreach (VersionFilePathAndProj vfpp in appxmanifestFiles)
 					{
-						myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
 					foreach (VersionFilePathAndProj vfpp in manifestxmlFiles)
 					{
-						myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
 					foreach (VersionFilePathAndProj vfpp in notsupportedFiles)
 					{
-						myProjectsDataGrid.Items.Add(new MyProjectsData { thisSolutionProject = vfpp.project, thisSolutionProjectPath = vfpp.filePath });
+						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
 
 					if (MajorMinorBuildRevisionNumbersXmlFileExistedAtStart && !MajorMinorBuildRevisionNumbersXmlFileJustCreated)
@@ -260,16 +260,16 @@ namespace SetVersionNumberGloballyXam
 					if (TheSolution != null)
 					{
 						// Show "error"  message
-						DataGridTextColumn col0 = new DataGridTextColumn();
-						DataGridTextColumn col1 = new DataGridTextColumn();
+						DataGridTextColumn col0 = new();
+						DataGridTextColumn col1 = new();
 						mySolutionDataGrid.Columns.Add(col0);
 						mySolutionDataGrid.Columns.Add(col1);
-						col0.Binding = new Binding("thisSolutionName");
-						col1.Binding = new Binding("thisSolutionPath");
+						col0.Binding = new Binding("ThisSolutionName");
+						col1.Binding = new Binding("ThisSolutionPath");
 						col0.Header = "Solution";
 						col1.Header = "Path";
 						col1.ElementStyle = DataGridTextColumnElementStyle;
-						mySolutionDataGrid.Items.Add(new MySolutionData { thisSolutionName = "Not Supported.", thisSolutionPath = "" });
+						mySolutionDataGrid.Items.Add(new MySolutionData { ThisSolutionName = "Not Supported.", ThisSolutionPath = "" });
 					}
 				}
 			}
@@ -370,17 +370,15 @@ namespace SetVersionNumberGloballyXam
 
 			try
 			{
-				XmlReaderSettings settings = new XmlReaderSettings
+				XmlReaderSettings settings = new()
 				{
 					Async = true
 				};
 				settings.DtdProcessing = DtdProcessing.Parse;
 
-				using (XmlReader reader = XmlReader.Create(XmlFilePathAndName, settings))
-				{
-					XDocument TheLoadedXDocument = XDocument.Load(reader);
-					return TheLoadedXDocument;
-				}
+				using XmlReader reader = XmlReader.Create(XmlFilePathAndName, settings);
+				XDocument TheLoadedXDocument = XDocument.Load(reader);
+				return TheLoadedXDocument;
 			}
 			catch (Exception e)
 			{
@@ -396,7 +394,7 @@ namespace SetVersionNumberGloballyXam
 		{
 			try
 			{
-				XmlWriterSettings settings = new XmlWriterSettings
+				XmlWriterSettings settings = new()
 				{
 					Async = true
 					,
@@ -432,7 +430,7 @@ namespace SetVersionNumberGloballyXam
 		}
 
 
-		private bool SetVersionNumbersInManifestxmlFilesFiles()
+		private bool SetVersionNumbersInManifestXmlFiles()
 		{
 			bool RetVal = true;
 
@@ -539,8 +537,8 @@ namespace SetVersionNumberGloballyXam
 											.Where(e => e.Value == "CFBundleVersion"));
 						// Check if CFBundleShortVersionString exists
 						IEnumerable<XElement> CFBundleShortVersionString_keyValue = keyValues
-									 .SelectMany(d => d.Elements("key")
-											.Where(e => e.Value == "CFBundleShortVersionString"));
+								 .SelectMany(d => d.Elements("key")
+										.Where(e => e.Value == "CFBundleShortVersionString"));
 						// Add missing elements
 						XElement dictEntry = keyValues.FirstOrDefault();
 						if ((!CFBundleVersion_keyValue.Any() || !CFBundleShortVersionString_keyValue.Any()) && (dictEntry != null))
@@ -770,14 +768,13 @@ namespace SetVersionNumberGloballyXam
 			}
 
 			// Save the version numbers for use next time
-			XElement MAJORMINORBUILDNUMBERS = new XElement("MAJORMINORBUILDNUMBERS"
+			XElement MAJORMINORBUILDNUMBERS = new("MAJORMINORBUILDNUMBERS"
 											, new XAttribute("VersionMajor", VersionMajor)
 											, new XAttribute("VersionMinor", VersionMinor)
 											, new XAttribute("BuildNumber", BuildNumber)
 											, new XAttribute("RevisionNumber", RevisionNumber)
 										);
-			XDocument TheXDocument = new XDocument
-				(
+			XDocument TheXDocument = new(
 					new XDeclaration("1.0", "utf-8", "yes")
 				);
 			TheXDocument.Add(MAJORMINORBUILDNUMBERS);
@@ -791,7 +788,7 @@ namespace SetVersionNumberGloballyXam
 			if (
 				   SetVersionNumbersInAppxmanifestFiles()
 				&& SetVersionNumbersInInfoplistFiles()
-				&& SetVersionNumbersInManifestxmlFilesFiles()
+				&& SetVersionNumbersInManifestXmlFiles()
 				)
 			{
 				_ = VS.MessageBox.ShowAsync("Done!", "", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);

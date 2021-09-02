@@ -103,7 +103,6 @@ namespace SetVersionNumberGloballyXam.Helpers
 							(
 								"MajorMinorBuildRevisionNumbers.xml"
 							);
-
 					if (docItem != null)
 					{ // It exists
 						if
@@ -446,7 +445,13 @@ namespace SetVersionNumberGloballyXam.Helpers
 		{
 			try
 			{
-				foreach (PhysicalFile pf in projChldrn.Where(x => x.Type == SolutionItemType.PhysicalFile))
+				foreach
+					(
+						PhysicalFile pf in projChldrn.Where
+						(
+							x => x.Type == SolutionItemType.PhysicalFile
+						)
+					)
 				{
 					if (pf.Name.ToLower().Contains(fileName.ToLower()))
 					{
