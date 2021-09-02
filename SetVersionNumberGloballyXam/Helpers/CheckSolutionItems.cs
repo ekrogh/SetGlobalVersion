@@ -11,11 +11,6 @@ namespace SetVersionNumberGloballyXam.Helpers
 	{
 		public static DTE2 _dte;
 
-		public static IVsTrackProjectDocuments2 _VsTrackProjectDocuments =
-			SetVersionNumberGloballyXamPackage._VsTrackProjectDocuments;
-		public static IVsQueryEditQuerySave2 _VsQueryEditQuerySave =
-			SetVersionNumberGloballyXamPackage._VsQueryEditQuerySave;
-
 		public static Community.VisualStudio.Toolkit.Solution TheSolution;
 
 		public static List<VersionFilePathAndProj> infoplistFiles = new();

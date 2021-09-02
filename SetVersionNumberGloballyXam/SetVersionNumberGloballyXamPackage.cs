@@ -2,8 +2,6 @@
 global using Microsoft.VisualStudio.Shell;
 global using System;
 global using Task = System.Threading.Tasks.Task;
-using Microsoft;
-using Microsoft.VisualStudio.Shell.Interop;
 using System.Runtime.InteropServices;
 using System.Threading;
 using static Microsoft.VisualStudio.VSConstants;
@@ -69,17 +67,9 @@ namespace SetVersionNumberGloballyXam
 
 	public sealed class SetVersionNumberGloballyXamPackage : ToolkitPackage
 	{
-		public static IVsTrackProjectDocuments2 _VsTrackProjectDocuments;
-		public static IVsQueryEditQuerySave2 _VsQueryEditQuerySave;
 		protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
 		{
 			await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
-			_VsTrackProjectDocuments = await GetServiceAsync(typeof(SVsTrackProjectDocuments)) as IVsTrackProjectDocuments2;
-			Assumes.Present(_VsTrackProjectDocuments);
-
-			_VsQueryEditQuerySave = await GetServiceAsync(typeof(SVsQueryEditQuerySave)) as IVsQueryEditQuerySave2;
-			Assumes.Present(_VsQueryEditQuerySave);
 
 			await this.RegisterCommandsAsync();
 
