@@ -38,7 +38,8 @@ namespace SetVersionNumberGloballyXam
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
 			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete += SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete +=
+				SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
 
 
 		}
