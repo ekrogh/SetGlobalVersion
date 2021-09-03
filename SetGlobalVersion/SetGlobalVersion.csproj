@@ -49,7 +49,7 @@
     <Compile Include="Helpers\ProjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MyToolWindowCommand.cs" />
-    <Compile Include="SetVersionNumberGloballyXamPackage.cs" />
+    <Compile Include="SetGlobalVersionPackage.cs" />
     <Compile Include="source.extension.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

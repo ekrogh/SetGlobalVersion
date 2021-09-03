@@ -1,4 +1,4 @@
-﻿namespace SetVersionNumberGloballyXam
+﻿namespace SetGlobalVersion
 {
 	[Command(PackageIds.MyCommand)]
 	internal sealed class MyToolWindowCommand : BaseCommand<MyToolWindowCommand>

@@ -6,9 +6,9 @@
 	<Include href="KnownImageIds.vsct"/>
 	<Include href="VSGlobals.vsct"/>
 
-	<Commands package="SetVersionNumberGloballyXam">
+	<Commands package="SetGlobalVersion">
 		<Buttons>
-			<Button guid="SetVersionNumberGloballyXam" id="MyCommand" priority="0x0100" type="Button">
+			<Button guid="SetGlobalVersion" id="MyCommand" priority="0x0100" type="Button">
 				<Parent guid="VSMainMenu" id="SolutionNode.PropertiesGroup"/>
 				<Icon guid="ImageCatalogGuid" id="VersionInformation" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
@@ -22,11 +22,11 @@
 	</Commands>
 
 	<VisibilityConstraints>
-		<VisibilityItem guid="SetVersionNumberGloballyXam" id="MyCommand" context="uiContextSupportedFlavors" />
+		<VisibilityItem guid="SetGlobalVersion" id="MyCommand" context="uiContextSupportedFlavors" />
 	</VisibilityConstraints>
 
 	<Symbols>
-		<GuidSymbol name="SetVersionNumberGloballyXam" value="{fdf55875-ca53-484e-b6ff-7c1acdfdde88}">
+		<GuidSymbol name="SetGlobalVersion" value="{fdf55875-ca53-484e-b6ff-7c1acdfdde88}">
 			<IDSymbol name="MyCommand" value="0x0100" />
 		</GuidSymbol>
 		<GuidSymbol name="uiContextSupportedFlavors" value="{65302C28-E96F-4A6D-9669-E6CB52E3D781}" />

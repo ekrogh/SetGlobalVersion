@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetVersionNumberGloballyXam", "SetVersionNumberGloballyXam\SetVersionNumberGloballyXam.csproj", "{29D1781C-9517-44A1-8473-A6EABEFD273C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion", "SetGlobalVersion\SetGlobalVersion.csproj", "{29D1781C-9517-44A1-8473-A6EABEFD273C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml;
 using System.Xml.Linq;
-using static SetVersionNumberGloballyXam.Helpers.CheckSolutionItems;
+using static SetGlobalVersion.Helpers.CheckSolutionItems;
 
-namespace SetVersionNumberGloballyXam
+namespace SetGlobalVersion
 {
 	public partial class MyToolWindowControl : UserControl
 	{

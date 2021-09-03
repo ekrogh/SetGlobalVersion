@@ -6,14 +6,14 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using static Microsoft.VisualStudio.VSConstants;
 
-namespace SetVersionNumberGloballyXam
+namespace SetGlobalVersion
 {
 	[PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
 	[InstalledProductRegistration(Vsix.Name, Vsix.Description, Vsix.Version)]
 	[ProvideToolWindow(typeof(MyToolWindow.Pane), Style = VsDockStyle.AlwaysFloat, Window = WindowGuids.SolutionExplorer)]
 	//[ProvideToolWindow(typeof(MyToolWindow.Pane), Style = VsDockStyle.Tabbed, Window = WindowGuids.SolutionExplorer)]
 	[ProvideMenuResource("Menus.ctmenu", 1)]
-	[Guid(PackageGuids.SetVersionNumberGloballyXamString)]
+	[Guid(PackageGuids.SetGlobalVersionString)]
 	//[ProvideAutoLoad
 	//	(
 	//		UICONTEXT.SolutionHasSingleProject_string
@@ -66,7 +66,7 @@ namespace SetVersionNumberGloballyXam
 	]
 
 
-	public sealed class SetVersionNumberGloballyXamPackage : ToolkitPackage
+	public sealed class SetGlobalVersionPackage : ToolkitPackage
 	{
 		protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
 		{

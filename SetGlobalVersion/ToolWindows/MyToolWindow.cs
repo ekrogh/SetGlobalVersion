@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace SetVersionNumberGloballyXam
+namespace SetGlobalVersion
 {
 	public class MyToolWindow : BaseToolWindow<MyToolWindow>
 	{

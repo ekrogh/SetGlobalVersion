@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 
-namespace SetVersionNumberGloballyXam
+namespace SetGlobalVersion
 {
 	[Flags]
 	public enum ProjectType

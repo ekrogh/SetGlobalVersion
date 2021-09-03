@@ -1,4 +1,4 @@
-﻿using SetVersionNumberGloballyXam;
+﻿using SetGlobalVersion;
 using System.Reflection;
 using System.Runtime.InteropServices;
 

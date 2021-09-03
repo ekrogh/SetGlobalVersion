@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-namespace SetVersionNumberGloballyXam.Helpers
+namespace SetGlobalVersion.Helpers
 {
 	public class CheckSolutionItems
 	{
