@@ -7,8 +7,8 @@ namespace SetGlobalVersion
 {
     internal sealed partial class Vsix
     {
-        public const string Id = "SetGlobalVersion.59a022c9-e3e7-4d43-a852-7ebec1483e85";
-        public const string Name = "SetGlobalVersion_2022";
+        public const string Id = "SetGlobalVersion.E306CB18-2CB7-44F4-AE99-EB5D176E3C64";
+        public const string Name = "SetGlobalVersion_2019";
         public const string Description = @"Set Global Version (Set same version numbers in all projects).";
         public const string Language = "en-US";
         public const string Version = "1.0";
