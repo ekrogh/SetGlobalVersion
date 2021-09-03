@@ -99,6 +99,21 @@
 					TabIndex="5" />
 			</StackPanel>
 			<Separator />
+			<Separator />
+			<StackPanel>
+				<TextBlock
+					FontFamily="Verdana"
+					FontStyle="Italic"
+					TextWrapping="Wrap"
+					FontWeight="Light"
+					TextTrimming="WordEllipsis"
+					LineStackingStrategy="BlockLineHeight"
+					FontStretch="Condensed">
+(Note: Version Major + Version Minor must alway be increased because Apple OS' are using it. Build Number is used as 'versioncode' in Android and must always be increased. Revision Number is only used iOS and macOS. Always 0 in UWP.)
+				</TextBlock>
+			</StackPanel>
+			<Separator />
+			<Separator />
 			<StackPanel>
 				<Button
 					Content="Refresh"
@@ -113,19 +128,6 @@
 					IsEnabled="False"
 					IsTabStop="true"
 					TabIndex="6" />
-			</StackPanel>
-			<Separator />
-			<StackPanel>
-				<TextBlock
-					FontFamily="Verdana"
-					FontStyle="Italic"
-					TextWrapping="Wrap"
-					FontWeight="Light"
-					TextTrimming="WordEllipsis"
-					LineStackingStrategy="BlockLineHeight"
-					FontStretch="Condensed">
-(Version Major + Version Minor must alway be increased because Apple OS' are using it. Build Number is used as 'versioncode' in Android and must always be increased. Revision Number is only used iOS and macOS. Always 0 in UWP.)
-				</TextBlock>
 			</StackPanel>
 
 

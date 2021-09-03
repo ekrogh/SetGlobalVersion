@@ -46,9 +46,6 @@ namespace SetGlobalVersion
 
 		private void SolutionEvents_OnAfterBackgroundSolutionLoadComplete()
 		{
-			CleanUp();
-
-			InitializeComponent();
 			_ = GetShowPathsToVersionContainingFilesAsync();
 
 			WasInvisible = false;
@@ -78,10 +75,8 @@ namespace SetGlobalVersion
 			{
 				if (WasInvisible && ((bool)e.NewValue))
 				{
-					CleanUp();
-
 					Visibility = Visibility.Visible;
-					InitializeComponent();
+
 					_ = GetShowPathsToVersionContainingFilesAsync();
 				}
 			}
@@ -125,7 +120,6 @@ namespace SetGlobalVersion
 				{
 
 					// Show solution and its path
-					mySolutionDataGrid.Columns.Clear();
 					mySolutionDataGrid.Columns.Add(solCol0);
 					mySolutionDataGrid.Columns.Add(solCol1);
 
@@ -133,7 +127,6 @@ namespace SetGlobalVersion
 
 
 					// Show paths to files containing version
-					myProjectsDataGrid.Columns.Clear();
 					myProjectsDataGrid.Columns.Add(projCol0);
 					myProjectsDataGrid.Columns.Add(projCol1);
 

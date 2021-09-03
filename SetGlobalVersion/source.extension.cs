@@ -9,7 +9,7 @@ namespace SetGlobalVersion
     {
         public const string Id = "SetGlobalVersion.59a022c9-e3e7-4d43-a852-7ebec1483e85";
         public const string Name = "SetGlobalVersion";
-        public const string Description = @"Set Version Number Globally in Xamarin projects";
+        public const string Description = @"Set Global Version (Set same version numbers in all projects).";
         public const string Language = "en-US";
         public const string Version = "1.0";
         public const string Author = "Eigil Krogh Sorensen";
