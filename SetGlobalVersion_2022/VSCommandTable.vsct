@@ -14,7 +14,7 @@
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<CommandFlag>DynamicVisibility</CommandFlag>
 				<Strings>
-					<ButtonText>Set Version Number Globally</ButtonText>
+					<ButtonText>Set Global Version</ButtonText>
 					<LocCanonicalName>.View.MyToolWindow</LocCanonicalName>
 				</Strings>
 			</Button>
