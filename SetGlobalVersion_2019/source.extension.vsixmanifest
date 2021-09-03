@@ -6,6 +6,7 @@
         <Description xml:space="preserve">Set Global Version (Set same version numbers in all projects).</Description>
         <Icon>Resources\VersionInformation.png</Icon>
         <PreviewImage>Resources\VersionInformation.png</PreviewImage>
+        <Tags>global, version, solution-wide</Tags>
         <Preview>true</Preview>
     </Metadata>
     <Installation>

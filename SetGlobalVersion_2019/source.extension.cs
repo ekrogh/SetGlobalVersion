@@ -13,6 +13,6 @@ namespace SetGlobalVersion
         public const string Language = "en-US";
         public const string Version = "1.0";
         public const string Author = "Eigil Krogh Sorensen";
-        public const string Tags = "";
+        public const string Tags = "global, version, solution-wide";
     }
 }
