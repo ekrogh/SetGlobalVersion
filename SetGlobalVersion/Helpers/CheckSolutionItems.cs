@@ -16,6 +16,7 @@ namespace SetGlobalVersion.Helpers
 		public static List<VersionFilePathAndProj> infoplistFiles = new();
 		public static List<VersionFilePathAndProj> appxmanifestFiles = new();
 		public static List<VersionFilePathAndProj> manifestxmlFiles = new();
+		public static List<VersionFilePathAndProj> AssemblyInfo_csFiles = new();
 		public static List<VersionFilePathAndProj> notsupportedFiles = new();
 		public static string PathToSolutionFolder { get; set; } = "";
 		public static string PathToMajorMinorBuildRevisionNumbersXmlFile = "";
@@ -38,6 +39,8 @@ namespace SetGlobalVersion.Helpers
 			appxmanifest
 	,
 			manifestxml
+		 ,
+			AssemblyInfo_cs
 	,
 			notsupported
 		}
@@ -46,8 +49,9 @@ namespace SetGlobalVersion.Helpers
 		private const string splist = $".plist";
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
+		private const string sgtk = $".gtk";
 
-		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml };
+		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml, sgtk };
 
 		public static void CleanUpHelpers()
 		{
@@ -56,6 +60,7 @@ namespace SetGlobalVersion.Helpers
 			infoplistFiles.Clear();
 			appxmanifestFiles.Clear();
 			manifestxmlFiles.Clear();
+			AssemblyInfo_csFiles.Clear();
 			notsupportedFiles.Clear();
 
 			PathToSolutionFolder = "";
@@ -112,6 +117,11 @@ namespace SetGlobalVersion.Helpers
 						case FilesContainingVersionTypes.manifestxml:
 							{
 								manifestxmlFiles.Add(vfpp);
+								break;
+							}
+						case FilesContainingVersionTypes.AssemblyInfo_cs:
+							{
+								AssemblyInfo_csFiles.Add(vfpp);
 								break;
 							}
 						case FilesContainingVersionTypes.notsupported:
@@ -410,6 +420,19 @@ namespace SetGlobalVersion.Helpers
 										)
 										{
 											fileType = FilesContainingVersionTypes.manifestxml;
+											return true;
+										}
+
+										break;
+									}
+								case sgtk:
+									{
+										string ThePath = Path.GetDirectoryName(pf.FullPath);
+										string[] AssemblyInfo_cs_files = Directory.GetFiles(ThePath, "AssemblyInfo.cs", SearchOption.AllDirectories);
+										if (AssemblyInfo_cs_files.Length > 0)
+										{
+											pathAndFile = AssemblyInfo_cs_files[0];
+											fileType = FilesContainingVersionTypes.AssemblyInfo_cs;
 											return true;
 										}
 

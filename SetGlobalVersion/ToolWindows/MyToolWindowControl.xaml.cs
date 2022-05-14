@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -139,6 +140,10 @@ namespace SetGlobalVersion
 						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
 					foreach (VersionFilePathAndProj vfpp in manifestxmlFiles)
+					{
+						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
+					}
+					foreach (VersionFilePathAndProj vfpp in AssemblyInfo_csFiles)
 					{
 						myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = vfpp.project, ThisSolutionProjectPath = vfpp.filePath });
 					}
@@ -695,6 +700,56 @@ namespace SetGlobalVersion
 			return RetVal;
 		}
 
+		private bool SetVersionNumbersInAssemblyInfo_cs_Files()
+		{
+			bool RetVal = true;
+
+			foreach (VersionFilePathAndProj AssemblyInfo_csFile in AssemblyInfo_csFiles)
+			{
+				try
+				{
+					var FileLines = File.ReadAllLines(AssemblyInfo_csFile.filePath);
+
+					for (int i = 0; i < FileLines.Length; i++)
+					{
+						if (FileLines[i].Contains("AssemblyVersion"))
+						{
+							int fst = FileLines[i].IndexOf("(");
+							int lst = FileLines[i].IndexOf(")", fst);
+
+							string OldVNbr = FileLines[i].Substring(fst + 1, lst - fst - 1);
+
+							string rplsmnt =
+								"\""
+								+ VersionMajor.ToString()
+								+ '.'
+								+ VersionMinor.ToString()
+								+ '.'
+								+ BuildNumber.ToString()
+								+ '.'
+								+ RevisionNumber.ToString()
+								+ "\"";
+
+							FileLines[i] = FileLines[i].Replace(OldVNbr, rplsmnt);
+
+							File.WriteAllLines(AssemblyInfo_csFile.filePath, FileLines);
+
+							return true;
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+					RetVal = false;
+					_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				}
+				finally { }
+			}
+
+			return RetVal;
+		}
+
 		private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
 			_ = OnSetNumbersButtonClickedAsync();
@@ -798,6 +853,7 @@ namespace SetGlobalVersion
 				   SetVersionNumbersInAppxmanifestFiles()
 				&& SetVersionNumbersInInfoplistFiles()
 				&& SetVersionNumbersInManifestXmlFiles()
+				&& SetVersionNumbersInAssemblyInfo_cs_Files()
 				)
 			{
 				_ = VS.MessageBox.ShowAsync("Done!", "", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
