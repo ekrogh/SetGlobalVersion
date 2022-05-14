@@ -1,20 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.31612.314
+VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion_2022", "SetGlobalVersion_2022\SetGlobalVersion_2022.csproj", "{29D1781C-9517-44A1-8473-A6EABEFD273C}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SetGlobalVersionShared", "SetGlobalVersionShared\SetGlobalVersionShared.shproj", "{D4F920D6-FC3A-4035-87DD-06AD0062CEAC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion_2019", "SetGlobalVersion_2019\SetGlobalVersion_2019.csproj", "{58A86D6F-1699-4F74-8006-FCC72D981E3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion", "SetGlobalVersion\SetGlobalVersion.csproj", "{A0A0CF61-0444-4E5A-B999-AA13024F0550}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SetGlobalVersionShared\SetGlobalVersionShared.projitems*{29d1781c-9517-44a1-8473-a6eabefd273c}*SharedItemsImports = 4
-		SetGlobalVersionShared\SetGlobalVersionShared.projitems*{58a86d6f-1699-4f74-8006-fcc72d981e3e}*SharedItemsImports = 4
-		SetGlobalVersionShared\SetGlobalVersionShared.projitems*{d4f920d6-fc3a-4035-87dd-06ad0062ceac}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
@@ -22,27 +13,19 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Debug|x86.ActiveCfg = Debug|x86
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Debug|x86.Build.0 = Debug|x86
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Release|x86.ActiveCfg = Release|x86
-		{29D1781C-9517-44A1-8473-A6EABEFD273C}.Release|x86.Build.0 = Release|x86
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Debug|x86.ActiveCfg = Debug|x86
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Debug|x86.Build.0 = Debug|x86
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Release|x86.ActiveCfg = Release|x86
-		{58A86D6F-1699-4F74-8006-FCC72D981E3E}.Release|x86.Build.0 = Release|x86
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Debug|x86.ActiveCfg = Debug|x86
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Debug|x86.Build.0 = Debug|x86
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Release|x86.ActiveCfg = Release|x86
+		{A0A0CF61-0444-4E5A-B999-AA13024F0550}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F3CFF365-16E6-4DCD-A33C-7C47E361CFE2}
+		SolutionGuid = {84DA76BE-5A4B-4D20-8452-4656DC8D4659}
 	EndGlobalSection
 EndGlobal
