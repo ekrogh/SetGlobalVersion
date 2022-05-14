@@ -70,7 +70,6 @@ namespace SetGlobalVersion
 			if (!(bool)e.NewValue && (bool)e.OldValue)
 			{
 				WasInvisible = true;
-
 			}
 			else
 			{

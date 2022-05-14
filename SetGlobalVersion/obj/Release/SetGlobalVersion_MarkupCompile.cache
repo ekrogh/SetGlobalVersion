@@ -4,11 +4,11 @@
 library
 C#
 .cs
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\
 SetGlobalVersion
 none
 false
-DEBUG;TRACE
+TRACE
 
 1-1393864112
 31931100938
