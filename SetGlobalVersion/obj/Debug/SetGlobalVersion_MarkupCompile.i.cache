@@ -4,15 +4,15 @@
 library
 C#
 .cs
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\
 SetGlobalVersion
 none
 false
-TRACE
+DEBUG;TRACE
 
 1-1393864112
 31931100938
-10-747977190
+15391042124
 2191104991463
 ToolWindows\MyToolWindowControl.xaml;
 
