@@ -70,6 +70,45 @@ namespace SetGlobalVersion.Helpers
 		}
 
 
+		static void CheckForProjTypesNotSupported(IEnumerable<SolutionItem> SLNItems)
+		{
+			try
+			{
+				VersionFilePathAndType VFPT = new()
+				{
+					FilePathAndName = "Not supported type"
+					,
+					FileType = FilesContainingVersionTypes.notsupported
+				};
+
+				foreach (var SLNItem in SLNItems.Where(x => x.Name != null))
+				{
+					if (SLNItem.Type.ToString() == "Project")
+					{
+						if (ProjsWithVersionFiles.IndexOfKey(SLNItem.Name) < 0)
+						{
+							List<VersionFilePathAndType> VFPTList = new();
+							VFPTList.Add(VFPT);
+							ProjsWithVersionFiles.Add(SLNItem.Name, VFPTList);
+						}
+					}
+
+					// Search children
+					if (SLNItem.Children.Count<SolutionItem>() > 0)
+					{
+						CheckForProjTypesNotSupported(SLNItem.Children);
+					}
+
+				}
+			}
+			catch (Exception e)
+			{
+				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			}
+
+		}
+
+
 		static void AddToProjsWithVersionFiles(SolutionItem SLNItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
 		{
 			VersionFilePathAndType VFPT = new()
@@ -348,7 +387,7 @@ namespace SetGlobalVersion.Helpers
 
 						if (ResultToReturn)
 						{
-							CheckForProjTypesNotSupported();
+							CheckForProjTypesNotSupported(SLNItems);
 							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
 						}
 					}
