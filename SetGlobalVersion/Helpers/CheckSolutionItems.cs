@@ -34,13 +34,13 @@ namespace SetGlobalVersion.Helpers
 		public enum FilesContainingVersionTypes
 		{
 			infoplist
-	,
+			,
 			appxmanifest
-	,
+			,
 			manifestxml
-		 ,
+			,
 			Assemblyinfo_cs
-	,
+			,
 			notsupported
 		}
 
@@ -69,26 +69,8 @@ namespace SetGlobalVersion.Helpers
 
 		}
 
-		public static bool SearchAssemblyinfo_csFiles
-		(
-			  in SolutionItem Proj
-			, out string pathAndFile
-		)
-		{
 
-			string ThePath = Path.GetDirectoryName(Proj.FullPath);
-			string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
-			if (Assemblyinfo_cs_files.Length > 0)
-			{
-				pathAndFile = Assemblyinfo_cs_files[0];
-				return true;
-			}
-
-			pathAndFile = "";
-			return false;
-		}
-
-		static void AddToProjsWithVersionFiles(Community.VisualStudio.Toolkit.Project Proj, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
+		static void AddToProjsWithVersionFiles(SolutionItem SLNItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
 		{
 			VersionFilePathAndType VFPT = new()
 			{
@@ -97,68 +79,290 @@ namespace SetGlobalVersion.Helpers
 				FileType = FileTypeIn
 			};
 
-			if (ProjsWithVersionFiles.IndexOfKey(Proj.Name) < 0)
+			var proj = SLNItem.FindParent(SolutionItemType.Project);
+
+			if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
 			{
 				List<VersionFilePathAndType> VFPTList = new();
 				VFPTList.Add(VFPT);
-				ProjsWithVersionFiles.Add(Proj.Name, VFPTList);
+				ProjsWithVersionFiles.Add(proj.Name, VFPTList);
 			}
 			else
 			{
-				ProjsWithVersionFiles[Proj.Name].Add(VFPT);
+				ProjsWithVersionFiles[proj.Name].Add(VFPT);
 			}
 
 		}
 
-		public static async Task<bool> SearchProjectFilesContainingVersionAsync(IEnumerable<SolutionItem> Projs)
+		static async Task<bool> CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+		(
+				SolutionItem proj
+			, string pathAndFile
+			, FilesContainingVersionTypes fileType
+		)
 		{
 			bool VersionContainingProjectFileFound = false;
 
-			foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
-			{
-
-				// Search for other
-				if
+			if
+			(
+				await CheckOutFromSourceControlAsync
 				(
-					SearchVersionContainingFileInProject
-					(
-						proj.Children
-						,
-						out FilesContainingVersionTypes fileType
-						,
-						out string pathAndFile
-					)
+					pathAndFile
 				)
-				{
-					if
-					(
-						await CheckOutFromSourceControlAsync
-						(
-							pathAndFile
-						)
-					)
-					{
-						VersionContainingProjectFileFound = true;
+			)
+			{
+				VersionContainingProjectFileFound = true;
 
-						AddToProjsWithVersionFiles(proj, pathAndFile, fileType);
-					}
-					else
-					{
-						VersionContainingProjectFileFound = false;
-					}
-
-
-				}
-
-				if (!VersionContainingProjectFileFound)
-				{
-					AddToProjsWithVersionFiles(proj, "Not supported type", FilesContainingVersionTypes.notsupported);
-
-				}
+				AddToProjsWithVersionFiles(proj, pathAndFile, fileType);
+			}
+			else
+			{
+				VersionContainingProjectFileFound = false;
 			}
 
 			return VersionContainingProjectFileFound;
 		}
+
+
+		static bool FoundVersionContainingFileInProject = false;
+		static bool VersionContainingProjectFileFound = false;
+
+		public static async Task<bool> SearchProjectFilesContainingVersionAsync(IEnumerable<SolutionItem> SLNItems)
+		{
+			string pathAndFile = String.Empty;
+			FilesContainingVersionTypes fileType = FilesContainingVersionTypes.notsupported;
+			bool FoundInThisSolitm = false;
+
+			try
+			{
+				FoundVersionContainingFileInProject = false;
+
+				foreach (SolutionItem SLNItem in SLNItems.Where(x => x.Name != null))
+				{
+					FoundInThisSolitm = false;
+
+					if (SLNItem.Type.ToString() == "PhysicalFile")
+					{
+						foreach (string str in stringsToSearchFor)
+						{
+							if (SLNItem.Name.ToLower().Contains(str))
+							{
+								pathAndFile = SLNItem.FullPath;
+								switch (str)
+								{
+									case splist:
+										{
+											if
+											(
+												File.ReadAllText(SLNItem.FullPath).Contains
+													(
+														"CFBundleShortVersionString"
+													)
+											)
+											{
+												fileType = FilesContainingVersionTypes.infoplist;
+												FoundVersionContainingFileInProject |= FoundInThisSolitm =
+													await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+														(
+															SLNItem
+															, pathAndFile
+															, fileType
+														);
+
+											}
+
+											break;
+										}
+									case sappxmanifest:
+										{
+											if
+											(
+												File.ReadAllText(SLNItem.FullPath).Contains
+													(
+														"Identity"
+													)
+											)
+											{
+												fileType = FilesContainingVersionTypes.appxmanifest;
+												FoundVersionContainingFileInProject |= FoundInThisSolitm =
+													await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+														(
+															SLNItem
+															, pathAndFile
+															, fileType
+														);
+											}
+
+											break;
+										}
+									case smanifestxml:
+										{
+											if
+											(
+												File.ReadAllText(SLNItem.FullPath).Contains
+													(
+														"manifest"
+													)
+											)
+											{
+												fileType = FilesContainingVersionTypes.manifestxml;
+												FoundVersionContainingFileInProject |= FoundInThisSolitm =
+													await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+														(
+															SLNItem
+															, pathAndFile
+															, fileType
+														);
+											}
+
+											break;
+										}
+									case sAssemblyinfo_cs:
+										{
+											string ThePath = Path.GetDirectoryName(SLNItem.FullPath);
+											string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
+											if (Assemblyinfo_cs_files.Length > 0)
+											{
+												pathAndFile = Assemblyinfo_cs_files[0];
+												fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
+
+												FoundVersionContainingFileInProject |= FoundInThisSolitm =
+													await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+														(
+															SLNItem
+															, pathAndFile
+															, fileType
+														);
+											}
+
+											break;
+										}
+									default:
+										break;
+								}
+
+								if (FoundInThisSolitm)
+								{
+									break; // Break foreach (string str in stringsToSearchFor)
+								}
+							}
+						}
+					}
+
+					VersionContainingProjectFileFound |= FoundVersionContainingFileInProject;
+
+					// Search children
+					if (SLNItem.Children.Count<SolutionItem>() > 0)
+					{
+						_ = SearchProjectFilesContainingVersionAsync(SLNItem.Children);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			}
+
+			return VersionContainingProjectFileFound;
+		}
+
+
+		public static async Task<bool> GetVersionContainingFilesInSolutionAsync()
+		{
+
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			CleanUpHelpers();
+
+			bool ResultToReturn = false;
+
+			try
+			{
+				TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
+
+				if (TheSolution != null)
+				{
+					_dte = await VS.GetServiceAsync<DTE, DTE2>().ConfigureAwait(true);
+
+					// Sln folder
+					PathToSolutionFolder = Path.GetDirectoryName(TheSolution.FullPath);
+
+
+					// MajorMinorBuildRevisionNumbers.xml
+
+					// Does it exist in a projectItem ?
+					ProjectItem docItem =
+						_dte.Solution.FindProjectItem
+							(
+								"MajorMinorBuildRevisionNumbers.xml"
+							);
+					if (docItem != null)
+					{ // It exists
+						if
+						(
+							SearchFileInProject
+							(
+								TheSolution.Children
+								,
+								"MajorMinorBuildRevisionNumbers.xml"
+								,
+								out PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+								,
+								out MajorMinorBuildRevisionNumbersxmlContainingProject
+							)
+						)
+						{
+							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
+							MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
+
+							if (!await CheckOutFromSourceControlAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
+							{
+								return false;
+							}
+						}
+					}
+
+					// Search in projects
+					IEnumerable<SolutionItem> SLNItems =
+						TheSolution.Children.Where
+						(
+								x =>
+								x.Type == SolutionItemType.Project
+							|| x.Type == SolutionItemType.PhysicalFile
+							|| x.Type == SolutionItemType.PhysicalFolder
+							|| x.Type == SolutionItemType.MiscProject
+							|| x.Type == SolutionItemType.VirtualProject
+							|| x.Type == SolutionItemType.Solution
+							|| x.Type == SolutionItemType.SolutionFolder
+							|| x.Type == SolutionItemType.Unknown
+							|| x.Type == SolutionItemType.VirtualFolder
+						);
+
+					if (SLNItems.Any())
+					{
+						FoundVersionContainingFileInProject = false;
+						VersionContainingProjectFileFound = false;
+
+						ResultToReturn =
+							await SearchProjectFilesContainingVersionAsync(SLNItems);
+
+						if (ResultToReturn)
+						{
+							CheckForProjTypesNotSupported();
+							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+			}
+
+			return ResultToReturn;
+
+		}
+
 
 		public static async Task<bool> AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync()
 		{
@@ -243,85 +447,6 @@ namespace SetGlobalVersion.Helpers
 			return true;
 		}
 
-		public static async Task<bool> GetVersionContainingFilesInSolutionAsync()
-		{
-
-			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-			CleanUpHelpers();
-
-			bool ResultToReturn = false;
-
-			try
-			{
-				TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
-
-				if (TheSolution != null)
-				{
-					_dte = await VS.GetServiceAsync<DTE, DTE2>().ConfigureAwait(true);
-
-					// Sln folder
-					PathToSolutionFolder = Path.GetDirectoryName(TheSolution.FullPath);
-
-
-					// MajorMinorBuildRevisionNumbers.xml
-
-					// Does it exist in a projectItem ?
-					ProjectItem docItem =
-						_dte.Solution.FindProjectItem
-							(
-								"MajorMinorBuildRevisionNumbers.xml"
-							);
-					if (docItem != null)
-					{ // It exists
-						if
-						(
-							SearchFileInProject
-							(
-								TheSolution.Children
-								,
-								"MajorMinorBuildRevisionNumbers.xml"
-								,
-								out PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-								,
-								out MajorMinorBuildRevisionNumbersxmlContainingProject
-							)
-						)
-						{
-							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
-							MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
-
-							if (!await CheckOutFromSourceControlAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
-							{
-								return false;
-							}
-						}
-					}
-
-					// Search in projects
-					IEnumerable<SolutionItem> Projs = TheSolution.Children.Where
-						(x => x.Type == SolutionItemType.Project);
-
-					if (Projs.Any())
-					{
-						ResultToReturn =
-							await SearchProjectFilesContainingVersionAsync(Projs);
-
-						if (ResultToReturn)
-						{
-							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-			}
-
-			return ResultToReturn;
-
-		}
 
 		private static async Task<bool> CheckOutFromSourceControlAsync(string FileNameAndPath)
 		{
@@ -354,132 +479,6 @@ namespace SetGlobalVersion.Helpers
 			}
 
 			return true;
-		}
-
-		public static bool SearchVersionContainingFileInProject
-			(
-				in IEnumerable<SolutionItem> projChldrn
-				,
-				out FilesContainingVersionTypes fileType
-				,
-				out string pathAndFile
-			)
-		{
-			try
-			{
-				foreach (SolutionItem solitm in projChldrn)
-				//(
-				//	SolutionItem solitm in projChldrn.Where
-				//	(
-				//			x => 
-				//			x.Type == SolutionItemType.PhysicalFile
-				//		||	x.Type == SolutionItemType.PhysicalFolder
-				//		||	x.Type == SolutionItemType.Project
-				//		||	x.Type == SolutionItemType.MiscProject
-				//		||	x.Type == SolutionItemType.VirtualProject
-				//		||	x.Type == SolutionItemType.Solution
-				//		||	x.Type == SolutionItemType.SolutionFolder
-				//		||	x.Type == SolutionItemType.Unknown
-				//		||	x.Type == SolutionItemType.VirtualFolder
-				//	)
-				//)
-				{
-					foreach (string str in stringsToSearchFor)
-					{
-						if (solitm.Name.ToLower().Contains(str))
-						{
-							pathAndFile = solitm.FullPath;
-							switch (str)
-							{
-								case splist:
-									{
-										if
-										(
-											File.ReadAllText(solitm.FullPath).Contains
-												(
-													"CFBundleShortVersionString"
-												)
-										)
-										{
-											fileType = FilesContainingVersionTypes.infoplist;
-											return true;
-										}
-
-										break;
-									}
-								case sappxmanifest:
-									{
-										if
-										(
-											File.ReadAllText(solitm.FullPath).Contains
-												(
-													"Identity"
-												)
-										)
-										{
-											fileType = FilesContainingVersionTypes.appxmanifest;
-											return true;
-										}
-
-										break;
-									}
-								case smanifestxml:
-									{
-										if
-										(
-											File.ReadAllText(solitm.FullPath).Contains
-												(
-													"manifest"
-												)
-										)
-										{
-											fileType = FilesContainingVersionTypes.manifestxml;
-											return true;
-										}
-
-										break;
-									}
-								case sAssemblyinfo_cs:
-									{
-										string ThePath = Path.GetDirectoryName(solitm.FullPath);
-										string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
-										if (Assemblyinfo_cs_files.Length > 0)
-										{
-											pathAndFile = Assemblyinfo_cs_files[0];
-											fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
-											return true;
-										}
-
-										break;
-									}
-								default:
-									break;
-							}
-
-							//// not found
-							//fileType = FilesContainingVersionTypes.none;
-							//return false;
-						}
-					}
-				}
-				// Not found ..Try children
-				foreach (SolutionItem chld in projChldrn)
-				{
-					if (SearchVersionContainingFileInProject(chld.Children, out fileType, out pathAndFile))
-					{
-						return true;
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-			}
-
-			// Not found
-			fileType = FilesContainingVersionTypes.notsupported;
-			pathAndFile = "";
-			return false;
 		}
 
 

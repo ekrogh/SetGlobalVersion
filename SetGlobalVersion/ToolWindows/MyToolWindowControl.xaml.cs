@@ -850,7 +850,7 @@ namespace SetGlobalVersion
 								HandleResOK &= SetVersionNumbersInManifestXmlFiles(FPAN);
 								break;
 							}
-						case FilesContainingVersionTypes.assemblyinfo_cs:
+						case FilesContainingVersionTypes.Assemblyinfo_cs:
 							{
 								HandleResOK &= SetVersionNumbersInAssemblyinfo_cs_Files(FPAN);
 								break;
