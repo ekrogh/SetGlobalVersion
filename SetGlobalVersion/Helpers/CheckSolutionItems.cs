@@ -42,6 +42,8 @@ namespace SetGlobalVersion.Helpers
 			Assemblyinfo_cs
 			,
 			notsupported
+			,
+			vsixmanifest
 		}
 
 
@@ -49,8 +51,17 @@ namespace SetGlobalVersion.Helpers
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
 		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
+		private const string svsixmanifest = $"vsixmanifest";
 
-		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml, sAssemblyinfo_cs };
+		private static readonly string[] stringsToSearchFor =
+			{
+				splist
+				, sappxmanifest
+				, smanifestxml
+				, sAssemblyinfo_cs
+				, svsixmanifest
+			};
+
 
 		public static void CleanUpHelpers()
 		{
@@ -111,24 +122,31 @@ namespace SetGlobalVersion.Helpers
 
 		static void AddToProjsWithVersionFiles(SolutionItem SLNItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
 		{
-			VersionFilePathAndType VFPT = new()
+			try
 			{
-				FilePathAndName = PathAndFile
+				VersionFilePathAndType VFPT = new()
+				{
+					FilePathAndName = PathAndFile
 				,
-				FileType = FileTypeIn
-			};
+					FileType = FileTypeIn
+				};
 
-			var proj = SLNItem.FindParent(SolutionItemType.Project);
+				var proj = SLNItem.FindParent(SolutionItemType.Project);
 
-			if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
-			{
-				List<VersionFilePathAndType> VFPTList = new();
-				VFPTList.Add(VFPT);
-				ProjsWithVersionFiles.Add(proj.Name, VFPTList);
+				if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
+				{
+					List<VersionFilePathAndType> VFPTList = new();
+					VFPTList.Add(VFPT);
+					ProjsWithVersionFiles.Add(proj.Name, VFPTList);
+				}
+				else
+				{
+					ProjsWithVersionFiles[proj.Name].Add(VFPT);
+				}
 			}
-			else
+			catch (Exception e)
 			{
-				ProjsWithVersionFiles[proj.Name].Add(VFPT);
+				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
 			}
 
 		}
@@ -142,21 +160,29 @@ namespace SetGlobalVersion.Helpers
 		{
 			bool VersionContainingProjectFileFound = false;
 
-			if
-			(
-				await CheckOutFromSourceControlAsync
-				(
-					pathAndFile
-				)
-			)
+			try
 			{
-				VersionContainingProjectFileFound = true;
 
-				AddToProjsWithVersionFiles(proj, pathAndFile, fileType);
+				if
+				(
+					await CheckOutFromSourceControlAsync
+					(
+						pathAndFile
+					)
+				)
+				{
+					VersionContainingProjectFileFound = true;
+
+					AddToProjsWithVersionFiles(proj, pathAndFile, fileType);
+				}
+				else
+				{
+					VersionContainingProjectFileFound = false;
+				}
 			}
-			else
+			catch (Exception e)
 			{
-				VersionContainingProjectFileFound = false;
+				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
 			}
 
 			return VersionContainingProjectFileFound;
@@ -258,21 +284,29 @@ namespace SetGlobalVersion.Helpers
 										}
 									case sAssemblyinfo_cs:
 										{
-											string ThePath = Path.GetDirectoryName(SLNItem.FullPath);
-											string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
-											if (Assemblyinfo_cs_files.Length > 0)
-											{
-												pathAndFile = Assemblyinfo_cs_files[0];
-												fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
+											fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
 
-												FoundVersionContainingFileInProject |= FoundInThisSolitm =
-													await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-														(
-															SLNItem
-															, pathAndFile
-															, fileType
-														);
-											}
+											FoundVersionContainingFileInProject |= FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														SLNItem
+														, SLNItem.FullPath
+														, fileType
+													);
+
+											break;
+										}
+									case svsixmanifest:
+										{
+											fileType = FilesContainingVersionTypes.vsixmanifest;
+
+											FoundVersionContainingFileInProject |= FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														SLNItem
+														, SLNItem.FullPath
+														, fileType
+													);
 
 											break;
 										}
