@@ -679,7 +679,7 @@ namespace SetGlobalVersion
 			return RetVal;
 		}
 
-		private bool SetVersionNumbersInAssemblyInfo_cs_Files(VersionFilePathAndType verFile)
+		private bool SetVersionNumbersInAssemblyinfo_cs_Files(VersionFilePathAndType verFile)
 		{
 			bool RetVal = true;
 
@@ -850,9 +850,9 @@ namespace SetGlobalVersion
 								HandleResOK &= SetVersionNumbersInManifestXmlFiles(FPAN);
 								break;
 							}
-						case FilesContainingVersionTypes.AssemblyInfo_cs:
+						case FilesContainingVersionTypes.assemblyinfo_cs:
 							{
-								HandleResOK &= SetVersionNumbersInAssemblyInfo_cs_Files(FPAN);
+								HandleResOK &= SetVersionNumbersInAssemblyinfo_cs_Files(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.notsupported:

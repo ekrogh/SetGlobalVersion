@@ -39,7 +39,7 @@ namespace SetGlobalVersion.Helpers
 	,
 			manifestxml
 		 ,
-			AssemblyInfo_cs
+			Assemblyinfo_cs
 	,
 			notsupported
 		}
@@ -48,9 +48,9 @@ namespace SetGlobalVersion.Helpers
 		private const string splist = $".plist";
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
-		private const string sAssemblyInfo_cs = $"AssemblyInfo.cs";
+		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
 
-		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml, sAssemblyInfo_cs };
+		private static readonly string[] stringsToSearchFor = { splist, sappxmanifest, smanifestxml, sAssemblyinfo_cs };
 
 		public static void CleanUpHelpers()
 		{
@@ -69,7 +69,7 @@ namespace SetGlobalVersion.Helpers
 
 		}
 
-		public static bool SearchAssemblyInfo_csFiles
+		public static bool SearchAssemblyinfo_csFiles
 		(
 			  in SolutionItem Proj
 			, out string pathAndFile
@@ -77,10 +77,10 @@ namespace SetGlobalVersion.Helpers
 		{
 
 			string ThePath = Path.GetDirectoryName(Proj.FullPath);
-			string[] AssemblyInfo_cs_files = Directory.GetFiles(ThePath, "AssemblyInfo.cs", SearchOption.AllDirectories);
-			if (AssemblyInfo_cs_files.Length > 0)
+			string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
+			if (Assemblyinfo_cs_files.Length > 0)
 			{
-				pathAndFile = AssemblyInfo_cs_files[0];
+				pathAndFile = Assemblyinfo_cs_files[0];
 				return true;
 			}
 
@@ -116,33 +116,6 @@ namespace SetGlobalVersion.Helpers
 
 			foreach (Community.VisualStudio.Toolkit.Project proj in Projs)
 			{
-				// Contain AssemblyInfo.cs ?
-				if
-				(
-					SearchAssemblyInfo_csFiles
-					(
-						  proj
-						, out string AssemblyInfo_csPathAndFile
-					)
-				)
-				{
-					if
-					(
-						await CheckOutFromSourceControlAsync
-						(
-							AssemblyInfo_csPathAndFile
-						)
-					)
-					{
-						VersionContainingProjectFileFound = true;
-
-						AddToProjsWithVersionFiles(proj, AssemblyInfo_csPathAndFile, FilesContainingVersionTypes.AssemblyInfo_cs);
-					}
-					else
-					{
-						VersionContainingProjectFileFound = false;
-					}
-				}
 
 				// Search for other
 				if
@@ -394,20 +367,35 @@ namespace SetGlobalVersion.Helpers
 		{
 			try
 			{
-				foreach (PhysicalFile pf in projChldrn.Where(x => x.Type == SolutionItemType.PhysicalFile))
+				foreach (SolutionItem solitm in projChldrn)
+				//(
+				//	SolutionItem solitm in projChldrn.Where
+				//	(
+				//			x => 
+				//			x.Type == SolutionItemType.PhysicalFile
+				//		||	x.Type == SolutionItemType.PhysicalFolder
+				//		||	x.Type == SolutionItemType.Project
+				//		||	x.Type == SolutionItemType.MiscProject
+				//		||	x.Type == SolutionItemType.VirtualProject
+				//		||	x.Type == SolutionItemType.Solution
+				//		||	x.Type == SolutionItemType.SolutionFolder
+				//		||	x.Type == SolutionItemType.Unknown
+				//		||	x.Type == SolutionItemType.VirtualFolder
+				//	)
+				//)
 				{
 					foreach (string str in stringsToSearchFor)
 					{
-						if (pf.Name.ToLower().Contains(str))
+						if (solitm.Name.ToLower().Contains(str))
 						{
-							pathAndFile = pf.FullPath;
+							pathAndFile = solitm.FullPath;
 							switch (str)
 							{
 								case splist:
 									{
 										if
 										(
-											File.ReadAllText(pf.FullPath).Contains
+											File.ReadAllText(solitm.FullPath).Contains
 												(
 													"CFBundleShortVersionString"
 												)
@@ -423,7 +411,7 @@ namespace SetGlobalVersion.Helpers
 									{
 										if
 										(
-											File.ReadAllText(pf.FullPath).Contains
+											File.ReadAllText(solitm.FullPath).Contains
 												(
 													"Identity"
 												)
@@ -439,7 +427,7 @@ namespace SetGlobalVersion.Helpers
 									{
 										if
 										(
-											File.ReadAllText(pf.FullPath).Contains
+											File.ReadAllText(solitm.FullPath).Contains
 												(
 													"manifest"
 												)
@@ -451,14 +439,14 @@ namespace SetGlobalVersion.Helpers
 
 										break;
 									}
-								case sAssemblyInfo_cs:
+								case sAssemblyinfo_cs:
 									{
-										string ThePath = Path.GetDirectoryName(pf.FullPath);
-										string[] AssemblyInfo_cs_files = Directory.GetFiles(ThePath, "AssemblyInfo.cs", SearchOption.AllDirectories);
-										if (AssemblyInfo_cs_files.Length > 0)
+										string ThePath = Path.GetDirectoryName(solitm.FullPath);
+										string[] Assemblyinfo_cs_files = Directory.GetFiles(ThePath, "assemblyinfo.cs", SearchOption.AllDirectories);
+										if (Assemblyinfo_cs_files.Length > 0)
 										{
-											pathAndFile = AssemblyInfo_cs_files[0];
-											fileType = FilesContainingVersionTypes.AssemblyInfo_cs;
+											pathAndFile = Assemblyinfo_cs_files[0];
+											fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
 											return true;
 										}
 
