@@ -1,11 +1,3 @@
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Community.VisualStudio.Toolkit.dll
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Resources\Icon.png
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Resources\VersionInformation.png
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.dll
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.pdb
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.pkgdef
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.vsix
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\extension.vsixmanifest
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.csproj.AssemblyReference.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\ToolWindows\MyToolWindowControl.baml
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\ToolWindows\MyToolWindowControl.g.cs
@@ -21,6 +13,14 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\ctoFile
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\mergeCto.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.GeneratedMSBuildEditorConfig.editorconfig
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.csproj.CoreCompileInputs.cache
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Community.VisualStudio.Toolkit.dll
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Resources\Icon.png
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Resources\VersionInformation.png
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.dll
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.pdb
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.pkgdef
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\SetGlobalVersion.vsix
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\extension.vsixmanifest
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.dll
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.pdb
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.pkgdef

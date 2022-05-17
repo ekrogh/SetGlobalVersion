@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace SetGlobalVersion.Helpers
 {
 	public class CheckSolutionItems
@@ -41,9 +42,9 @@ namespace SetGlobalVersion.Helpers
 			,
 			Assemblyinfo_cs
 			,
-			vsixmanifest
-			,
 			notsupported
+			//,
+			//vsixmanifest
 		}
 
 
@@ -51,7 +52,7 @@ namespace SetGlobalVersion.Helpers
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
 		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
-		private const string svsixmanifest = $"vsixmanifest";
+		//private const string svsixmanifest = $"vsixmanifest";
 
 		private static readonly string[] stringsToSearchFor =
 			{
@@ -59,7 +60,7 @@ namespace SetGlobalVersion.Helpers
 				, sappxmanifest
 				, smanifestxml
 				, sAssemblyinfo_cs
-				, svsixmanifest
+				//, svsixmanifest
 			};
 
 
@@ -296,20 +297,20 @@ namespace SetGlobalVersion.Helpers
 
 											break;
 										}
-									case svsixmanifest:
-										{
-											fileType = FilesContainingVersionTypes.vsixmanifest;
+									//case svsixmanifest:
+									//	{
+									//		fileType = FilesContainingVersionTypes.vsixmanifest;
 
-											FoundVersionContainingFileInProject |= FoundInThisSolitm =
-												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-													(
-														SLNItem
-														, SLNItem.FullPath
-														, fileType
-													);
+									//		FoundVersionContainingFileInProject |= FoundInThisSolitm =
+									//			await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+									//				(
+									//					SLNItem
+									//					, SLNItem.FullPath
+									//					, fileType
+									//				);
 
-											break;
-										}
+									//		break;
+									//	}
 									default:
 										break;
 								}
@@ -382,7 +383,20 @@ namespace SetGlobalVersion.Helpers
 								,
 								"MajorMinorBuildRevisionNumbers.xml"
 							);
-						if (success)
+						if
+						(
+							success
+							&&
+							(
+								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile !=
+								String.Empty
+							)
+							&&
+							(
+								MajorMinorBuildRevisionNumbersxmlContainingProject !=
+								null
+							)
+						)
 						{
 							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
 							MajorMinorBuildRevisionNumbersxmlExistsInProject = true;

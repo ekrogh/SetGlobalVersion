@@ -551,7 +551,6 @@ namespace SetGlobalVersion
 											, OLEMSGBUTTON.OLEMSGBUTTON_OK
 										).ConfigureAwait(true);
 								}
-
 							}
 							else
 							{
@@ -564,7 +563,6 @@ namespace SetGlobalVersion
 										, OLEMSGBUTTON.OLEMSGBUTTON_OK
 									).ConfigureAwait(true);
 							}
-
 						}
 					}
 				}
@@ -926,11 +924,11 @@ namespace SetGlobalVersion
 								HandleResOK &= await SetVersionNumbersInAssemblyinfo_cs_FilesAsync(FPAN);
 								break;
 							}
-						case FilesContainingVersionTypes.vsixmanifest:
-							{
-								HandleResOK &= await SetVersionNumbersIn_vixmanifest_FilesAsync(FPAN);
-								break;
-							}
+						//case FilesContainingVersionTypes.vsixmanifest:
+						//	{
+						//		HandleResOK &= await SetVersionNumbersIn_vixmanifest_FilesAsync(FPAN);
+						//		break;
+						//	}
 						case FilesContainingVersionTypes.notsupported:
 							{
 								break;
