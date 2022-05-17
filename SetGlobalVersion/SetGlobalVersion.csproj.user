@@ -17,5 +17,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <StartArguments>/ResetSkipPkgs /rootsuffix Exp</StartArguments>
   </PropertyGroup>
 </Project>

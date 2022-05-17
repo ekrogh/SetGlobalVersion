@@ -41,9 +41,9 @@ namespace SetGlobalVersion.Helpers
 			,
 			Assemblyinfo_cs
 			,
-			notsupported
-			,
 			vsixmanifest
+			,
+			notsupported
 		}
 
 

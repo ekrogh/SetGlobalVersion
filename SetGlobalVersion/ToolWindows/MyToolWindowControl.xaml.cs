@@ -512,6 +512,73 @@ namespace SetGlobalVersion
 			return RetVal;
 		}
 
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_vixmanifest_FilesAsync(VersionFilePathAndType verFile)
+		{
+			bool RetVal = true;
+
+			try
+			{
+				if (System.IO.File.Exists(verFile.FilePathAndName))
+				{
+					// Read the version numbers for use next time
+					XmlDocument TheXmlDocument = new();
+					TheXmlDocument.Load(verFile.FilePathAndName);
+
+					if (TheXmlDocument != null)
+					{
+						XmlNodeList list = TheXmlDocument.GetElementsByTagName("Identity");
+
+						if (list.Count > 0)
+						{
+							XmlNode node = list[0];
+							XmlAttribute attr = node.Attributes["Version"];
+							if (attr != null)
+							{
+								attr.Value =
+									VersionMajor.ToString() + '.' + VersionMinor.ToString();
+								try
+								{
+									TheXmlDocument.Save(verFile.FilePathAndName);
+								}
+								catch (Exception e)
+								{
+									RetVal = false;
+									_ = await VS.MessageBox.ShowAsync
+										(
+											"Error writing to " + verFile.FilePathAndName
+											, e.ToString()
+											, OLEMSGICON.OLEMSGICON_CRITICAL
+											, OLEMSGBUTTON.OLEMSGBUTTON_OK
+										).ConfigureAwait(true);
+								}
+
+							}
+							else
+							{
+								RetVal = false;
+								_ = await VS.MessageBox.ShowAsync
+									(
+										"Could not find \"versionCode\" and/or \"versionName\" in file "
+										, verFile.FilePathAndName
+										, OLEMSGICON.OLEMSGICON_CRITICAL
+										, OLEMSGBUTTON.OLEMSGBUTTON_OK
+									).ConfigureAwait(true);
+							}
+
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+				RetVal = false;
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+			}
+			finally { }
+
+			return RetVal;
+		}
 
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInInfoplistFilesAsync(VersionFilePathAndType verFile)
 		{
@@ -821,7 +888,13 @@ namespace SetGlobalVersion
 
 			if (!WriteToXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, TheXDocument))
 			{
-				_ = await VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+				_ = await VS.MessageBox.ShowAsync
+					(
+						"Error writing to"
+						, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+						, OLEMSGICON.OLEMSGICON_CRITICAL
+						, OLEMSGBUTTON.OLEMSGBUTTON_OK
+					).ConfigureAwait(true);
 			}
 
 
@@ -851,6 +924,11 @@ namespace SetGlobalVersion
 						case FilesContainingVersionTypes.Assemblyinfo_cs:
 							{
 								HandleResOK &= await SetVersionNumbersInAssemblyinfo_cs_FilesAsync(FPAN);
+								break;
+							}
+						case FilesContainingVersionTypes.vsixmanifest:
+							{
+								HandleResOK &= await SetVersionNumbersIn_vixmanifest_FilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.notsupported:
