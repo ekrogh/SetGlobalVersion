@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SetGlobalVersion.59a022c9-e3e7-4d43-a852-7ebec1483e85" Version="2.0" Language="en-US" Publisher="Eigil Krogh Sorensen" />
+        <Identity Id="SetGlobalVersion.59a022c9-e3e7-4d43-a852-7ebec1483e85" Version="2.1" Language="en-US" Publisher="Eigil Krogh Sorensen" />
         <DisplayName>SetGlobalVersion</DisplayName>
         <Description xml:space="preserve">Set Global Version (Set same version numbers in all projects).</Description>
         <Icon>Resources\VersionInformation.png</Icon>

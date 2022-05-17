@@ -831,8 +831,6 @@ namespace SetGlobalVersion
 			{
 				foreach (VersionFilePathAndType FPAN in VFPT.Value)
 				{
-					myProjectsDataGrid.Items.Add(new MyProjectsData { ThisSolutionProject = VFPT.Key, ThisSolutionProjectPath = FPAN.FilePathAndName });
-
 					switch (FPAN.FileType)
 					{
 						case FilesContainingVersionTypes.infoplist:
