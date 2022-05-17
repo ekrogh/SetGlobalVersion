@@ -57,8 +57,8 @@
 					Content="Version Major vv" />
 				<TextBox
 					x:Name="VersionMajorEntryName"
-					LostFocus="OnVersionMajorEntryCompleted"
-					ManipulationCompleted="OnVersionMajorEntryCompleted"
+					LostFocus="VersionMajorEntryName_LostFocus"
+					ManipulationCompleted="VersionMajorEntryName_ManipulationCompleted"
 					IsTabStop="true"
 					TabIndex="2"
 					VerticalAlignment="Top"
@@ -71,8 +71,8 @@
 				<TextBox
 					x:Name="VersionMinorEntryName"
 					AutomationProperties.HelpText="vv"
-					LostFocus="OnVersionMinorEntryCompleted"
-					ManipulationCompleted="OnVersionMinorEntryCompleted"
+					LostFocus="VersionMinorEntryName_LostFocus"
+					ManipulationCompleted="VersionMinorEntryName_ManipulationCompleted"
 					IsTabStop="true"
 					TabIndex="3" />
 			</StackPanel>
@@ -84,8 +84,8 @@
 				<TextBox
 					x:Name="BuildNumberEntryName"
 					AutomationProperties.HelpText="bb"
-					LostFocus="OnBuildNumberEntryCompleted"
-					ManipulationCompleted="OnBuildNumberEntryCompleted"
+					LostFocus="BuildNumberEntryName_LostFocus"
+					ManipulationCompleted="BuildNumberEntryName_ManipulationCompleted"
 					IsTabStop="true"
 					TabIndex="4" />
 			</StackPanel>
@@ -97,8 +97,8 @@
 				<TextBox
 					x:Name="RevisionNumberEntryName"
 					AutomationProperties.HelpText="rr"
-					LostFocus="OnRevisionNumberEntryCompleted"
-					ManipulationCompleted="OnRevisionNumberEntryCompleted"
+					LostFocus="RevisionNumberEntryName_LostFocus"
+					ManipulationCompleted="RevisionNumberEntryName_ManipulationCompleted"
 					IsTabStop="true"
 					TabIndex="5" />
 			</StackPanel>

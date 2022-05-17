@@ -81,7 +81,7 @@ namespace SetGlobalVersion.Helpers
 		}
 
 
-		static void CheckForProjTypesNotSupported(IEnumerable<SolutionItem> SLNItems)
+		static async Task CheckForProjTypesNotSupportedAsync(IEnumerable<SolutionItem> SLNItems)
 		{
 			try
 			{
@@ -107,20 +107,20 @@ namespace SetGlobalVersion.Helpers
 					// Search children
 					if (SLNItem.Children.Count<SolutionItem>() > 0)
 					{
-						CheckForProjTypesNotSupported(SLNItem.Children);
+						await CheckForProjTypesNotSupportedAsync(SLNItem.Children);
 					}
 
 				}
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 		}
 
 
-		static void AddToProjsWithVersionFiles(SolutionItem SLNItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
+		static async Task AddToProjsWithVersionFilesAsync(SolutionItem SLNItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
 		{
 			try
 			{
@@ -146,7 +146,7 @@ namespace SetGlobalVersion.Helpers
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 		}
@@ -173,7 +173,7 @@ namespace SetGlobalVersion.Helpers
 				{
 					VersionContainingProjectFileFound = true;
 
-					AddToProjsWithVersionFiles(proj, pathAndFile, fileType);
+					await AddToProjsWithVersionFilesAsync(proj, pathAndFile, fileType);
 				}
 				else
 				{
@@ -182,7 +182,7 @@ namespace SetGlobalVersion.Helpers
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 			return VersionContainingProjectFileFound;
@@ -333,7 +333,7 @@ namespace SetGlobalVersion.Helpers
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 			return VersionContainingProjectFileFound;
@@ -371,19 +371,18 @@ namespace SetGlobalVersion.Helpers
 							);
 					if (docItem != null)
 					{ // It exists
-						if
 						(
-							SearchFileInProject
+							bool success
+							, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+							, MajorMinorBuildRevisionNumbersxmlContainingProject
+						) =
+							await SearchFileInProjectAsync
 							(
 								TheSolution.Children
 								,
 								"MajorMinorBuildRevisionNumbers.xml"
-								,
-								out PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-								,
-								out MajorMinorBuildRevisionNumbersxmlContainingProject
-							)
-						)
+							);
+						if (success)
 						{
 							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
 							MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
@@ -421,7 +420,7 @@ namespace SetGlobalVersion.Helpers
 
 						if (ResultToReturn)
 						{
-							CheckForProjTypesNotSupported(SLNItems);
+							await CheckForProjTypesNotSupportedAsync(SLNItems);
 							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
 						}
 					}
@@ -429,7 +428,7 @@ namespace SetGlobalVersion.Helpers
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 			return ResultToReturn;
@@ -535,7 +534,7 @@ namespace SetGlobalVersion.Helpers
 			)
 			{
 				_ =
-				VS.MessageBox.ShowAsync
+				await VS.MessageBox.ShowAsync
 				(
 					"Please check out\n"
 					,
@@ -546,7 +545,7 @@ namespace SetGlobalVersion.Helpers
 					OLEMSGICON.OLEMSGICON_CRITICAL
 					,
 					OLEMSGBUTTON.OLEMSGBUTTON_OK
-				);
+				).ConfigureAwait(true);
 
 				return false;
 			}
@@ -555,17 +554,18 @@ namespace SetGlobalVersion.Helpers
 		}
 
 
-		public static bool SearchFileInProject
+		public static async Task<(bool success, string filePathAndName, Community.VisualStudio.Toolkit.Project containingProject)>
+			SearchFileInProjectAsync
 			(
-				in IEnumerable<SolutionItem> projChldrn
+				IEnumerable<SolutionItem> projChldrn
 				,
-				in string fileName
-				,
-				out string filePathAndName
-				,
-				out Community.VisualStudio.Toolkit.Project containingProject
+				string fileName
+
 			)
 		{
+			string filePathAndName = "";
+			Community.VisualStudio.Toolkit.Project containingProject = null;
+
 			try
 			{
 				foreach
@@ -580,39 +580,34 @@ namespace SetGlobalVersion.Helpers
 					{
 						filePathAndName = pf.FullPath;
 						containingProject = pf.ContainingProject;
-						return true;
+						return (true, filePathAndName, containingProject);
 					}
 				}
 				// Not found ..Try children
 				foreach (SolutionItem chld in projChldrn)
 				{
-					if
-					(
-						SearchFileInProject
-						(
-							chld.Children
-							,
-							fileName
-							,
-							out filePathAndName
-							,
-							out containingProject
-						)
-					)
+					(bool success, filePathAndName, containingProject) =
+						await SearchFileInProjectAsync
+								(
+									chld.Children
+									,
+									fileName
+								);
+					if (success)
 					{
-						return true;
+						return (true, filePathAndName, containingProject);
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 			// Not found
 			filePathAndName = "";
 			containingProject = null;
-			return false;
+			return (true, filePathAndName, containingProject);
 		}
 	}
 }

@@ -12,6 +12,7 @@
     <StartProgram>D:\Program_Files\Microsoft\VisualStudio\2022\Community\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>/rootsuffix Exp</StartArguments>
     <StartAction>Program</StartAction>
+    <DeployTargetInstanceId />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>

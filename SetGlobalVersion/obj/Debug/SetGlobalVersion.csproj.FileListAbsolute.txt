@@ -18,6 +18,7 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\VSCT.re
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\VSCT.write.1.tlog
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\resources.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\ctoFiles.json
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\_EmptyResource.resources.original
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\mergeCto.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.GeneratedMSBuildEditorConfig.editorconfig
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.csproj.CoreCompileInputs.cache

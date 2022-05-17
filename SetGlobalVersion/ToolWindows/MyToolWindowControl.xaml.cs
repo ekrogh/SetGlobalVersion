@@ -163,13 +163,13 @@ namespace SetGlobalVersion
 													}
 													else
 													{
-														_ = VS.MessageBox.ShowAsync
+														_ = await VS.MessageBox.ShowAsync
 															(
 																"Invalid \"VersionMajor\" in file"
 																, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
 																, OLEMSGICON.OLEMSGICON_CRITICAL
 																, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
+															).ConfigureAwait(true);
 														VersionMajor = int.MinValue;
 														VersionMajorEntryName.Text = "";
 													}
@@ -183,10 +183,10 @@ namespace SetGlobalVersion
 													}
 													else
 													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
+														_ = await VS.MessageBox.ShowAsync("Invalid \"VersionMinor\" in file"
 															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
 															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
+															).ConfigureAwait(true);
 														VersionMinor = int.MinValue;
 														VersionMinorEntryName.Text = "";
 													}
@@ -200,10 +200,10 @@ namespace SetGlobalVersion
 													}
 													else
 													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
+														_ = await VS.MessageBox.ShowAsync("Invalid \"BuildNumber\" in file"
 															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
 															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
+															).ConfigureAwait(true);
 														BuildNumber = int.MinValue;
 														BuildNumberEntryName.Text = "";
 													}
@@ -217,10 +217,10 @@ namespace SetGlobalVersion
 													}
 													else
 													{
-														_ = VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
+														_ = await VS.MessageBox.ShowAsync("Invalid \"RevisionNumber\" in file"
 															, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
 															, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK
-															);
+															).ConfigureAwait(true);
 														RevisionNumber = int.MinValue;
 														RevisionNumberEntryName.Text = "";
 													}
@@ -233,7 +233,7 @@ namespace SetGlobalVersion
 						}
 						else
 						{
-							_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							_ = await VS.MessageBox.ShowAsync("Invalid \".xml\" file", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 						}
 					}
 
@@ -257,7 +257,7 @@ namespace SetGlobalVersion
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 		}
@@ -282,7 +282,7 @@ namespace SetGlobalVersion
 			myProjectsDataGrid.Columns.Clear();
 		}
 
-		private void OnVersionMajorEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
+		private async Task OnVersionMajorEntryCompletedAsync(object sender, RoutedEventArgs e)
 		{
 			int LocalVersionMajor = 0;
 			if (((VersionMajorEntryName.Text != null)
@@ -294,7 +294,7 @@ namespace SetGlobalVersion
 				VersionMajor = int.MinValue;
 				string TextHolder = VersionMajorEntryName.Text;
 				VersionMajorEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Version Major\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Version Major\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				VersionMajorEntryName.Focus();
 			}
 			else
@@ -303,7 +303,7 @@ namespace SetGlobalVersion
 			}
 		}
 
-		private void OnVersionMinorEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
+		private async Task OnVersionMinorEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)
 		{
 			int LocalVersionMinor = 0;
 			if ((VersionMinorEntryName.Text != null)
@@ -315,7 +315,7 @@ namespace SetGlobalVersion
 				VersionMinor = int.MinValue;
 				string TextHolder = VersionMinorEntryName.Text;
 				VersionMinorEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Version Minor\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Version Minor\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				VersionMinorEntryName.Focus();
 			}
 			else
@@ -324,7 +324,7 @@ namespace SetGlobalVersion
 			}
 		}
 
-		private void OnBuildNumberEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
+		private async Task OnBuildNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)
 		{
 			int LocalBuildNumber = 0;
 			if ((BuildNumberEntryName.Text != null)
@@ -336,7 +336,7 @@ namespace SetGlobalVersion
 				BuildNumber = int.MinValue;
 				string TextHolder = BuildNumberEntryName.Text;
 				BuildNumberEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Build Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Build Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				BuildNumberEntryName.Focus();
 			}
 			else
@@ -345,7 +345,7 @@ namespace SetGlobalVersion
 			}
 		}
 
-		private void OnRevisionNumberEntryCompleted(object sender, System.Windows.RoutedEventArgs e)
+		private async Task OnRevisionNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)
 		{
 			int LocalRevisionNumber = 0;
 			if ((RevisionNumberEntryName.Text != null)
@@ -357,7 +357,7 @@ namespace SetGlobalVersion
 				RevisionNumber = int.MinValue;
 				string TextHolder = RevisionNumberEntryName.Text;
 				RevisionNumberEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Revision Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Revision Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				RevisionNumberEntryName.Focus();
 			}
 			else
@@ -432,7 +432,7 @@ namespace SetGlobalVersion
 		}
 
 
-		private bool SetVersionNumbersInManifestXmlFiles(VersionFilePathAndType verFile)
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInManifestXmlFilesAsync(VersionFilePathAndType verFile)
 		{
 			bool RetVal = true;
 
@@ -480,32 +480,32 @@ namespace SetGlobalVersion
 							if (!WriteToXmlFile(verFile.FilePathAndName, TheXDocument))
 							{
 								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Error writing to", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+								_ = await VS.MessageBox.ShowAsync("Error writing to", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 							}
 						}
 						else
 						{
 							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							_ = await VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 						}
 					}
 					else
 					{
 						RetVal = false;
-						_ = VS.MessageBox.ShowAsync("Invalid \".xml\" file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+						_ = await VS.MessageBox.ShowAsync("Invalid \".xml\" file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 					}
 				}
 				else
 				{
 					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("File not found: ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+					_ = await VS.MessageBox.ShowAsync("File not found: ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				}
 			}
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
 				RetVal = false;
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
@@ -513,7 +513,7 @@ namespace SetGlobalVersion
 		}
 
 
-		private bool SetVersionNumbersInInfoplistFiles(VersionFilePathAndType verFile)
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInInfoplistFilesAsync(VersionFilePathAndType verFile)
 		{
 			bool RetVal = true;
 
@@ -589,27 +589,27 @@ namespace SetGlobalVersion
 							else
 							{
 								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+								_ = await VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 							}
 						}
 						else
 						{
 							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							_ = await VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 						}
 					}
 				}
 				else
 				{
 					RetVal = false;
-					_ = VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+					_ = await VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				}
 			}
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
 				RetVal = false;
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
@@ -617,7 +617,7 @@ namespace SetGlobalVersion
 		}
 
 
-		private bool SetVersionNumbersInAppxmanifestFiles(VersionFilePathAndType verFile)
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInAppxmanifestFilesAsync(VersionFilePathAndType verFile)
 		{
 			bool RetVal = true;
 
@@ -652,19 +652,19 @@ namespace SetGlobalVersion
 							else
 							{
 								RetVal = false;
-								_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+								_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 							}
 						}
 						else
 						{
 							RetVal = false;
-							_ = VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+							_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 						}
 					}
 					else
 					{
 						RetVal = false;
-						_ = VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+						_ = await VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 					}
 				}
 			}
@@ -672,14 +672,14 @@ namespace SetGlobalVersion
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
 				RetVal = false;
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
 			return RetVal;
 		}
 
-		private bool SetVersionNumbersInAssemblyinfo_cs_Files(VersionFilePathAndType verFile)
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInAssemblyinfo_cs_FilesAsync(VersionFilePathAndType verFile)
 		{
 			bool RetVal = true;
 
@@ -719,7 +719,7 @@ namespace SetGlobalVersion
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
 				RetVal = false;
-				_ = VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
@@ -744,7 +744,7 @@ namespace SetGlobalVersion
 				VersionMajor = int.MinValue;
 				string TextHolder = VersionMajorEntryName.Text;
 				VersionMajorEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Version Major\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Version Major\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				VersionMajorEntryName.Focus();
 				return;
 			}
@@ -762,7 +762,7 @@ namespace SetGlobalVersion
 				VersionMinor = int.MinValue;
 				string TextHolder = VersionMinorEntryName.Text;
 				VersionMinorEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Version Minor\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Version Minor\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				VersionMinorEntryName.Focus();
 				return;
 			}
@@ -780,7 +780,7 @@ namespace SetGlobalVersion
 				BuildNumber = int.MinValue;
 				string TextHolder = BuildNumberEntryName.Text;
 				BuildNumberEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Build Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Build Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				BuildNumberEntryName.Focus();
 				return;
 			}
@@ -798,7 +798,7 @@ namespace SetGlobalVersion
 				RevisionNumber = int.MinValue;
 				string TextHolder = RevisionNumberEntryName.Text;
 				RevisionNumberEntryName.Text = "";
-				_ = VS.MessageBox.ShowAsync("Invalid \"Revision Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Invalid \"Revision Number\" ", TextHolder, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				RevisionNumberEntryName.Focus();
 				return;
 			}
@@ -821,7 +821,7 @@ namespace SetGlobalVersion
 
 			if (!WriteToXmlFile(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, TheXDocument))
 			{
-				_ = VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Error writing to", PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 
@@ -837,22 +837,22 @@ namespace SetGlobalVersion
 					{
 						case FilesContainingVersionTypes.infoplist:
 							{
-								HandleResOK &= SetVersionNumbersInInfoplistFiles(FPAN);
+								HandleResOK &= await SetVersionNumbersInInfoplistFilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.appxmanifest:
 							{
-								HandleResOK &= SetVersionNumbersInAppxmanifestFiles(FPAN);
+								HandleResOK &= await SetVersionNumbersInAppxmanifestFilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.manifestxml:
 							{
-								HandleResOK &= SetVersionNumbersInManifestXmlFiles(FPAN);
+								HandleResOK &= await SetVersionNumbersInManifestXmlFilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.Assemblyinfo_cs:
 							{
-								HandleResOK &= SetVersionNumbersInAssemblyinfo_cs_Files(FPAN);
+								HandleResOK &= await SetVersionNumbersInAssemblyinfo_cs_FilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.notsupported:
@@ -865,10 +865,49 @@ namespace SetGlobalVersion
 			}
 			if (HandleResOK)
 			{
-				_ = VS.MessageBox.ShowAsync("Done!", "", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+				_ = await VS.MessageBox.ShowAsync("Done!", "", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
 		}
 
+		private void VersionMajorEntryName_LostFocus(object sender, RoutedEventArgs e)
+		{
+			_ = OnVersionMajorEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void VersionMajorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+		{
+			_ = OnVersionMajorEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void VersionMinorEntryName_LostFocus(object sender, RoutedEventArgs e)
+		{
+			_ = OnVersionMinorEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void VersionMinorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+		{
+			_ = OnVersionMinorEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void BuildNumberEntryName_LostFocus(object sender, RoutedEventArgs e)
+		{
+			_ = OnBuildNumberEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void BuildNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+		{
+			_ = OnBuildNumberEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void RevisionNumberEntryName_LostFocus(object sender, RoutedEventArgs e)
+		{
+			_ = OnRevisionNumberEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void RevisionNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+		{
+			_ = OnRevisionNumberEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
 	}
 }
