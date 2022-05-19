@@ -31,3 +31,4 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\exten
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\files.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\createTemplateManifests.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Release\extension.vsixmanifest
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Release\Release-notes-for-Version-3.html

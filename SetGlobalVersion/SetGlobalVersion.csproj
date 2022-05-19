@@ -86,11 +86,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Release notes for Version 3.htm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
-    <Content Include="Release notes for Version 3.html">
+    <Content Include="Release-notes-for-Version-3.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>

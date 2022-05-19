@@ -4,7 +4,7 @@
         <Identity Id="SetGlobalVersion.59a022c9-e3e7-4d43-a852-7ebec1483e85" Version="3.0" Language="en-US" Publisher="Eigil Krogh Sorensen" />
         <DisplayName>SetGlobalVersion</DisplayName>
         <Description xml:space="preserve">Set Global Version (Set same version numbers in all projects).</Description>
-        <ReleaseNotes>Release notes for Version 3.html</ReleaseNotes>
+        <ReleaseNotes>Release-notes-for-Version-3.html</ReleaseNotes>
         <Icon>Resources\VersionInformation.png</Icon>
         <PreviewImage>Resources\VersionInformation.png</PreviewImage>
         <Tags>global, version, solution-wide</Tags>
