@@ -52,6 +52,12 @@ namespace SetGlobalVersion.Helpers
 		{
 			android
 			,
+			gtk
+			,
+			ios
+			,
+			macos
+			,
 			tizen
 			,
 			uwp
@@ -201,6 +207,54 @@ namespace SetGlobalVersion.Helpers
 			return VersionContainingProjectFileFound;
 		}
 
+		public static async Task<OsType> FindOsType(string FullPath)
+		{
+			string tstContnt = File.ReadAllText(FullPath).ToLower();
+
+			if (tstContnt.Contains("android"))
+			{
+				return OsType.android;
+			}
+			else
+			{
+				if (tstContnt.Contains("gtk"))
+				{
+					return OsType.gtk;
+				}
+				else
+				{
+					if (tstContnt.Contains("ios"))
+					{
+						return OsType.ios;
+					}
+					else
+					{
+						if (tstContnt.Contains("macos"))
+						{
+							return OsType.macos;
+						}
+						else
+						{
+							if (tstContnt.Contains("windows.universal") || tstContnt.Contains("uwp"))
+							{
+								return OsType.uwp;
+							}
+							else
+							{
+								if (tstContnt.Contains("tizen"))
+								{
+									return OsType.tizen;
+								}
+								else
+								{
+									return OsType.unknown;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 
 		static bool FoundVersionContainingFileInProject = false;
 		static bool VersionContainingProjectFileFound = false;
@@ -309,20 +363,6 @@ namespace SetGlobalVersion.Helpers
 
 											break;
 										}
-									//case svsixmanifest:
-									//	{
-									//		fileType = FilesContainingVersionTypes.vsixmanifest;
-
-									//		FoundVersionContainingFileInProject |= FoundInThisSolitm =
-									//			await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-									//				(
-									//					SLNItem
-									//					, SLNItem.FullPath
-									//					, fileType
-									//				);
-
-									//		break;
-									//	}
 									default:
 										break;
 								}
