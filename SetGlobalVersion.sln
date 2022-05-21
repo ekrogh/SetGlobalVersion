@@ -5,11 +5,6 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion", "SetGlobalVersion\SetGlobalVersion.csproj", "{A0A0CF61-0444-4E5A-B999-AA13024F0550}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MajorMinorBuildRevisionNumbersXmlFile", "MajorMinorBuildRevisionNumbersXmlFile", "{665F8512-F441-4C29-ACE8-0D4E38200460}"
-	ProjectSection(SolutionItems) = preProject
-		MajorMinorBuildRevisionNumbers.xml = MajorMinorBuildRevisionNumbers.xml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -67,10 +67,6 @@
   <ItemGroup>
     <Compile Include="Helpers\CheckSolutionItems.cs" />
     <Compile Include="Helpers\ProjectType.cs" />
-    <None Include="Helpers\source.extension.cs" />
-    <None Include="Helpers\VsixManifest.cs" />
-    <None Include="Helpers\VsixManifestGenerator.cs" />
-    <None Include="Helpers\VsixManifestParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MyToolWindowCommand.cs" />
     <Compile Include="SetGlobalVersionPackage.cs" />

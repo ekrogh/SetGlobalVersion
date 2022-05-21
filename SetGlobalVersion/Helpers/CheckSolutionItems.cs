@@ -48,6 +48,18 @@ namespace SetGlobalVersion.Helpers
 		}
 
 
+		public enum OsType
+		{
+			android
+			,
+			tizen
+			,
+			uwp
+			,
+			unknown
+		}
+
+
 		private const string splist = $".plist";
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
@@ -390,11 +402,6 @@ namespace SetGlobalVersion.Helpers
 							(
 								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile !=
 								String.Empty
-							)
-							&&
-							(
-								MajorMinorBuildRevisionNumbersxmlContainingProject !=
-								null
 							)
 						)
 						{

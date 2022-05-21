@@ -431,90 +431,9 @@ namespace SetGlobalVersion
 			_ = GetShowPathsToVersionContainingFilesAsync();
 		}
 
-
-		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInManifestXmlFilesAsync(VersionFilePathAndType verFile)
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_manifest_FilesAsync(VersionFilePathAndType verFile)
 		{
-			bool RetVal = true;
-
-			try
-			{
-				if (System.IO.File.Exists(verFile.FilePathAndName))
-				{
-					// Read the version numbers for use next time
-					XDocument TheXDocument =
-						ReadFromXmlFile(verFile.FilePathAndName);
-
-					if (TheXDocument != null)
-					{
-						bool versionCodeFound = false;
-						bool versionNameFound = false;
-
-						XElement element = TheXDocument.Descendants("manifest").Single();
-
-						IEnumerable<XAttribute> XAttributesList = TheXDocument.Descendants("manifest").Single().Attributes();
-
-						using (IEnumerator<XAttribute> sequenceEnum = XAttributesList.GetEnumerator())
-						{
-							while (sequenceEnum.MoveNext())
-							{
-								// Do something with sequenceEnum.Current.
-								switch (sequenceEnum.Current.Name.LocalName)
-								{
-									case "versionCode":
-										{
-											sequenceEnum.Current.Value = BuildNumber.ToString();
-											versionCodeFound = true;
-											break;
-										}
-									case "versionName":
-										{
-											sequenceEnum.Current.Value = VersionMajor.ToString() + '.' + VersionMinor.ToString();
-											versionNameFound = true;
-											break;
-										}
-								}
-							}
-						}
-						if (versionCodeFound && versionNameFound)
-						{
-							if (!WriteToXmlFile(verFile.FilePathAndName, TheXDocument))
-							{
-								RetVal = false;
-								_ = await VS.MessageBox.ShowAsync("Error writing to", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = await VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-						}
-					}
-					else
-					{
-						RetVal = false;
-						_ = await VS.MessageBox.ShowAsync("Invalid \".xml\" file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-					}
-				}
-				else
-				{
-					RetVal = false;
-					_ = await VS.MessageBox.ShowAsync("File not found: ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-				}
-			}
-			catch (Exception e)
-			{
-				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				RetVal = false;
-				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-			}
-			finally { }
-
-			return RetVal;
-		}
-
-		private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_vixmanifest_FilesAsync(VersionFilePathAndType verFile)
-		{
-			bool RetVal = true;
+			bool AllRight = false;
 
 			try
 			{
@@ -539,10 +458,11 @@ namespace SetGlobalVersion
 								try
 								{
 									TheXmlDocument.Save(verFile.FilePathAndName);
+									AllRight = true;
 								}
 								catch (Exception e)
 								{
-									RetVal = false;
+									AllRight = false;
 									_ = await VS.MessageBox.ShowAsync
 										(
 											"Error writing to " + verFile.FilePathAndName
@@ -552,35 +472,376 @@ namespace SetGlobalVersion
 										).ConfigureAwait(true);
 								}
 							}
-							else
-							{
-								RetVal = false;
-								_ = await VS.MessageBox.ShowAsync
-									(
-										"Could not find \"versionCode\" and/or \"versionName\" in file "
-										, verFile.FilePathAndName
-										, OLEMSGICON.OLEMSGICON_CRITICAL
-										, OLEMSGBUTTON.OLEMSGBUTTON_OK
-									).ConfigureAwait(true);
-							}
 						}
 					}
+				}
+				if (!AllRight)
+				{
+					AllRight = false;
+					_ = await VS.MessageBox.ShowAsync
+						(
+							"Could not find \"Version\" in file "
+							, verFile.FilePathAndName
+							, OLEMSGICON.OLEMSGICON_CRITICAL
+							, OLEMSGBUTTON.OLEMSGBUTTON_OK
+						).ConfigureAwait(true);
 				}
 			}
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				RetVal = false;
+				AllRight = false;
 				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
-			return RetVal;
+			return AllRight;
 		}
+
+
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInManifestXmlFilesAsync(VersionFilePathAndType verFile)
+		{
+			bool AllRight = false;
+
+			OsType osType = OsType.unknown;
+
+			try
+			{
+				if (System.IO.File.Exists(verFile.FilePathAndName))
+				{
+					string tstContnt = File.ReadAllText(verFile.FilePathAndName);
+					if (tstContnt.IndexOf("android",
+						StringComparison.OrdinalIgnoreCase) != -1)
+					{
+						osType = OsType.android;
+					}
+					else
+					{
+						if (tstContnt.IndexOf("Windows.Universal",
+							StringComparison.OrdinalIgnoreCase) != -1)
+						{
+							osType = OsType.uwp;
+						}
+						else
+						{
+							if (tstContnt.IndexOf("tizen",
+								StringComparison.OrdinalIgnoreCase) != -1)
+							{
+								osType = OsType.tizen;
+							}
+						}
+					}
+					tstContnt = String.Empty;
+
+					// Read the version numbers for use next time
+					XmlDocument TheXmlDocument = new();
+					TheXmlDocument.Load(verFile.FilePathAndName);
+
+					if (TheXmlDocument != null)
+					{
+						switch (osType)
+						{
+							case OsType.android:
+								{
+									XmlNodeList list = TheXmlDocument.GetElementsByTagName("manifest");
+
+									if (list.Count > 0)
+									{
+										XmlNode node = list[0];
+										XmlAttribute attr = node.Attributes["android:versionCode"];
+										if (attr != null)
+										{
+											attr.Value =
+												BuildNumber.ToString();
+
+											attr = node.Attributes["android:versionName"];
+											if (attr != null)
+											{
+												attr.Value =
+													VersionMajor.ToString() + '.' + VersionMinor.ToString();
+												try
+												{
+													TheXmlDocument.Save(verFile.FilePathAndName);
+													AllRight = true;
+												}
+												catch (Exception e)
+												{
+													AllRight = false;
+													_ = await VS.MessageBox.ShowAsync
+														(
+															"Error writing to " + verFile.FilePathAndName
+															, e.ToString()
+															, OLEMSGICON.OLEMSGICON_CRITICAL
+															, OLEMSGBUTTON.OLEMSGBUTTON_OK
+														).ConfigureAwait(true);
+												}
+											}
+										}
+									}
+									break;
+								}
+							case OsType.uwp:
+								{
+									XmlNodeList list = TheXmlDocument.GetElementsByTagName("manifest");
+
+									if (list.Count > 0)
+									{
+										XmlNode node = list[0];
+										XmlAttribute attr = node.Attributes["Version"];
+										if (attr != null)
+										{
+											attr.Value =
+												VersionMajor.ToString()
+												+ '.'
+												+ VersionMinor.ToString()
+												+ '.'
+												+ BuildNumber.ToString()
+												+ '.'
+												+ RevisionNumber.ToString();
+
+											try
+											{
+												TheXmlDocument.Save(verFile.FilePathAndName);
+												AllRight = true;
+											}
+											catch (Exception e)
+											{
+												AllRight = false;
+												_ = await VS.MessageBox.ShowAsync
+													(
+														"Error writing to " + verFile.FilePathAndName
+														, e.ToString()
+														, OLEMSGICON.OLEMSGICON_CRITICAL
+														, OLEMSGBUTTON.OLEMSGBUTTON_OK
+													).ConfigureAwait(true);
+											}
+										}
+									}
+									break;
+								}
+							case OsType.tizen:
+								{
+									XmlNodeList list = TheXmlDocument.GetElementsByTagName("manifest");
+
+									if (list.Count > 0)
+									{
+										XmlNode node = list[0];
+										XmlAttribute attr = node.Attributes["version"];
+										if (attr != null)
+										{
+											attr.Value =
+												VersionMajor.ToString()
+												+ '.'
+												+ VersionMinor.ToString()
+												+ '.'
+												+ BuildNumber.ToString()
+												+ '.'
+												+ RevisionNumber.ToString();
+
+											try
+											{
+												TheXmlDocument.Save(verFile.FilePathAndName);
+												AllRight = true;
+											}
+											catch (Exception e)
+											{
+												AllRight = false;
+												_ = await VS.MessageBox.ShowAsync
+													(
+														"Error writing to " + verFile.FilePathAndName
+														, e.ToString()
+														, OLEMSGICON.OLEMSGICON_CRITICAL
+														, OLEMSGBUTTON.OLEMSGBUTTON_OK
+													).ConfigureAwait(true);
+											}
+										}
+									}
+									break;
+								}
+						}
+					}
+
+				}
+				if (!AllRight)
+				{
+					AllRight = false;
+					_ = await VS.MessageBox.ShowAsync
+						(
+							"Could not find \"versionCode\" and/or \"versionName\" in file "
+							, verFile.FilePathAndName
+							, OLEMSGICON.OLEMSGICON_CRITICAL
+							, OLEMSGBUTTON.OLEMSGBUTTON_OK
+						).ConfigureAwait(true);
+				}
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+				AllRight = false;
+				_ = await VS.MessageBox.ShowAsync
+					(
+						"Error: "
+						, e.ToString()
+						, OLEMSGICON.OLEMSGICON_CRITICAL
+						, OLEMSGBUTTON.OLEMSGBUTTON_OK
+					).ConfigureAwait(true);
+			}
+			finally { }
+
+			return AllRight;
+		}
+
+
+		//private async System.Threading.Tasks.Task<bool> SetVersionNumbersInManifestXmlFilesAsync(VersionFilePathAndType verFile)
+		//{
+		//	bool AllRight = true;
+
+		//	try
+		//	{
+		//		if (System.IO.File.Exists(verFile.FilePathAndName))
+		//		{
+		//			// Read the version numbers for use next time
+		//			XDocument TheXDocument =
+		//				ReadFromXmlFile(verFile.FilePathAndName);
+
+		//			if (TheXDocument != null)
+		//			{
+		//				bool versionCodeFound = false;
+		//				bool versionNameFound = false;
+
+		//				XElement element = TheXDocument.Descendants("manifest").Single();
+
+		//				IEnumerable<XAttribute> XAttributesList = TheXDocument.Descendants("manifest").Single().Attributes();
+
+		//				using (IEnumerator<XAttribute> sequenceEnum = XAttributesList.GetEnumerator())
+		//				{
+		//					while (sequenceEnum.MoveNext())
+		//					{
+		//						// Do something with sequenceEnum.Current.
+		//						switch (sequenceEnum.Current.Name.LocalName)
+		//						{
+		//							case "versionCode":
+		//								{
+		//									sequenceEnum.Current.Value = BuildNumber.ToString();
+		//									versionCodeFound = true;
+		//									break;
+		//								}
+		//							case "versionName":
+		//								{
+		//									sequenceEnum.Current.Value = VersionMajor.ToString() + '.' + VersionMinor.ToString();
+		//									versionNameFound = true;
+		//									break;
+		//								}
+		//						}
+		//					}
+		//				}
+		//				if (versionCodeFound && versionNameFound)
+		//				{
+		//					if (!WriteToXmlFile(verFile.FilePathAndName, TheXDocument))
+		//					{
+		//						AllRight = false;
+		//						_ = await VS.MessageBox.ShowAsync("Error writing to", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					AllRight = false;
+		//					_ = await VS.MessageBox.ShowAsync("Could not find \"versionCode\" and/or \"versionName\" in file ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//				}
+		//			}
+		//			else
+		//			{
+		//				AllRight = false;
+		//				_ = await VS.MessageBox.ShowAsync("Invalid \".xml\" file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			AllRight = false;
+		//			_ = await VS.MessageBox.ShowAsync("File not found: ", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//		AllRight = false;
+		//		_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//	}
+		//	finally { }
+
+		//	return AllRight;
+		//}
+
+		//private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_vixmanifest_FilesAsync(VersionFilePathAndType verFile)
+		//{
+		//	bool AllRight = false;
+
+		//	try
+		//	{
+		//		if (System.IO.File.Exists(verFile.FilePathAndName))
+		//		{
+		//			// Read the version numbers for use next time
+		//			XmlDocument TheXmlDocument = new();
+		//			TheXmlDocument.Load(verFile.FilePathAndName);
+
+		//			if (TheXmlDocument != null)
+		//			{
+		//				XmlNodeList list = TheXmlDocument.GetElementsByTagName("Identity");
+
+		//				if (list.Count > 0)
+		//				{
+		//					XmlNode node = list[0];
+		//					XmlAttribute attr = node.Attributes["Version"];
+		//					if (attr != null)
+		//					{
+		//						attr.Value =
+		//							VersionMajor.ToString() + '.' + VersionMinor.ToString();
+		//						try
+		//						{
+		//							TheXmlDocument.Save(verFile.FilePathAndName);
+		//							AllRight = true;
+		//						}
+		//						catch (Exception e)
+		//						{
+		//							AllRight = false;
+		//							_ = await VS.MessageBox.ShowAsync
+		//								(
+		//									"Error writing to " + verFile.FilePathAndName
+		//									, e.ToString()
+		//									, OLEMSGICON.OLEMSGICON_CRITICAL
+		//									, OLEMSGBUTTON.OLEMSGBUTTON_OK
+		//								).ConfigureAwait(true);
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
+		//		if (!AllRight)
+		//		{
+		//			AllRight = false;
+		//			_ = await VS.MessageBox.ShowAsync
+		//				(
+		//					"Could not find \"Version\" in file "
+		//					, verFile.FilePathAndName
+		//					, OLEMSGICON.OLEMSGICON_CRITICAL
+		//					, OLEMSGBUTTON.OLEMSGBUTTON_OK
+		//				).ConfigureAwait(true);
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//		AllRight = false;
+		//		_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//	}
+		//	finally { }
+
+		//	return AllRight;
+		//}
 
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInInfoplistFilesAsync(VersionFilePathAndType verFile)
 		{
-			bool RetVal = true;
+			bool AllRight = true;
 
 			try
 			{
@@ -653,100 +914,100 @@ namespace SetGlobalVersion
 							}
 							else
 							{
-								RetVal = false;
+								AllRight = false;
 								_ = await VS.MessageBox.ShowAsync("Error finding \"CFBundleShortVersionString\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 							}
 						}
 						else
 						{
-							RetVal = false;
+							AllRight = false;
 							_ = await VS.MessageBox.ShowAsync("Error finding \"CFBundleVersion\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 						}
 					}
 				}
 				else
 				{
-					RetVal = false;
+					AllRight = false;
 					_ = await VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 				}
 			}
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				RetVal = false;
+				AllRight = false;
 				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
-			return RetVal;
+			return AllRight;
 		}
 
 
-		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInAppxmanifestFilesAsync(VersionFilePathAndType verFile)
-		{
-			bool RetVal = true;
+		//private async System.Threading.Tasks.Task<bool> SetVersionNumbersInAppxmanifestFilesAsync(VersionFilePathAndType verFile)
+		//{
+		//	bool AllRight = true;
 
-			try
-			{
-				if (System.IO.File.Exists(verFile.FilePathAndName))
-				{
-					string theAppxmanifest = System.IO.File.ReadAllText(verFile.FilePathAndName);
-					if (theAppxmanifest != "Error")
-					{
-						// Version
-						int indexOfPublisherAttribute = theAppxmanifest.IndexOf("Publisher");
-						int indexOfVersionAttribute = theAppxmanifest.IndexOf("Version", indexOfPublisherAttribute);
-						int indexOfVersion = theAppxmanifest.IndexOf('"', indexOfVersionAttribute) + 1;
-						int indexOfVersionEnd = theAppxmanifest.IndexOf('"', indexOfVersion);
-						if ((indexOfPublisherAttribute >= 0) && (indexOfVersionAttribute >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
-						{
-							int VersionLength = indexOfVersionEnd - indexOfVersion;
-							string newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString() + '.' + BuildNumber.ToString() + ".0"; // Revision must be 0 (used be Microsoft store)
-							theAppxmanifest = theAppxmanifest.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
+		//	try
+		//	{
+		//		if (System.IO.File.Exists(verFile.FilePathAndName))
+		//		{
+		//			string theAppxmanifest = System.IO.File.ReadAllText(verFile.FilePathAndName);
+		//			if (theAppxmanifest != "Error")
+		//			{
+		//				// Version
+		//				int indexOfPublisherAttribute = theAppxmanifest.IndexOf("Publisher");
+		//				int indexOfVersionAttribute = theAppxmanifest.IndexOf("Version", indexOfPublisherAttribute);
+		//				int indexOfVersion = theAppxmanifest.IndexOf('"', indexOfVersionAttribute) + 1;
+		//				int indexOfVersionEnd = theAppxmanifest.IndexOf('"', indexOfVersion);
+		//				if ((indexOfPublisherAttribute >= 0) && (indexOfVersionAttribute >= 0) && (indexOfVersion >= 0) && (indexOfVersionEnd >= 0))
+		//				{
+		//					int VersionLength = indexOfVersionEnd - indexOfVersion;
+		//					string newVersion = VersionMajor.ToString() + '.' + VersionMinor.ToString() + '.' + BuildNumber.ToString() + ".0"; // Revision must be 0 (used be Microsoft store)
+		//					theAppxmanifest = theAppxmanifest.Remove(indexOfVersion, VersionLength).Insert(indexOfVersion, newVersion);
 
-							// Publisher
-							int indexOfPublisher = theAppxmanifest.IndexOf('"', indexOfPublisherAttribute) + 1;
-							int indexOfPublisherEnd = theAppxmanifest.IndexOf('"', indexOfPublisher);
-							if ((indexOfPublisher >= 0) && (indexOfPublisherEnd >= 0))
-							{
-								int PublisherLength = indexOfPublisherEnd - indexOfPublisher;
-								theAppxmanifest = theAppxmanifest.Remove(indexOfPublisher, PublisherLength).Insert(indexOfPublisher, "CN=Eigil Krogh Sorensen");
+		//					// Publisher
+		//					int indexOfPublisher = theAppxmanifest.IndexOf('"', indexOfPublisherAttribute) + 1;
+		//					int indexOfPublisherEnd = theAppxmanifest.IndexOf('"', indexOfPublisher);
+		//					if ((indexOfPublisher >= 0) && (indexOfPublisherEnd >= 0))
+		//					{
+		//						int PublisherLength = indexOfPublisherEnd - indexOfPublisher;
+		//						theAppxmanifest = theAppxmanifest.Remove(indexOfPublisher, PublisherLength).Insert(indexOfPublisher, "CN=Eigil Krogh Sorensen");
 
-								System.IO.File.WriteAllText(verFile.FilePathAndName, theAppxmanifest);
-							}
-							else
-							{
-								RetVal = false;
-								_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-							}
-						}
-						else
-						{
-							RetVal = false;
-							_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-						}
-					}
-					else
-					{
-						RetVal = false;
-						_ = await VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				RetVal = false;
-				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-			}
-			finally { }
+		//						System.IO.File.WriteAllText(verFile.FilePathAndName, theAppxmanifest);
+		//					}
+		//					else
+		//					{
+		//						AllRight = false;
+		//						_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Publisher\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					AllRight = false;
+		//					_ = await VS.MessageBox.ShowAsync("Error finding \"Index Of Version\" in file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//				}
+		//			}
+		//			else
+		//			{
+		//				AllRight = false;
+		//				_ = await VS.MessageBox.ShowAsync("Error reading file", verFile.FilePathAndName, OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//			}
+		//		}
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+		//		AllRight = false;
+		//		_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+		//	}
+		//	finally { }
 
-			return RetVal;
-		}
+		//	return AllRight;
+		//}
 
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInAssemblyinfo_cs_FilesAsync(VersionFilePathAndType verFile)
 		{
-			bool RetVal = true;
+			bool AllRight = true;
 
 			try
 			{
@@ -783,12 +1044,12 @@ namespace SetGlobalVersion
 			catch (Exception e)
 			{
 				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
-				RetVal = false;
+				AllRight = false;
 				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 			finally { }
 
-			return RetVal;
+			return AllRight;
 		}
 
 		private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -911,7 +1172,9 @@ namespace SetGlobalVersion
 							}
 						case FilesContainingVersionTypes.appxmanifest:
 							{
-								HandleResOK &= await SetVersionNumbersInAppxmanifestFilesAsync(FPAN);
+								HandleResOK &= await SetVersionNumbersIn_manifest_FilesAsync(FPAN);
+
+								//HandleResOK &= await SetVersionNumbersInAppxmanifestFilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.manifestxml:
