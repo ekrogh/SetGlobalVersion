@@ -18,7 +18,7 @@ namespace SetGlobalVersion.Helpers
 
 		public static string PathToSolutionFolder { get; set; } = "";
 		public static string PathToMajorMinorBuildRevisionNumbersXmlFile = "";
-		public static Community.VisualStudio.Toolkit.Project MajorMinorBuildRevisionNumbersxmlContainingProject = null;
+		public static dynamic MajorMinorBuildRevisionNumbersxmlContainingProject = null;
 		public static bool MajorMinorBuildRevisionNumbersxmlExistsInProject = false;
 		public static string NameOfMajorMinorBuildRevisionNumbersXmlFile { get; set; } = "";
 		public static string PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = "";
@@ -90,7 +90,6 @@ namespace SetGlobalVersion.Helpers
 
 			PathToSolutionFolder = "";
 			PathToMajorMinorBuildRevisionNumbersXmlFile = "";
-			MajorMinorBuildRevisionNumbersxmlContainingProject = null;
 			MajorMinorBuildRevisionNumbersxmlExistsInProject = false;
 			NameOfMajorMinorBuildRevisionNumbersXmlFile = "";
 			PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = "";
@@ -404,85 +403,105 @@ namespace SetGlobalVersion.Helpers
 
 			try
 			{
-				TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
-
-				if (TheSolution != null)
+				if (await VS.Solutions.IsOpenAsync())
 				{
-					_dte = await VS.GetServiceAsync<DTE, DTE2>().ConfigureAwait(true);
+					TheSolution = await VS.Solutions.GetCurrentSolutionAsync().ConfigureAwait(true);
 
-					// Sln folder
-					PathToSolutionFolder = Path.GetDirectoryName(TheSolution.FullPath);
+					if (TheSolution != null)
+					{
+						_dte = await VS.GetServiceAsync<DTE, DTE2>().ConfigureAwait(true);
+
+						// Sln folder
+						PathToSolutionFolder = Path.GetDirectoryName(TheSolution.FullPath);
 
 
-					// MajorMinorBuildRevisionNumbers.xml
+						// MajorMinorBuildRevisionNumbers.xml
 
-					// Does it exist in a projectItem ?
-					ProjectItem docItem =
-						_dte.Solution.FindProjectItem
-							(
-								"MajorMinorBuildRevisionNumbers.xml"
-							);
-					if (docItem != null)
-					{ // It exists
-						(
-							bool success
-							, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
-							, MajorMinorBuildRevisionNumbersxmlContainingProject
-						) =
-							await SearchFileInProjectAsync
-							(
-								TheSolution.Children
-								,
-								"MajorMinorBuildRevisionNumbers.xml"
-							);
-						if
-						(
-							success
-							&&
-							(
-								PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile !=
-								String.Empty
-							)
-						)
-						{
-							MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
-							MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
-
-							if (!await CheckOutFromSourceControlAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
+						// Does it exist in a projectItem ?
+						ProjectItem docItem =
+							_dte.Solution.FindProjectItem
+								(
+									"MajorMinorBuildRevisionNumbers.xml"
+								);
+						if (docItem != null)
+						{ // It exists
+							string flpth = String.Empty;
+							for (Int16 idx = 1; idx <= docItem.FileCount; idx++)
 							{
-								return false;
+								flpth = docItem.FileNames[idx];
+								if (flpth.IndexOf("MajorMinorBuildRevisionNumbers.xml", StringComparison.OrdinalIgnoreCase) != -1)
+								{
+									PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = flpth;
+									MajorMinorBuildRevisionNumbersxmlContainingProject = docItem.ContainingProject;
+									MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
+									MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
+									break;
+								}
+							}
+							if (!MajorMinorBuildRevisionNumbersXmlFileExistedAtStart
+								|| !MajorMinorBuildRevisionNumbersxmlExistsInProject)
+							{
+								//find Community.VisualStudio.Toolkit.Project
+								(
+									bool success
+									, PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile
+								)
+								= await SearchFileInProjectAsync
+									(
+										TheSolution.Children
+										,
+										"MajorMinorBuildRevisionNumbers.xml"
+									);
+								if
+								(
+									success
+									&&
+									(
+										PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile !=
+										String.Empty
+									)
+								)
+								{
+									MajorMinorBuildRevisionNumbersXmlFileExistedAtStart = true;
+									MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
+
+									if (!await CheckOutFromSourceControlAsync(PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile))
+									{
+										return false;
+									}
+								}
 							}
 						}
-					}
 
-					// Search in projects
-					IEnumerable<SolutionItem> SLNItems =
-						TheSolution.Children.Where
-						(
-								x =>
-								x.Type == SolutionItemType.Project
-							|| x.Type == SolutionItemType.PhysicalFile
-							|| x.Type == SolutionItemType.PhysicalFolder
-							|| x.Type == SolutionItemType.MiscProject
-							|| x.Type == SolutionItemType.VirtualProject
-							|| x.Type == SolutionItemType.Solution
-							|| x.Type == SolutionItemType.SolutionFolder
-							|| x.Type == SolutionItemType.Unknown
-							|| x.Type == SolutionItemType.VirtualFolder
-						);
+						// Search in projects
+						IEnumerable<SolutionItem> SLNItems =
+							TheSolution.Children.Where
+							(
+									x =>
+									x.Type == SolutionItemType.Project
+								|| x.Type == SolutionItemType.PhysicalFile
+								|| x.Type == SolutionItemType.PhysicalFolder
+								|| x.Type == SolutionItemType.MiscProject
+								|| x.Type == SolutionItemType.VirtualProject
+								|| x.Type == SolutionItemType.Solution
+								|| x.Type == SolutionItemType.SolutionFolder
+								|| x.Type == SolutionItemType.Unknown
+								|| x.Type == SolutionItemType.VirtualFolder
+							);
 
-					if (SLNItems.Any())
-					{
-						FoundVersionContainingFileInProject = false;
-						VersionContainingProjectFileFound = false;
-
-						ResultToReturn =
-							await SearchProjectFilesContainingVersionAsync(SLNItems);
-
-						if (ResultToReturn)
+						if (SLNItems.Any())
 						{
-							await CheckForProjTypesNotSupportedAsync(SLNItems);
-							ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
+							FoundVersionContainingFileInProject = false;
+							VersionContainingProjectFileFound = false;
+
+							ResultToReturn =
+								await SearchProjectFilesContainingVersionAsync(SLNItems);
+
+							if (ResultToReturn)
+							{
+								await CheckForProjTypesNotSupportedAsync(SLNItems);
+								ResultToReturn = await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
+							}
 						}
 					}
 				}
@@ -571,7 +590,6 @@ namespace SetGlobalVersion.Helpers
 						)).ToArray();
 
 				PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = refMajorMinorBuildRevisionNumbersXmlFile[0].FullPath;
-				MajorMinorBuildRevisionNumbersxmlContainingProject = refMajorMinorBuildRevisionNumbersXmlFile[0].ContainingProject;
 
 				MajorMinorBuildRevisionNumbersxmlExistsInProject = true;
 
@@ -615,7 +633,7 @@ namespace SetGlobalVersion.Helpers
 		}
 
 
-		public static async Task<(bool success, string filePathAndName, Community.VisualStudio.Toolkit.Project containingProject)>
+		public static async Task<(bool success, string filePathAndName)>
 			SearchFileInProjectAsync
 			(
 				IEnumerable<SolutionItem> projChldrn
@@ -625,38 +643,31 @@ namespace SetGlobalVersion.Helpers
 			)
 		{
 			string filePathAndName = "";
-			Community.VisualStudio.Toolkit.Project containingProject = null;
 
 			try
 			{
-				foreach
-					(
-						PhysicalFile pf in projChldrn.Where
-						(
-							x => x.Type == SolutionItemType.PhysicalFile
-						)
-					)
+				foreach (SolutionItem SLI in projChldrn)
 				{
-					if (pf.Name.ToLower().Contains(fileName.ToLower()))
+					if ((SLI.Name != null) && (SLI.Name.ToLower().Contains(fileName.ToLower())))
 					{
-						filePathAndName = pf.FullPath;
-						containingProject = pf.ContainingProject;
-						return (true, filePathAndName, containingProject);
+						filePathAndName = SLI.FullPath;
+						return (true, filePathAndName);
 					}
-				}
-				// Not found ..Try children
-				foreach (SolutionItem chld in projChldrn)
-				{
-					(bool success, filePathAndName, containingProject) =
-						await SearchFileInProjectAsync
+
+					// Not found ..Try children
+					if (SLI.Children.Count<SolutionItem>() > 0)
+					{
+						(bool success, filePathAndName) =
+								await SearchFileInProjectAsync
 								(
-									chld.Children
+									SLI.Children
 									,
 									fileName
 								);
-					if (success)
-					{
-						return (true, filePathAndName, containingProject);
+						if (success)
+						{
+							return (true, filePathAndName);
+						}
 					}
 				}
 			}
@@ -667,8 +678,7 @@ namespace SetGlobalVersion.Helpers
 
 			// Not found
 			filePathAndName = "";
-			containingProject = null;
-			return (true, filePathAndName, containingProject);
+			return (false, filePathAndName);
 		}
 	}
 }

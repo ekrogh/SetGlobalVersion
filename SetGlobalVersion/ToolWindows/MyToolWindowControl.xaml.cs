@@ -113,6 +113,11 @@ namespace SetGlobalVersion
 			{
 				await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
+				if (!await VS.Solutions.IsOpenAsync())
+				{
+					return;
+				}
+
 				CleanUp();
 
 
