@@ -221,47 +221,47 @@ namespace SetGlobalVersion.Helpers
 			return VersionContainingProjectFileFound;
 		}
 
-		public static async Task<OsType> FindOsType(string FullPath)
+		public static Task<OsType> FindOsTypeAsync(string FullPath)
 		{
 			string tstContnt = File.ReadAllText(FullPath).ToLower();
 
 			if (tstContnt.Contains("android"))
 			{
-				return OsType.android;
+				return System.Threading.Tasks.Task.FromResult(OsType.android);
 			}
 			else
 			{
 				if (tstContnt.Contains("gtk"))
 				{
-					return OsType.gtk;
+					return System.Threading.Tasks.Task.FromResult(OsType.gtk);
 				}
 				else
 				{
 					if (tstContnt.Contains("ios"))
 					{
-						return OsType.ios;
+						return System.Threading.Tasks.Task.FromResult(OsType.ios);
 					}
 					else
 					{
 						if (tstContnt.Contains("macos"))
 						{
-							return OsType.macos;
+							return System.Threading.Tasks.Task.FromResult(OsType.macos);
 						}
 						else
 						{
 							if (tstContnt.Contains("windows.universal") || tstContnt.Contains("uwp"))
 							{
-								return OsType.uwp;
+								return System.Threading.Tasks.Task.FromResult(OsType.uwp);
 							}
 							else
 							{
 								if (tstContnt.Contains("tizen"))
 								{
-									return OsType.tizen;
+									return System.Threading.Tasks.Task.FromResult(OsType.tizen);
 								}
 								else
 								{
-									return OsType.unknown;
+									return System.Threading.Tasks.Task.FromResult(OsType.unknown);
 								}
 							}
 						}

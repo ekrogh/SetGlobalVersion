@@ -514,7 +514,7 @@ namespace SetGlobalVersion
 			{
 				if (System.IO.File.Exists(verFile.FilePathAndName))
 				{
-					osType = await FindOsType(verFile.FilePathAndName).ConfigureAwait(true);
+					osType = await FindOsTypeAsync(verFile.FilePathAndName).ConfigureAwait(true);
 
 					// Read the version numbers for use next time
 					XmlDocument TheXmlDocument = new();
