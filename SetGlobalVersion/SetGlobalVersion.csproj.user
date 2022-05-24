@@ -17,6 +17,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <StartArguments>/ResetSkipPkgs /rootsuffix Exp</StartArguments>
+    <StartArguments>"D:\Users\eigil\projects\xamarinProjs\Tizen_Experiments_Branch_TimeDateCalculator\Tizen_Experiments_Branch_TimeDateCalculator.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
   </PropertyGroup>
 </Project>

@@ -105,14 +105,14 @@ namespace SetGlobalVersion.Helpers
 			{
 				VersionFilePathAndType VFPT = new()
 				{
-					FilePathAndName = "Not supported type"
+					FilePathAndName = "-"
 					,
 					FileType = FilesContainingVersionTypes.notsupported
 				};
 
-				foreach (var SLNItem in SLNItems.Where(x => x.Name != null))
+				foreach (var SLNItem in SLNItems)
 				{
-					if (SLNItem.Type.ToString() == "Project")
+					if ((SLNItem.Name != null) && (SLNItem.Type.ToString() == "Project"))
 					{
 						if (ProjsWithVersionFiles.IndexOfKey(SLNItem.Name) < 0)
 						{
@@ -122,12 +122,27 @@ namespace SetGlobalVersion.Helpers
 						}
 					}
 
-					// Search children
-					if (SLNItem.Children.Count<SolutionItem>() > 0)
+					try
 					{
-						await CheckForProjTypesNotSupportedAsync(SLNItem.Children);
+						// Search children
+						if (SLNItem.Children.Count() > 0)
+						{
+							await CheckForProjTypesNotSupportedAsync(SLNItem.Children);
+						}
 					}
-
+					catch (Exception)
+					{
+						if (SLNItem.Name != null)
+						{
+							_ = await VS.MessageBox.ShowAsync
+								(
+									SLNItem.Name
+									, "Is Broken"
+									, OLEMSGICON.OLEMSGICON_WARNING
+									, OLEMSGBUTTON.OLEMSGBUTTON_OK
+								);
+						}
+					}
 				}
 			}
 			catch (Exception e)
@@ -268,11 +283,11 @@ namespace SetGlobalVersion.Helpers
 			{
 				FoundVersionContainingFileInProject = false;
 
-				foreach (SolutionItem SLNItem in SLNItems.Where(x => x.Name != null))
+				foreach (SolutionItem SLNItem in SLNItems)
 				{
 					FoundInThisSolitm = false;
 
-					if (SLNItem.Type.ToString() == "PhysicalFile")
+					if ((SLNItem.Name != null) && (SLNItem.Type.ToString() == "PhysicalFile"))
 					{
 						foreach (string str in stringsToSearchFor)
 						{
@@ -376,11 +391,29 @@ namespace SetGlobalVersion.Helpers
 
 					VersionContainingProjectFileFound |= FoundVersionContainingFileInProject;
 
-					// Search children
-					if (SLNItem.Children.Count<SolutionItem>() > 0)
+
+					try
 					{
-						_ = SearchProjectFilesContainingVersionAsync(SLNItem.Children);
+						// Search children
+						if (SLNItem.Children.Count() > 0)
+						{
+							_ = SearchProjectFilesContainingVersionAsync(SLNItem.Children);
+						}
 					}
+					catch (Exception)
+					{
+						if (SLNItem.Name != null)
+						{
+							_ = await VS.MessageBox.ShowAsync
+								(
+									SLNItem.Name
+									, "Is Broken"
+									, OLEMSGICON.OLEMSGICON_WARNING
+									, OLEMSGBUTTON.OLEMSGBUTTON_OK
+								);
+						}
+					}
+
 				}
 			}
 			catch (Exception e)
@@ -474,20 +507,7 @@ namespace SetGlobalVersion.Helpers
 						}
 
 						// Search in projects
-						IEnumerable<SolutionItem> SLNItems =
-							TheSolution.Children.Where
-							(
-									x =>
-									x.Type == SolutionItemType.Project
-								|| x.Type == SolutionItemType.PhysicalFile
-								|| x.Type == SolutionItemType.PhysicalFolder
-								|| x.Type == SolutionItemType.MiscProject
-								|| x.Type == SolutionItemType.VirtualProject
-								|| x.Type == SolutionItemType.Solution
-								|| x.Type == SolutionItemType.SolutionFolder
-								|| x.Type == SolutionItemType.Unknown
-								|| x.Type == SolutionItemType.VirtualFolder
-							);
+						IEnumerable<SolutionItem> SLNItems = TheSolution.Children;
 
 						if (SLNItems.Any())
 						{
@@ -655,20 +675,37 @@ namespace SetGlobalVersion.Helpers
 					}
 
 					// Not found ..Try children
-					if (SLI.Children.Count<SolutionItem>() > 0)
+					try
 					{
-						(bool success, filePathAndName) =
-								await SearchFileInProjectAsync
-								(
-									SLI.Children
-									,
-									fileName
-								);
-						if (success)
+						if (SLI.Children.Count() > 0)
 						{
-							return (true, filePathAndName);
+							(bool success, filePathAndName) =
+									await SearchFileInProjectAsync
+									(
+										SLI.Children
+										,
+										fileName
+									);
+							if (success)
+							{
+								return (true, filePathAndName);
+							}
 						}
 					}
+					catch (Exception)
+					{
+						if (SLI.Name != null)
+						{
+							_ = await VS.MessageBox.ShowAsync
+								(
+									SLI.Name
+									, "Is Broken"
+									, OLEMSGICON.OLEMSGICON_WARNING
+									, OLEMSGBUTTON.OLEMSGBUTTON_OK
+								);
+						}
+					}
+
 				}
 			}
 			catch (Exception e)
