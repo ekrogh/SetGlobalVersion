@@ -291,7 +291,7 @@ namespace SetGlobalVersion.Helpers
 					{
 						foreach (string str in stringsToSearchFor)
 						{
-							if (SLNItem.Name.ToLower().Contains(str))
+							if (SLNItem.Name.EndsWith(str, StringComparison.OrdinalIgnoreCase))
 							{
 								pathAndFile = SLNItem.FullPath;
 								switch (str)
@@ -462,7 +462,11 @@ namespace SetGlobalVersion.Helpers
 							for (Int16 idx = 1; idx <= docItem.FileCount; idx++)
 							{
 								flpth = docItem.FileNames[idx];
-								if (flpth.IndexOf("MajorMinorBuildRevisionNumbers.xml", StringComparison.OrdinalIgnoreCase) != -1)
+								if
+								(
+									flpth.IndexOf("MajorMinorBuildRevisionNumbers.xml"
+									, StringComparison.OrdinalIgnoreCase) != -1
+								)
 								{
 									PathToAndNameOfMajorMinorBuildRevisionNumbersXmlFile = flpth;
 									MajorMinorBuildRevisionNumbersxmlContainingProject = docItem.ContainingProject;
@@ -668,7 +672,15 @@ namespace SetGlobalVersion.Helpers
 			{
 				foreach (SolutionItem SLI in projChldrn)
 				{
-					if ((SLI.Name != null) && (SLI.Name.ToLower().Contains(fileName.ToLower())))
+					if
+					(
+						(SLI.Name != null)
+						&& (SLI.Name.EndsWith
+								(
+									fileName, StringComparison.OrdinalIgnoreCase
+								)
+							)
+					)
 					{
 						filePathAndName = SLI.FullPath;
 						return (true, filePathAndName);

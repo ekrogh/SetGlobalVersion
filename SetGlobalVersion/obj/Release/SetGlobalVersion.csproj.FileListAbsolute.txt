@@ -29,3 +29,4 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\SetGl
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\extension.vsixmanifest
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\files.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\createTemplateManifests.cache
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Release\_EmptyResource.resources.original
