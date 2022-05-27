@@ -439,44 +439,61 @@ namespace SetGlobalVersion
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_manifest_FilesAsync(VersionFilePathAndType verFile)
 		{
 			bool AllRight = false;
+			OsType osType = OsType.unknown;
 
 			try
 			{
 				if (System.IO.File.Exists(verFile.FilePathAndName))
 				{
+					osType = await FindOsTypeAsync(verFile.FilePathAndName).ConfigureAwait(true);
+
 					// Read the version numbers for use next time
 					XmlDocument TheXmlDocument = new();
 					TheXmlDocument.Load(verFile.FilePathAndName);
 
 					if (TheXmlDocument != null)
 					{
-						XmlNodeList list = TheXmlDocument.GetElementsByTagName("Identity");
-
-						if (list.Count > 0)
+						switch (osType)
 						{
-							XmlNode node = list[0];
-							XmlAttribute attr = node.Attributes["Version"];
-							if (attr != null)
-							{
-								attr.Value =
-									VersionMajor.ToString() + '.' + VersionMinor.ToString();
-								try
+							case OsType.uwp:
 								{
-									TheXmlDocument.Save(verFile.FilePathAndName);
-									AllRight = true;
+
+									XmlNodeList list = TheXmlDocument.GetElementsByTagName("Identity");
+
+									if (list.Count > 0)
+									{
+										XmlNode node = list[0];
+										XmlAttribute attr = node.Attributes["Version"];
+										if (attr != null)
+										{
+											attr.Value =
+												VersionMajor.ToString()
+												+ '.'
+												+ VersionMinor.ToString()
+												+ '.'
+												+ BuildNumber.ToString()
+												+ '.'
+												+ '0';
+											try
+											{
+												TheXmlDocument.Save(verFile.FilePathAndName);
+												AllRight = true;
+											}
+											catch (Exception e)
+											{
+												AllRight = false;
+												_ = await VS.MessageBox.ShowAsync
+													(
+														"Error writing to " + verFile.FilePathAndName
+														, e.ToString()
+														, OLEMSGICON.OLEMSGICON_CRITICAL
+														, OLEMSGBUTTON.OLEMSGBUTTON_OK
+													).ConfigureAwait(true);
+											}
+										}
+									}
+									break;
 								}
-								catch (Exception e)
-								{
-									AllRight = false;
-									_ = await VS.MessageBox.ShowAsync
-										(
-											"Error writing to " + verFile.FilePathAndName
-											, e.ToString()
-											, OLEMSGICON.OLEMSGICON_CRITICAL
-											, OLEMSGBUTTON.OLEMSGBUTTON_OK
-										).ConfigureAwait(true);
-								}
-							}
 						}
 					}
 				}
@@ -573,8 +590,7 @@ namespace SetGlobalVersion
 												+ VersionMinor.ToString()
 												+ '.'
 												+ BuildNumber.ToString()
-												+ '.'
-												+ RevisionNumber.ToString();
+												+ ".0";
 
 											try
 											{
