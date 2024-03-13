@@ -14,11 +14,8 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlob
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\_EmptyResource.resources
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.csproj.GenerateResource.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\VSCommandTable.cto
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\VSCT.read.1.tlog
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\VSCT.write.1.tlog
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\resources.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\ctoFiles.json
-D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\_EmptyResource.resources.original
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\mergeCto.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.GeneratedMSBuildEditorConfig.editorconfig
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlobalVersion.csproj.CoreCompileInputs.cache
@@ -29,3 +26,4 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGlob
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\extension.vsixmanifest
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\files.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\createTemplateManifests.cache
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\extension.vsixmanifest
