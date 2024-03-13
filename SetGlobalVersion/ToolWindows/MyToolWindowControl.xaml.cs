@@ -862,6 +862,7 @@ namespace SetGlobalVersion
 									//+ '.'
 									//+ RevisionNumber.ToString()
 									;
+
 							}
 
 							attr = nodePropertyGroup.Attributes["Version"];
