@@ -42,6 +42,8 @@ namespace SetGlobalVersion.Helpers
 			,
 			Assemblyinfo_cs
 			,
+			projcsproj
+			,
 			notsupported
 			//,
 			//vsixmanifest
@@ -70,6 +72,7 @@ namespace SetGlobalVersion.Helpers
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
 		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
+		private const string scsproj = $"csproj";
 		//private const string svsixmanifest = $"vsixmanifest";
 
 		private static readonly string[] stringsToSearchFor =
@@ -78,6 +81,7 @@ namespace SetGlobalVersion.Helpers
 				, sappxmanifest
 				, smanifestxml
 				, sAssemblyinfo_cs
+				, scsproj
 				//, svsixmanifest
 			};
 
@@ -186,9 +190,11 @@ namespace SetGlobalVersion.Helpers
 
 		static async Task<bool> CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
 		(
-				SolutionItem proj
-			, string pathAndFile
-			, FilesContainingVersionTypes fileType
+			SolutionItem proj
+			,
+			string pathAndFile
+			,
+			FilesContainingVersionTypes fileType
 		)
 		{
 			bool VersionContainingProjectFileFound = false;
@@ -373,6 +379,22 @@ namespace SetGlobalVersion.Helpers
 														SLNItem
 														, SLNItem.FullPath
 														, fileType
+													);
+
+											break;
+										}
+									case scsproj:
+										{
+											fileType = FilesContainingVersionTypes.projcsproj;
+
+											FoundVersionContainingFileInProject |= FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														SLNItem
+														,
+														SLNItem.FullPath
+														,
+														fileType
 													);
 
 											break;

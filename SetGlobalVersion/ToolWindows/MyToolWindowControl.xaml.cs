@@ -829,6 +829,112 @@ namespace SetGlobalVersion
 			return AllRight;
 		}
 
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInProjCsproj_FilesAsync(VersionFilePathAndType verFile)
+		{
+			bool AllRight = false;
+			bool Modifications = false;
+
+			try
+			{
+				if (System.IO.File.Exists(verFile.FilePathAndName))
+				{
+					// Read the version numbers for use next time
+					XmlDocument TheXmlDocument = new();
+					TheXmlDocument.Load(verFile.FilePathAndName);
+
+					XmlNodeList listPropertyGroup = TheXmlDocument.GetElementsByTagName("PropertyGroup");
+
+					if (listPropertyGroup.Count > 0)
+					{
+						foreach (XmlNode nodePropertyGroup in listPropertyGroup)
+						{
+							XmlAttribute attr = nodePropertyGroup.Attributes["ApplicationDisplayVersion"];
+							if (attr != null)
+							{
+								Modifications = true;
+
+								attr.Value =
+									VersionMajor.ToString()
+									+ '.'
+									+ VersionMinor.ToString()
+									+ '.'
+									+ BuildNumber.ToString()
+									//+ '.'
+									//+ RevisionNumber.ToString()
+									;
+							}
+
+							attr = nodePropertyGroup.Attributes["Version"];
+							if (attr != null)
+							{
+								Modifications = true;
+
+								attr.Value =
+									VersionMajor.ToString()
+									+ '.'
+									+ VersionMinor.ToString()
+									+ '.'
+									+ BuildNumber.ToString()
+									//+ '.'
+									//+ RevisionNumber.ToString()
+									;
+							}
+
+							attr = nodePropertyGroup.Attributes["ApplicationVersion"];
+							if (attr != null)
+							{
+								attr.Value =
+									RevisionNumber.ToString();
+							}
+						}
+
+						try
+						{
+							TheXmlDocument.Save(verFile.FilePathAndName);
+							AllRight = true;
+						}
+						catch (Exception e)
+						{
+							AllRight = false;
+							_ = await VS.MessageBox.ShowAsync
+								(
+									"Error writing to " + verFile.FilePathAndName
+									, e.ToString()
+									, OLEMSGICON.OLEMSGICON_CRITICAL
+									, OLEMSGBUTTON.OLEMSGBUTTON_OK
+								).ConfigureAwait(true);
+						}
+					}
+				}
+				if (!AllRight)
+				{
+					AllRight = false;
+					_ = await VS.MessageBox.ShowAsync
+						(
+							"Could not find \"versionCode\" and/or \"versionName\" in file "
+							, verFile.FilePathAndName
+							, OLEMSGICON.OLEMSGICON_CRITICAL
+							, OLEMSGBUTTON.OLEMSGBUTTON_OK
+						).ConfigureAwait(true);
+				}
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+				AllRight = false;
+				_ = await VS.MessageBox.ShowAsync
+					(
+						"Error: "
+						, e.ToString()
+						, OLEMSGICON.OLEMSGICON_CRITICAL
+						, OLEMSGBUTTON.OLEMSGBUTTON_OK
+					).ConfigureAwait(true);
+			}
+			finally { }
+
+			return AllRight;
+		}
+
 		private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
 			_ = OnSetNumbersButtonClickedAsync();
@@ -960,6 +1066,11 @@ namespace SetGlobalVersion
 						case FilesContainingVersionTypes.Assemblyinfo_cs:
 							{
 								HandleResOK &= await SetVersionNumbersInAssemblyinfo_cs_FilesAsync(FPAN);
+								break;
+							}
+						case FilesContainingVersionTypes.projcsproj:
+							{
+								HandleResOK &= await SetVersionNumbersInProjCsproj_FilesAsync(FPAN);
 								break;
 							}
 						case FilesContainingVersionTypes.notsupported:
