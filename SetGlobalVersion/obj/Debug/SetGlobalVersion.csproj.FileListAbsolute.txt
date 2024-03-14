@@ -27,3 +27,6 @@ D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\extensi
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\files.json
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\createTemplateManifests.cache
 D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\extension.vsixmanifest
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\envdte100.dll
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\bin\Debug\Microsoft.VisualStudio.Interop.dll
+D:\Users\eigil\projects\VSIX\SetGlobalVersion\SetGlobalVersion\obj\Debug\SetGloba.C792FBFD.Up2Date

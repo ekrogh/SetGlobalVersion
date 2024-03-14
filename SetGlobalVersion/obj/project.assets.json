@@ -60,13 +60,16 @@
         "dependencies": {
           "Microsoft.VisualStudio.Interop": "17.0.31902.203"
         },
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         }
@@ -527,13 +530,16 @@
       },
       "Microsoft.VisualStudio.Interop/17.0.31902.203": {
         "type": "package",
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         }
@@ -1400,11 +1406,11 @@
           }
         }
       },
-      "Microsoft.VSSDK.BuildTools/17.9.3168": {
+      "Microsoft.VSSDK.BuildTools/17.9.3174": {
         "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.SDK.Analyzers": "16.10.10",
-          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3168"
+          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3174"
         },
         "frameworkAssemblies": [
           "Microsoft.Win32.Primitives"
@@ -1414,7 +1420,7 @@
           "build/Microsoft.VSSDK.BuildTools.targets": {}
         }
       },
-      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
+      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
         "type": "package",
         "frameworkAssemblies": [
           "System.IO.Compression",
@@ -2120,13 +2126,16 @@
         "dependencies": {
           "Microsoft.VisualStudio.Interop": "17.0.31902.203"
         },
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         }
@@ -2587,13 +2596,16 @@
       },
       "Microsoft.VisualStudio.Interop/17.0.31902.203": {
         "type": "package",
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         }
@@ -3460,11 +3472,11 @@
           }
         }
       },
-      "Microsoft.VSSDK.BuildTools/17.9.3168": {
+      "Microsoft.VSSDK.BuildTools/17.9.3174": {
         "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.SDK.Analyzers": "16.10.10",
-          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3168"
+          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3174"
         },
         "frameworkAssemblies": [
           "Microsoft.Win32.Primitives"
@@ -3474,7 +3486,7 @@
           "build/Microsoft.VSSDK.BuildTools.targets": {}
         }
       },
-      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
+      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
         "type": "package",
         "frameworkAssemblies": [
           "System.IO.Compression",
@@ -4168,13 +4180,16 @@
         "dependencies": {
           "Microsoft.VisualStudio.Interop": "17.0.31902.203"
         },
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         }
@@ -4635,13 +4650,16 @@
       },
       "Microsoft.VisualStudio.Interop/17.0.31902.203": {
         "type": "package",
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         }
@@ -5508,11 +5526,11 @@
           }
         }
       },
-      "Microsoft.VSSDK.BuildTools/17.9.3168": {
+      "Microsoft.VSSDK.BuildTools/17.9.3174": {
         "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.SDK.Analyzers": "16.10.10",
-          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3168"
+          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3174"
         },
         "frameworkAssemblies": [
           "Microsoft.Win32.Primitives"
@@ -5522,7 +5540,7 @@
           "build/Microsoft.VSSDK.BuildTools.targets": {}
         }
       },
-      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
+      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
         "type": "package",
         "frameworkAssemblies": [
           "System.IO.Compression",
@@ -6180,13 +6198,16 @@
         "dependencies": {
           "Microsoft.VisualStudio.Interop": "17.0.31902.203"
         },
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         }
@@ -6647,13 +6668,16 @@
       },
       "Microsoft.VisualStudio.Interop/17.0.31902.203": {
         "type": "package",
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         }
@@ -7520,11 +7544,11 @@
           }
         }
       },
-      "Microsoft.VSSDK.BuildTools/17.9.3168": {
+      "Microsoft.VSSDK.BuildTools/17.9.3174": {
         "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.SDK.Analyzers": "16.10.10",
-          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3168"
+          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3174"
         },
         "frameworkAssemblies": [
           "Microsoft.Win32.Primitives"
@@ -7534,7 +7558,7 @@
           "build/Microsoft.VSSDK.BuildTools.targets": {}
         }
       },
-      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
+      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
         "type": "package",
         "frameworkAssemblies": [
           "System.IO.Compression",
@@ -8228,13 +8252,16 @@
         "dependencies": {
           "Microsoft.VisualStudio.Interop": "17.0.31902.203"
         },
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/envdte100.dll": {
             "related": ".xml"
           }
         }
@@ -8695,13 +8722,16 @@
       },
       "Microsoft.VisualStudio.Interop/17.0.31902.203": {
         "type": "package",
+        "frameworkAssemblies": [
+          "netstandard"
+        ],
         "compile": {
           "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net472/_._": {
+          "lib/net472/Microsoft.VisualStudio.Interop.dll": {
             "related": ".xml"
           }
         }
@@ -9568,11 +9598,11 @@
           }
         }
       },
-      "Microsoft.VSSDK.BuildTools/17.9.3168": {
+      "Microsoft.VSSDK.BuildTools/17.9.3174": {
         "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.SDK.Analyzers": "16.10.10",
-          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3168"
+          "Microsoft.VsSDK.CompatibilityAnalyzer": "17.9.3174"
         },
         "frameworkAssemblies": [
           "Microsoft.Win32.Primitives"
@@ -9582,7 +9612,7 @@
           "build/Microsoft.VSSDK.BuildTools.targets": {}
         }
       },
-      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
+      "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
         "type": "package",
         "frameworkAssemblies": [
           "System.IO.Compression",
@@ -12089,10 +12119,10 @@
         "microsoft.visualstudio.web.browserlink.12.0.nuspec"
       ]
     },
-    "Microsoft.VSSDK.BuildTools/17.9.3168": {
-      "sha512": "V6IEXVCt1W/jMnbGg9AYfUDSmaim6FauWzeyRsXk8UFVPYFxYDXc+a4Q8OQY0Lh5LQOWdkzYfeuXIzp37CcLHQ==",
+    "Microsoft.VSSDK.BuildTools/17.9.3174": {
+      "sha512": "6AzbijLnp3xT1jm/d/bUS5mbcd/yFbIWlkWt6bfKQKiZpSKsfS/poHIqMjVO09TavUssfPtzffWuikZBX2RmiA==",
       "type": "package",
-      "path": "microsoft.vssdk.buildtools/17.9.3168",
+      "path": "microsoft.vssdk.buildtools/17.9.3174",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -12102,7 +12132,7 @@
         "build/Microsoft.VSSDK.BuildTools.props",
         "build/Microsoft.VSSDK.BuildTools.targets",
         "license.txt",
-        "microsoft.vssdk.buildtools.17.9.3168.nupkg.sha512",
+        "microsoft.vssdk.buildtools.17.9.3174.nupkg.sha512",
         "microsoft.vssdk.buildtools.nuspec",
         "tools/Microsoft.VisualStudio.ExtensionEngine.dll",
         "tools/Microsoft.VisualStudio.ExtensionEngine.dll.config",
@@ -12287,10 +12317,10 @@
         "tools/vssdk/schemas/VSIXManifestSchema.xsd"
       ]
     },
-    "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3168": {
-      "sha512": "9+JkFppsNMFyFLRNk/tkIymiLNbV5Uote9HZye1Lgv9p/h4iCKtYJhqAKDdsv3dfk+uarKjixYIYzYmdUEl6/Q==",
+    "Microsoft.VsSDK.CompatibilityAnalyzer/17.9.3174": {
+      "sha512": "lMqt+DtQnj864UrYv8IsmjRfGfIWM5OisEHEg+0JywfSRAO8gZqOtGBCrLyknp7FgVa5H4ZH7AjsY6/E/WQ8Rg==",
       "type": "package",
-      "path": "microsoft.vssdk.compatibilityanalyzer/17.9.3168",
+      "path": "microsoft.vssdk.compatibilityanalyzer/17.9.3174",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -12299,7 +12329,7 @@
         "build/Microsoft.VsSDK.CompatibilityAnalyzer.props",
         "build/Microsoft.VsSDK.CompatibilityAnalyzer.targets",
         "license.txt",
-        "microsoft.vssdk.compatibilityanalyzer.17.9.3168.nupkg.sha512",
+        "microsoft.vssdk.compatibilityanalyzer.17.9.3174.nupkg.sha512",
         "microsoft.vssdk.compatibilityanalyzer.nuspec",
         "tools/net472/Microsoft.VisualStudio.Sdk.CompatibilityAnalyzerTasks.dll",
         "tools/net472/VsixCompatibilityAnalyzer.dll",
@@ -13833,7 +13863,8 @@
     ".NETFramework,Version=v4.8": [
       "Community.VisualStudio.Toolkit.17 >= 17.0.507",
       "Community.VisualStudio.VSCT >= 16.0.29.6",
-      "Microsoft.VSSDK.BuildTools >= 17.9.3168"
+      "Microsoft.VSSDK.BuildTools >= 17.9.3174",
+      "envdte100 >= 17.0.31902.203"
     ]
   },
   "packageFolders": {
@@ -13893,8 +13924,12 @@
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
             "suppressParent": "All",
             "target": "Package",
-            "version": "[17.9.3168, )",
+            "version": "[17.9.3174, )",
             "generatePathProperty": true
+          },
+          "envdte100": {
+            "target": "Package",
+            "version": "[17.0.31902.203, )"
           }
         }
       }

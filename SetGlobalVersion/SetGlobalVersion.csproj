@@ -133,7 +133,10 @@
     <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507" ExcludeAssets="Runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3168">
+    <PackageReference Include="envdte100">
+      <Version>17.0.31902.203</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3174">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
