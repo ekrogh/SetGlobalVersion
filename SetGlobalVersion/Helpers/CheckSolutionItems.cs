@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using VSLangProj;
 
 namespace SetGlobalVersion.Helpers
 {
@@ -103,23 +104,29 @@ namespace SetGlobalVersion.Helpers
 
 		}
 
-		public static VersionFilePathAndType VFPT = new()
-		{
-			FilePathAndName = "-"
-	,
-			FileType = FilesContainingVersionTypes.notsupported
-		};
 
 		public static async Task SearchProjectItemsNotSupportedAsync(ProjectItems projectItems)
 		{
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			VersionFilePathAndType VFPT = new()
+			{
+				FilePathAndName = "-"
+		,
+				FileType = FilesContainingVersionTypes.notsupported
+			};
 
 			foreach (ProjectItem projectItem in projectItems)
 			{
 				// Check the file extension of the project item
 				string fileExtension = System.IO.Path.GetExtension(projectItem.Name);
 
-				if ((projectItem.Name != null) && (projectItem.Kind.ToString() == "Project"))
+				if
+				(
+					(projectItem.Name != null)
+					&&
+					(projectItem.Kind == PrjKind.prjKindCSharpProject)
+				)
 				{
 					if (ProjsWithVersionFiles.IndexOfKey(projectItem.Name) < 0)
 					{
@@ -156,8 +163,7 @@ namespace SetGlobalVersion.Helpers
 
 		}
 
-
-		static async Task AddToProjsWithVersionFilesAsync(ProjectItem projItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
+		static async Task AddToProjsWithVersionFilesAsync(EnvDTE.Project proj, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
 		{
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
@@ -170,8 +176,7 @@ namespace SetGlobalVersion.Helpers
 					FileType = FileTypeIn
 				};
 
-				var proj = projItem.ContainingProject;
-				//var proj = projItem.FindParent(SolutionItemType.Project);
+				//var proj = proj.FindParent(SolutionItemType.Project);
 
 				if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
 				{
@@ -189,6 +194,79 @@ namespace SetGlobalVersion.Helpers
 				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
 			}
 
+		}
+
+		static async Task AddToProjsWithVersionFilesAsync(ProjectItem projItem, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
+		{
+			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
+			try
+			{
+				VersionFilePathAndType VFPT = new()
+				{
+					FilePathAndName = PathAndFile
+				,
+					FileType = FileTypeIn
+				};
+
+				var proj = projItem.ContainingProject;
+				//var proj = proj.FindParent(SolutionItemType.Project);
+
+				if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
+				{
+					List<VersionFilePathAndType> VFPTList = new();
+					VFPTList.Add(VFPT);
+					ProjsWithVersionFiles.Add(proj.Name, VFPTList);
+				}
+				else
+				{
+					ProjsWithVersionFiles[proj.Name].Add(VFPT);
+				}
+			}
+			catch (Exception e)
+			{
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+			}
+
+		}
+
+		static async Task<bool> CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+		(
+			EnvDTE.Project proj
+			,
+			string pathAndFile
+			,
+			FilesContainingVersionTypes fileType
+		)
+		{
+			bool VersionContainingProjectFileFound = false;
+
+			try
+			{
+
+				if
+				(
+					await CheckOutFromSourceControlAsync
+					(
+						pathAndFile
+					)
+				)
+				{
+					VersionContainingProjectFileFound = true;
+
+					await AddToProjsWithVersionFilesAsync(proj, pathAndFile, fileType);
+				}
+				else
+				{
+					VersionContainingProjectFileFound = false;
+				}
+			}
+			catch (Exception e)
+			{
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+			}
+
+			return VersionContainingProjectFileFound;
 		}
 
 		static async Task<bool> CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
@@ -296,7 +374,10 @@ namespace SetGlobalVersion.Helpers
 			{
 				// Check the file extension of the project item
 				string fileExtension = System.IO.Path.GetExtension(projectItem.Name);
-
+				if (fileExtension == ".csproj")
+				{
+					int cntr = 1;
+				}
 				foreach (string str in stringsToSearchFor)
 				{
 					if (projectItem.Name.EndsWith(str, StringComparison.OrdinalIgnoreCase))
@@ -453,11 +534,37 @@ namespace SetGlobalVersion.Helpers
 
 				foreach (EnvDTE.Project project in mySln.Projects)
 				{
-
 					// Check if the project is a C# project
-					if (project.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+					//if (project.Kind == ProjectKinds.vsProjectKindSolutionFolder)
+					if (project.Kind == PrjKind.prjKindCSharpProject)
 					{
-						FoundVersionContainingFileInProject =
+						if
+						(
+							File.ReadAllText(project.FullName).Contains
+								(
+									"ApplicationDisplayVersion"
+								)
+						)
+						{
+							string pathAndFile = project.FullName;
+							bool FoundInThisSolitm = false;
+
+							FilesContainingVersionTypes fileType =
+								FilesContainingVersionTypes.projcsproj;
+
+							FoundVersionContainingFileInProject |=
+								FoundInThisSolitm =
+								await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+									(
+										project
+										,
+										pathAndFile
+										,
+										fileType
+									);
+						}
+
+						FoundVersionContainingFileInProject |=
 							await SearchProjectItemsAsync(project.ProjectItems);
 					}
 
@@ -525,6 +632,19 @@ namespace SetGlobalVersion.Helpers
 						// Sln folder
 						PathToSolutionFolder = mySln.FullName;
 
+						Projects slnProjs = mySln.Projects;
+
+						List<string> projectFilePaths = new List<string>();
+						foreach (EnvDTE.Project project in slnProjs)
+						//foreach (EnvDTE.Project project in mySln.Projects)
+						{
+							if (project.FileName.EndsWith(".csproj"))
+							{
+								// Found a .csproj project
+								projectFilePaths.Add(project.FileName);
+								// Do something with the project file path
+							}
+						}
 
 						// MajorMinorBuildRevisionNumbers.xml
 
@@ -597,7 +717,7 @@ namespace SetGlobalVersion.Helpers
 
 						if (ResultToReturn)
 						{
-							await CheckForProjTypesNotSupportedAsync(mySln);
+							//await CheckForProjTypesNotSupportedAsync(mySln);
 							ResultToReturn =
 								await AddMajorMinorBuildRevisionNumbersXmlFileProjectAsync();
 						}
