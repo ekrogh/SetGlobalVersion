@@ -374,10 +374,7 @@ namespace SetGlobalVersion.Helpers
 			{
 				// Check the file extension of the project item
 				string fileExtension = System.IO.Path.GetExtension(projectItem.Name);
-				if (fileExtension == ".csproj")
-				{
-					int cntr = 1;
-				}
+
 				foreach (string str in stringsToSearchFor)
 				{
 					if (projectItem.Name.EndsWith(str, StringComparison.OrdinalIgnoreCase))

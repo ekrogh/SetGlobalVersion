@@ -11,7 +11,7 @@ namespace SetGlobalVersion
         public const string Name = "SetGlobalVersion";
         public const string Description = @"Set Global Version (Set same version numbers in all projects).";
         public const string Language = "en-US";
-        public const string Version = "4.3";
+        public const string Version = "5.2";
         public const string Author = "Eigil Krogh Sorensen";
         public const string Tags = "global, version, solution-wide";
     }

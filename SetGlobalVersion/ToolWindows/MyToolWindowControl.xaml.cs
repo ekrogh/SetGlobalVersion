@@ -832,7 +832,6 @@ namespace SetGlobalVersion
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInProjCsproj_FilesAsync(VersionFilePathAndType verFile)
 		{
 			bool AllRight = true;
-			bool Modifications = false;
 
 			try
 			{
