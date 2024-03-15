@@ -34,13 +34,13 @@ namespace SetGlobalVersion
 			projCol1.Header = "File containing version";
 			projCol1.ElementStyle = DataGridTextColumnElementStyle;
 
-			_ = GetShowPathsToVersionContainingFilesAsync();
-
-			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
-
 			VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
 			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete +=
 				SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
+
+			//_ = GetShowPathsToVersionContainingFilesAsync();
+
+			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
 
 		}
@@ -831,7 +831,7 @@ namespace SetGlobalVersion
 
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInProjCsproj_FilesAsync(VersionFilePathAndType verFile)
 		{
-			bool AllRight = false;
+			bool AllRight = true;
 			bool Modifications = false;
 
 			try
@@ -842,78 +842,78 @@ namespace SetGlobalVersion
 					XmlDocument TheXmlDocument = new();
 					TheXmlDocument.Load(verFile.FilePathAndName);
 
-					XmlNodeList listPropertyGroup = TheXmlDocument.GetElementsByTagName("PropertyGroup");
+					// Use the SelectNodes method with an XPath expression to find the desired elements
+					XmlNodeList applicationdisplayversionNodes =
+						TheXmlDocument.SelectNodes("//ApplicationDisplayVersion");
+					XmlNodeList applicationversionNodes =
+						TheXmlDocument.SelectNodes("//ApplicationVersion");
+					XmlNodeList versionNodes =
+						TheXmlDocument.SelectNodes("//Version");
 
-					if (listPropertyGroup.Count > 0)
+					foreach
+						(XmlNode applicationdisplayversionNode in applicationdisplayversionNodes)
 					{
-						foreach (XmlNode nodePropertyGroup in listPropertyGroup)
-						{
-							foreach (XmlElement nodePropertyGroupItem in nodePropertyGroup)
-							{
-								var nodeAttributes = nodePropertyGroup.Attributes;
-								XmlAttribute attr = nodePropertyGroup.Attributes["ApplicationDisplayVersion"];
+						string applicationdisplayversion = applicationdisplayversionNode.InnerText;
 
-								//switch (nodePropertyGroupItem.Name)
-								//{
-								//	default:
-								//}
-								//if (attr != null)
-								//{
-								//	Modifications = true;
+						applicationdisplayversionNode.InnerText =
+							VersionMajor.ToString()
+							+
+							'.'
+							+
+							VersionMinor.ToString()
+							+
+							'.'
+							+
+							BuildNumber.ToString()
+							;
 
-								//	attr.Value =
-								//		VersionMajor.ToString()
-								//		+ '.'
-								//		+ VersionMinor.ToString()
-								//		+ '.'
-								//		+ BuildNumber.ToString()
-								//		//+ '.'
-								//		//+ RevisionNumber.ToString()
-								//		;
+						applicationdisplayversion = applicationdisplayversionNode.InnerText;
+					}
 
-								//}
+					foreach (XmlNode applicationversionNode in applicationversionNodes)
+					{
+						string applicationversion = applicationversionNode.InnerText;
 
-								//attr = nodePropertyGroup.Attributes["Version"];
-								//if (attr != null)
-								//{
-								//	Modifications = true;
+						applicationversionNode.InnerText =
+								RevisionNumber.ToString();
 
-								//	attr.Value =
-								//		VersionMajor.ToString()
-								//		+ '.'
-								//		+ VersionMinor.ToString()
-								//		+ '.'
-								//		+ BuildNumber.ToString()
-								//		//+ '.'
-								//		//+ RevisionNumber.ToString()
-								//		;
-								//}
+						applicationversion = applicationversionNode.InnerText;
+					}
 
-								//attr = nodePropertyGroup.Attributes["ApplicationVersion"];
-								//if (attr != null)
-								//{
-								//	attr.Value =
-								//		RevisionNumber.ToString();
-								//}
-							}
-						}
+					foreach (XmlNode versionNode in versionNodes)
+					{
+						string version = versionNode.InnerText;
 
-						try
-						{
-							TheXmlDocument.Save(verFile.FilePathAndName);
-							AllRight = true;
-						}
-						catch (Exception e)
-						{
-							AllRight = false;
-							_ = await VS.MessageBox.ShowAsync
-								(
-									"Error writing to " + verFile.FilePathAndName
-									, e.ToString()
-									, OLEMSGICON.OLEMSGICON_CRITICAL
-									, OLEMSGBUTTON.OLEMSGBUTTON_OK
-								).ConfigureAwait(true);
-						}
+						versionNode.InnerText =
+							VersionMajor.ToString()
+							+
+							'.'
+							+
+							VersionMinor.ToString()
+							+
+							'.'
+							+
+							BuildNumber.ToString()
+							;
+
+						version = versionNode.InnerText;
+					}
+
+					try
+					{
+						TheXmlDocument.Save(verFile.FilePathAndName);
+						AllRight = true;
+					}
+					catch (Exception e)
+					{
+						AllRight = false;
+						_ = await VS.MessageBox.ShowAsync
+							(
+								"Error writing to " + verFile.FilePathAndName
+								, e.ToString()
+								, OLEMSGICON.OLEMSGICON_CRITICAL
+								, OLEMSGBUTTON.OLEMSGBUTTON_OK
+							).ConfigureAwait(true);
 					}
 				}
 				if (!AllRight)

@@ -438,13 +438,22 @@ namespace SetGlobalVersion.Helpers
 								}
 							case smanifestxml:
 								{
-									if
-									(
-										File.ReadAllText(pathAndFile).Contains
-											(
-												"manifest"
-											)
-									)
+									var fileTxt = File.ReadAllText(pathAndFile).ToLower();
+
+									bool isManifestWVer = fileTxt.Contains
+												(
+													"manifest"
+												);
+
+									if (projectItem.Name == "AndroidManifest.xml")
+									{
+										isManifestWVer =
+											isManifestWVer && fileTxt.Contains
+												(
+													"android:versionName"
+												);
+									}
+									if (isManifestWVer)
 									{
 										fileType = FilesContainingVersionTypes.manifestxml;
 										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
