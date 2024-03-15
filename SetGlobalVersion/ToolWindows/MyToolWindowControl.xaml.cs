@@ -848,44 +848,53 @@ namespace SetGlobalVersion
 					{
 						foreach (XmlNode nodePropertyGroup in listPropertyGroup)
 						{
-							XmlAttribute attr = nodePropertyGroup.Attributes["ApplicationDisplayVersion"];
-							if (attr != null)
+							foreach (XmlElement nodePropertyGroupItem in nodePropertyGroup)
 							{
-								Modifications = true;
+								var nodeAttributes = nodePropertyGroup.Attributes;
+								XmlAttribute attr = nodePropertyGroup.Attributes["ApplicationDisplayVersion"];
 
-								attr.Value =
-									VersionMajor.ToString()
-									+ '.'
-									+ VersionMinor.ToString()
-									+ '.'
-									+ BuildNumber.ToString()
-									//+ '.'
-									//+ RevisionNumber.ToString()
-									;
+								//switch (nodePropertyGroupItem.Name)
+								//{
+								//	default:
+								//}
+								//if (attr != null)
+								//{
+								//	Modifications = true;
 
-							}
+								//	attr.Value =
+								//		VersionMajor.ToString()
+								//		+ '.'
+								//		+ VersionMinor.ToString()
+								//		+ '.'
+								//		+ BuildNumber.ToString()
+								//		//+ '.'
+								//		//+ RevisionNumber.ToString()
+								//		;
 
-							attr = nodePropertyGroup.Attributes["Version"];
-							if (attr != null)
-							{
-								Modifications = true;
+								//}
 
-								attr.Value =
-									VersionMajor.ToString()
-									+ '.'
-									+ VersionMinor.ToString()
-									+ '.'
-									+ BuildNumber.ToString()
-									//+ '.'
-									//+ RevisionNumber.ToString()
-									;
-							}
+								//attr = nodePropertyGroup.Attributes["Version"];
+								//if (attr != null)
+								//{
+								//	Modifications = true;
 
-							attr = nodePropertyGroup.Attributes["ApplicationVersion"];
-							if (attr != null)
-							{
-								attr.Value =
-									RevisionNumber.ToString();
+								//	attr.Value =
+								//		VersionMajor.ToString()
+								//		+ '.'
+								//		+ VersionMinor.ToString()
+								//		+ '.'
+								//		+ BuildNumber.ToString()
+								//		//+ '.'
+								//		//+ RevisionNumber.ToString()
+								//		;
+								//}
+
+								//attr = nodePropertyGroup.Attributes["ApplicationVersion"];
+								//if (attr != null)
+								//{
+								//	attr.Value =
+								//		RevisionNumber.ToString();
+								//}
 							}
 						}
 

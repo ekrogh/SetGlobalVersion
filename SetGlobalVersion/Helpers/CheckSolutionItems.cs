@@ -630,21 +630,9 @@ namespace SetGlobalVersion.Helpers
 						Solution4 mySln = (Solution4)_dte.Solution;
 
 						// Sln folder
-						PathToSolutionFolder = mySln.FullName;
+						PathToSolutionFolder = Path.GetDirectoryName(mySln.FullName);
+						//PathToSolutionFolder = mySln.FullName;
 
-						Projects slnProjs = mySln.Projects;
-
-						List<string> projectFilePaths = new List<string>();
-						foreach (EnvDTE.Project project in slnProjs)
-						//foreach (EnvDTE.Project project in mySln.Projects)
-						{
-							if (project.FileName.EndsWith(".csproj"))
-							{
-								// Found a .csproj project
-								projectFilePaths.Add(project.FileName);
-								// Do something with the project file path
-							}
-						}
 
 						// MajorMinorBuildRevisionNumbers.xml
 
