@@ -47,8 +47,8 @@ namespace SetGlobalVersion.Helpers
 			projcsproj
 			,
 			notsupported
-			//,
-			//vsixmanifest
+			,
+			appmanifest
 		}
 
 
@@ -66,6 +66,8 @@ namespace SetGlobalVersion.Helpers
 			,
 			uwp
 			,
+			windows
+			,
 			unknown
 		}
 
@@ -75,7 +77,7 @@ namespace SetGlobalVersion.Helpers
 		private const string smanifestxml = $"manifest.xml";
 		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
 		private const string scsproj = $"csproj";
-		//private const string svsixmanifest = $"vsixmanifest";
+		private const string sappmanifest = $"app.manifest";
 
 		private static readonly string[] stringsToSearchFor =
 			{
@@ -84,7 +86,7 @@ namespace SetGlobalVersion.Helpers
 				, smanifestxml
 				, sAssemblyinfo_cs
 				, scsproj
-				//, svsixmanifest
+				, sappmanifest
 			};
 
 
@@ -243,7 +245,6 @@ namespace SetGlobalVersion.Helpers
 
 			try
 			{
-
 				if
 				(
 					await CheckOutFromSourceControlAsync
@@ -342,13 +343,20 @@ namespace SetGlobalVersion.Helpers
 							}
 							else
 							{
-								if (tstContnt.Contains("tizen"))
+								if (tstContnt.Contains("windows"))
 								{
-									return System.Threading.Tasks.Task.FromResult(OsType.tizen);
+									return System.Threading.Tasks.Task.FromResult(OsType.windows);
 								}
 								else
 								{
-									return System.Threading.Tasks.Task.FromResult(OsType.unknown);
+									if (tstContnt.Contains("tizen"))
+									{
+										return System.Threading.Tasks.Task.FromResult(OsType.tizen);
+									}
+									else
+									{
+										return System.Threading.Tasks.Task.FromResult(OsType.unknown);
+									}
 								}
 							}
 						}
@@ -496,6 +504,32 @@ namespace SetGlobalVersion.Helpers
 										fileType = FilesContainingVersionTypes.projcsproj;
 
 										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
+											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+												(
+													projectItem
+														,
+														pathAndFile
+														,
+														fileType
+												);
+									}
+									break;
+								}
+							case sappmanifest:
+								{
+									if
+									(
+										File.ReadAllText(pathAndFile).ToLower().Contains
+											(
+												"assemblyidentity"
+											)
+									)
+									{
+
+										fileType = FilesContainingVersionTypes.appmanifest;
+
+										SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+											FoundInThisSolitm =
 											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
 												(
 													projectItem
@@ -815,30 +849,74 @@ namespace SetGlobalVersion.Helpers
 		{
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-			if
-			(
-				!
-				_dte.SourceControl.CheckOutItem
-				(
-					FileNameAndPath
-				)
-			)
+			bool fileIsCheckedOut = false;
+			while (!fileIsCheckedOut)
 			{
-				_ =
-				await VS.MessageBox.ShowAsync
-				(
-					"Please check out\n"
-					,
-					FileNameAndPath
-					+
-					"\nbefore continuing"
-					,
-					OLEMSGICON.OLEMSGICON_CRITICAL
-					,
-					OLEMSGBUTTON.OLEMSGBUTTON_OK
-				).ConfigureAwait(true);
+				try
+				{
+					if (_dte.SourceControl is SourceControl2 sourceControl)
+					{
+						//if
+						//(
+						//	sourceControl.IsItemUnderSCC
+						//	(
+						//		FileNameAndPath
+						//	)
+						//)
+						//{
+						if
+						(
+							!
+							sourceControl.IsItemCheckedOut
+							(
+								FileNameAndPath
+							)
+						)
+						{
+							if
+							(
+								!
+								sourceControl.CheckOutItem
+								(
+									FileNameAndPath
+								)
+							)
+							{
+								_ =
+								await VS.MessageBox.ShowAsync
+								(
+									"Please check out\n"
+									,
+									FileNameAndPath
+									+
+									"\nbefore continuing"
+									,
+									OLEMSGICON.OLEMSGICON_CRITICAL
+									,
+									OLEMSGBUTTON.OLEMSGBUTTON_OK
+								).ConfigureAwait(true);
 
-				return false;
+								return false;
+							}
+							else
+							{
+								fileIsCheckedOut = true;
+							}
+						}
+						else
+						{
+							fileIsCheckedOut = true;
+						}
+						//}
+					}
+				}
+				catch (System.NotImplementedException)
+				{
+					// Wait for the sourceControl system to get ready
+					// Sleep for 1 second without blocking the rest of the system
+					await Task.Delay(1000);
+
+				}
 			}
 
 			return true;

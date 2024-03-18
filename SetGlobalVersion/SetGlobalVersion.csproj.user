@@ -20,6 +20,6 @@
     <StartArguments>"D:\Users\eigil\projects\MAUI\ChronoWiz\ChronoWiz.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartArguments>"D:\Users\eigil\projects\xamarinProjs\TimeDateCalculator\TimeDateCalculator.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
+    <StartArguments>"D:\Users\eigil\projects\MAUI\ChronoWiz\ChronoWiz.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
   </PropertyGroup>
 </Project>

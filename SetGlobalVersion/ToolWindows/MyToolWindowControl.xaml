@@ -2,26 +2,29 @@
 	x:Class="SetGlobalVersion.MyToolWindowControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
-	xmlns:util="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Utilities"
-	xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
 	xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
-	toolkit:Themes.UseVsTheme="True"
-	mc:Ignorable="d"
+	xmlns:util="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Utilities"
 	x:Name="Set_Version_Number"
 	Padding="10"
-	HorizontalAlignment="Left">
+	HorizontalAlignment="Left"
+	toolkit:Themes.UseVsTheme="True"
+	mc:Ignorable="d"
+	>
 
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style
-				x:Key="DataGridTextColumnStyle">
+				x:Key="DataGridTextColumnStyle"
+				>
 				<Setter
 					Property="TextBlock.TextWrapping"
-					Value="Wrap" />
+					Value="Wrap"
+					/>
 			</Style>
 
 		</ResourceDictionary>
@@ -36,8 +39,8 @@
 			<Grid>
 				<DataGrid
 					x:Name="mySolutionDataGrid"
-					IsReadOnly="True">
-				</DataGrid>
+					IsReadOnly="True"
+					/>
 			</Grid>
 
 			<Separator />
@@ -45,93 +48,108 @@
 			<Grid>
 				<DataGrid
 					x:Name="myProjectsDataGrid"
-					IsReadOnly="True">
-				</DataGrid>
+					IsReadOnly="True"
+					/>
 			</Grid>
 
 			<Separator />
 
 			<StackPanel>
 				<Label
+					Content="Version Major vv"
 					IsTabStop="False"
-					Content="Version Major vv" />
+					/>
 				<TextBox
 					x:Name="VersionMajorEntryName"
+					VerticalAlignment="Top"
+					AutomationProperties.HelpText="vv"
+					IsTabStop="true"
 					LostFocus="VersionMajorEntryName_LostFocus"
 					ManipulationCompleted="VersionMajorEntryName_ManipulationCompleted"
-					IsTabStop="true"
 					TabIndex="2"
-					VerticalAlignment="Top"
-					AutomationProperties.HelpText="vv" />
+					GotFocus="Common_GotFocus_Handler" 
+					/>
 			</StackPanel>
 			<StackPanel>
 				<Label
+					Content="Version Minor vv"
 					IsTabStop="False"
-					Content="Version Minor vv" />
+					/>
 				<TextBox
 					x:Name="VersionMinorEntryName"
 					AutomationProperties.HelpText="vv"
+					IsTabStop="true"
 					LostFocus="VersionMinorEntryName_LostFocus"
 					ManipulationCompleted="VersionMinorEntryName_ManipulationCompleted"
-					IsTabStop="true"
-					TabIndex="3" />
+					TabIndex="3"
+					GotFocus="Common_GotFocus_Handler"
+					/>
 			</StackPanel>
 
 			<StackPanel>
 				<Label
+					Content="Build Number bb"
 					IsTabStop="False"
-					Content="Build Number bb" />
+					/>
 				<TextBox
 					x:Name="BuildNumberEntryName"
 					AutomationProperties.HelpText="bb"
+					IsTabStop="true"
 					LostFocus="BuildNumberEntryName_LostFocus"
 					ManipulationCompleted="BuildNumberEntryName_ManipulationCompleted"
-					IsTabStop="true"
-					TabIndex="4" />
+					TabIndex="4"
+					GotFocus="Common_GotFocus_Handler" 
+					/>
 			</StackPanel>
 
 			<StackPanel>
 				<Label
+					Content="Revision Number rr"
 					IsTabStop="False"
-					Content="Revision Number rr" />
+					/>
 				<TextBox
 					x:Name="RevisionNumberEntryName"
 					AutomationProperties.HelpText="rr"
+					IsTabStop="true"
 					LostFocus="RevisionNumberEntryName_LostFocus"
 					ManipulationCompleted="RevisionNumberEntryName_ManipulationCompleted"
-					IsTabStop="true"
-					TabIndex="5" />
+					TabIndex="5"
+					GotFocus="Common_GotFocus_Handler" 
+					/>
 			</StackPanel>
 			<Separator />
 			<Separator />
 			<StackPanel>
 				<TextBlock
 					FontFamily="Verdana"
+					FontStretch="Condensed"
 					FontStyle="Italic"
-					TextWrapping="Wrap"
 					FontWeight="Light"
-					TextTrimming="WordEllipsis"
 					LineStackingStrategy="BlockLineHeight"
-					FontStretch="Condensed">
-(Note: Version Major + Version Minor must alway be increased because Apple OS' are using it. Build Number is used as 'versioncode' in Android and must always be increased. Revision Number is only used iOS and macOS. Always 0 in UWP.)
+					TextTrimming="WordEllipsis"
+					TextWrapping="Wrap"
+					>
+					(Note: Version Major + Version Minor must alway be increased because Apple OS' are using it. Build Number is used as 'versioncode' in Android and must always be increased. Revision Number is only used iOS and macOS. Always 0 in UWP.)
 				</TextBlock>
 			</StackPanel>
 			<Separator />
 			<Separator />
 			<StackPanel>
 				<Button
-					Content="Refresh"
 					Click="OnRefreshButtonClicked"
+					Content="Refresh"
 					IsTabStop="true"
-					TabIndex="7" />
+					TabIndex="7"
+					/>
 
 				<Button
 					x:Name="SetNumbersButton"
-					Content="Set Numbers"
 					Click="OnSetNumbersButtonClicked"
+					Content="Set Numbers"
 					IsEnabled="False"
 					IsTabStop="true"
-					TabIndex="6" />
+					TabIndex="6"
+					/>
 			</StackPanel>
 
 

@@ -3,34 +3,33 @@
 
 using System.ComponentModel;
 
-namespace SetGlobalVersion
+namespace SetGlobalVersion;
+
+[Flags]
+public enum ProjectType
 {
-	[Flags]
-	public enum ProjectType
-	{
-		Unknown = 1,
+	Unknown = 1,
 
-		[Description("UWP")]
-		Uwp = 2,
+	[Description("UWP")]
+	Uwp = 2,
 
-		[Description("WPF")]
-		Wpf = 4,
+	[Description("WPF")]
+	Wpf = 4,
 
-		[Description("Xamarin.Forms")]
-		XamarinForms = 8,
+	[Description("Xamarin.Forms")]
+	XamarinForms = 8,
 
-		[Description("WinUI3")]
-		WinUI = 16,
+	[Description("WinUI3")]
+	WinUI = 16,
 
-		[Description(".NET MAUI")]
-		MAUI = 32,
+	[Description(".NET MAUI")]
+	MAUI = 32,
 
-		UwpOrWpf = Uwp | Wpf,
+	UwpOrWpf = Uwp | Wpf,
 
-		WindowsOnly = Uwp | Wpf | WinUI,
+	WindowsOnly = Uwp | Wpf | WinUI,
 
-		XamarinOrMaui = XamarinForms | MAUI,
+	XamarinOrMaui = XamarinForms | MAUI,
 
-		Any = Uwp | Wpf | XamarinForms,
-	}
+	Any = Uwp | Wpf | XamarinForms,
 }

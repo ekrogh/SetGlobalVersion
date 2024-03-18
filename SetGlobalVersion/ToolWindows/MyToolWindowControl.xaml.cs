@@ -38,7 +38,7 @@ namespace SetGlobalVersion
 			VS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete +=
 				SolutionEvents_OnAfterBackgroundSolutionLoadComplete;
 
-			//_ = GetShowPathsToVersionContainingFilesAsync();
+			_ = GetShowPathsToVersionContainingFilesAsync();
 
 			IsVisibleChanged += SetVersionNumberControl_IsVisibleChanged;
 
@@ -520,6 +520,83 @@ namespace SetGlobalVersion
 			return AllRight;
 		}
 
+
+		private async System.Threading.Tasks.Task<bool> SetVersionNumbersIn_appmanifest_FilesAsync(VersionFilePathAndType verFile)
+		{
+			bool AllRight = false;
+			OsType osType = OsType.unknown;
+
+			try
+			{
+				if (System.IO.File.Exists(verFile.FilePathAndName))
+				{
+					osType = await FindOsTypeAsync(verFile.FilePathAndName).ConfigureAwait(true);
+
+					// Read the version numbers for use next time
+					XmlDocument TheXmlDocument = new();
+					TheXmlDocument.Load(verFile.FilePathAndName);
+
+					if (TheXmlDocument != null)
+					{
+						XmlNodeList list =
+							TheXmlDocument.GetElementsByTagName("assemblyIdentity");
+
+						if (list.Count > 0)
+						{
+							XmlNode node = list[0];
+							XmlAttribute attr = node.Attributes["version"];
+							if (attr != null)
+							{
+								attr.Value =
+									VersionMajor.ToString()
+									+ '.'
+									+ VersionMinor.ToString()
+									+ '.'
+									+ BuildNumber.ToString()
+									+ '.'
+									+ RevisionNumber.ToString();
+								try
+								{
+									TheXmlDocument.Save(verFile.FilePathAndName);
+									AllRight = true;
+								}
+								catch (Exception e)
+								{
+									AllRight = false;
+									_ = await VS.MessageBox.ShowAsync
+										(
+											"Error writing to " + verFile.FilePathAndName
+											, e.ToString()
+											, OLEMSGICON.OLEMSGICON_CRITICAL
+											, OLEMSGBUTTON.OLEMSGBUTTON_OK
+										).ConfigureAwait(true);
+								}
+							}
+						}
+					}
+				}
+				if (!AllRight)
+				{
+					AllRight = false;
+					_ = await VS.MessageBox.ShowAsync
+						(
+							"Could not find \"Version\" in file "
+							, verFile.FilePathAndName
+							, OLEMSGICON.OLEMSGICON_CRITICAL
+							, OLEMSGBUTTON.OLEMSGBUTTON_OK
+						).ConfigureAwait(true);
+				}
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Debug.WriteLine("String processing failed: {0}", e.ToString());
+				AllRight = false;
+				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
+			}
+			finally { }
+
+			return AllRight;
+		}
 
 		private async System.Threading.Tasks.Task<bool> SetVersionNumbersInManifestXmlFilesAsync(VersionFilePathAndType verFile)
 		{
@@ -1067,6 +1144,11 @@ namespace SetGlobalVersion
 								HandleResOK &= await SetVersionNumbersIn_manifest_FilesAsync(FPAN);
 								break;
 							}
+						case FilesContainingVersionTypes.appmanifest:
+							{
+								HandleResOK &= await SetVersionNumbersIn_appmanifest_FilesAsync(FPAN);
+								break;
+							}
 						case FilesContainingVersionTypes.manifestxml:
 							{
 								HandleResOK &= await SetVersionNumbersInManifestXmlFilesAsync(FPAN);
@@ -1135,6 +1217,17 @@ namespace SetGlobalVersion
 		private void RevisionNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
 		{
 			_ = OnRevisionNumberEntryCompletedAsync(sender, e).ConfigureAwait(true);
+		}
+
+		private void VersionMinorEntryName_GotFocus(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void Common_GotFocus_Handler(object sender, RoutedEventArgs e)
+		{
+			((TextBox)sender).SelectAll();
+			((TextBox)sender).Focus();
 		}
 	}
 }
