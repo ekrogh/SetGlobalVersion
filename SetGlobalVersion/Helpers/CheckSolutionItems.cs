@@ -49,6 +49,8 @@ namespace SetGlobalVersion.Helpers
 			notsupported
 			,
 			appmanifest
+			,
+			vsixmanifest
 		}
 
 
@@ -76,6 +78,7 @@ namespace SetGlobalVersion.Helpers
 		private const string sappxmanifest = $"appxmanifest";
 		private const string smanifestxml = $"manifest.xml";
 		private const string sAssemblyinfo_cs = $"assemblyinfo.cs";
+		private const string svsixmanifest = $".vsixmanifest";
 		private const string scsproj = $"csproj";
 		private const string sappmanifest = $"app.manifest";
 
@@ -85,6 +88,7 @@ namespace SetGlobalVersion.Helpers
 				, sappxmanifest
 				, smanifestxml
 				, sAssemblyinfo_cs
+				, svsixmanifest
 				, scsproj
 				, sappmanifest
 			};
@@ -487,6 +491,30 @@ namespace SetGlobalVersion.Helpers
 													,
 													fileType
 											);
+
+									break;
+								}
+							case svsixmanifest:
+								{
+									if
+									(
+										File.ReadAllText(pathAndFile).Contains
+											(
+												"Identity"
+											)
+									)
+									{
+										fileType = FilesContainingVersionTypes.vsixmanifest;
+										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
+											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+												(
+													projectItem
+													,
+													pathAndFile
+													,
+													fileType
+												);
+									}
 
 									break;
 								}
