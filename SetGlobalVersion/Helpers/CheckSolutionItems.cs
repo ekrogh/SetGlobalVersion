@@ -16,7 +16,7 @@ namespace SetGlobalVersion.Helpers
 
 		public static Community.VisualStudio.Toolkit.Solution TheSolution;
 
-		public static SortedList<string, List<VersionFilePathAndType>> ProjsWithVersionFiles = new();
+		public static SortedList<string, List<VersionFilePathAndType>> ProjsWithVersionFiles = [];
 
 		public static string PathToSolutionFolder { get; set; } = "";
 		public static string PathToMajorMinorBuildRevisionNumbersXmlFile = "";
@@ -51,6 +51,8 @@ namespace SetGlobalVersion.Helpers
 			appmanifest
 			,
 			vsixmanifest
+			,
+			projwapproj
 		}
 
 
@@ -81,9 +83,10 @@ namespace SetGlobalVersion.Helpers
 		private const string svsixmanifest = $".vsixmanifest";
 		private const string scsproj = $"csproj";
 		private const string sappmanifest = $"app.manifest";
+		//private const string swapproj = $"wapproj";
 
 		private static readonly string[] stringsToSearchFor =
-			{
+			[
 				splist
 				, sappxmanifest
 				, smanifestxml
@@ -91,7 +94,8 @@ namespace SetGlobalVersion.Helpers
 				, svsixmanifest
 				, scsproj
 				, sappmanifest
-			};
+				//, swapproj
+			];
 
 
 		public static void CleanUpHelpers()
@@ -124,22 +128,18 @@ namespace SetGlobalVersion.Helpers
 
 			foreach (ProjectItem projectItem in projectItems)
 			{
-				// Check the file extension of the project item
-				string fileExtension = System.IO.Path.GetExtension(projectItem.Name);
-
 				if
 				(
 					(projectItem.Name != null)
 					&&
 					(projectItem.Kind == PrjKind.prjKindCSharpProject)
+					&&
+					ProjsWithVersionFiles.IndexOfKey(projectItem.Name)
+					< 0
 				)
 				{
-					if (ProjsWithVersionFiles.IndexOfKey(projectItem.Name) < 0)
-					{
-						List<VersionFilePathAndType> VFPTList = new();
-						VFPTList.Add(VFPT);
-						ProjsWithVersionFiles.Add(projectItem.Name, VFPTList);
-					}
+					List<VersionFilePathAndType> VFPTList = [VFPT];
+					ProjsWithVersionFiles.Add(projectItem.Name, VFPTList);
 				}
 
 				// If the project item has child items, recursively search through them
@@ -149,24 +149,6 @@ namespace SetGlobalVersion.Helpers
 					await SearchProjectItemsNotSupportedAsync(projectItem.ProjectItems);
 				}
 			}
-		}
-
-		static async Task CheckForProjTypesNotSupportedAsync(Solution4 mySln)
-		{
-			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-			try
-			{
-				foreach (EnvDTE.Project project in mySln.Projects)
-				{
-					await SearchProjectItemsNotSupportedAsync(project.ProjectItems);
-				}
-			}
-			catch (Exception e)
-			{
-				_ = await VS.MessageBox.ShowAsync("Error: ", e.ToString(), OLEMSGICON.OLEMSGICON_CRITICAL, OLEMSGBUTTON.OLEMSGBUTTON_OK).ConfigureAwait(true);
-			}
-
 		}
 
 		static async Task AddToProjsWithVersionFilesAsync(EnvDTE.Project proj, string PathAndFile, FilesContainingVersionTypes FileTypeIn)
@@ -186,8 +168,7 @@ namespace SetGlobalVersion.Helpers
 
 				if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
 				{
-					List<VersionFilePathAndType> VFPTList = new();
-					VFPTList.Add(VFPT);
+					List<VersionFilePathAndType> VFPTList = [VFPT];
 					ProjsWithVersionFiles.Add(proj.Name, VFPTList);
 				}
 				else
@@ -220,8 +201,7 @@ namespace SetGlobalVersion.Helpers
 
 				if (ProjsWithVersionFiles.IndexOfKey(proj.Name) < 0)
 				{
-					List<VersionFilePathAndType> VFPTList = new();
-					VFPTList.Add(VFPT);
+					List<VersionFilePathAndType> VFPTList = [VFPT];
 					ProjsWithVersionFiles.Add(proj.Name, VFPTList);
 				}
 				else
@@ -377,9 +357,6 @@ namespace SetGlobalVersion.Helpers
 		public static async Task<bool> SearchProjectItemsAsync(ProjectItems projectItems)
 		{
 			await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-
-			FilesContainingVersionTypes fileType = FilesContainingVersionTypes.notsupported;
-			string pathAndFile = String.Empty;
 			bool FoundInThisSolitm = false;
 
 			foreach (ProjectItem projectItem in projectItems)
@@ -391,9 +368,11 @@ namespace SetGlobalVersion.Helpers
 				{
 					if (projectItem.Name.EndsWith(str, StringComparison.OrdinalIgnoreCase))
 					{
-						pathAndFile =
-							projectItem.Properties.Item("FullPath").Value.ToString();
+						string pathAndFile =
+				projectItem.Properties.Item("FullPath").Value.ToString();
 
+
+						FilesContainingVersionTypes fileType;
 						switch (str)
 						{
 							case splist:
@@ -465,15 +444,16 @@ namespace SetGlobalVersion.Helpers
 									if (isManifestWVer)
 									{
 										fileType = FilesContainingVersionTypes.manifestxml;
-										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
-											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-												(
-													projectItem
-													,
-													pathAndFile
-													,
-													fileType
-												);
+										SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+											FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														projectItem
+														,
+														pathAndFile
+														,
+														fileType
+													);
 									}
 
 									break;
@@ -482,15 +462,16 @@ namespace SetGlobalVersion.Helpers
 								{
 									fileType = FilesContainingVersionTypes.Assemblyinfo_cs;
 
-									SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
-										await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-											(
-													projectItem
-													,
-													pathAndFile
-													,
-													fileType
-											);
+									SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+										FoundInThisSolitm =
+											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+												(
+														projectItem
+														,
+														pathAndFile
+														,
+														fileType
+												);
 
 									break;
 								}
@@ -505,15 +486,16 @@ namespace SetGlobalVersion.Helpers
 									)
 									{
 										fileType = FilesContainingVersionTypes.vsixmanifest;
-										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
-											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-												(
-													projectItem
-													,
-													pathAndFile
-													,
-													fileType
-												);
+										SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+											FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														projectItem
+														,
+														pathAndFile
+														,
+														fileType
+													);
 									}
 
 									break;
@@ -531,15 +513,16 @@ namespace SetGlobalVersion.Helpers
 
 										fileType = FilesContainingVersionTypes.projcsproj;
 
-										SearchProjectItemsAsyncFoundVersionContainingFileInProject |= FoundInThisSolitm =
-											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-												(
-													projectItem
-														,
-														pathAndFile
-														,
-														fileType
-												);
+										SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+											FoundInThisSolitm =
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														projectItem
+															,
+															pathAndFile
+															,
+															fileType
+													);
 									}
 									break;
 								}
@@ -558,17 +541,33 @@ namespace SetGlobalVersion.Helpers
 
 										SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
 											FoundInThisSolitm =
-											await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
-												(
-													projectItem
+												await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+													(
+														projectItem
 														,
 														pathAndFile
 														,
 														fileType
-												);
+													);
 									}
 									break;
 								}
+							//case swapproj:
+							//	{
+							//		fileType = FilesContainingVersionTypes.projwapproj;
+
+							//		SearchProjectItemsAsyncFoundVersionContainingFileInProject |=
+							//			FoundInThisSolitm =
+							//				await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+							//					(
+							//						projectItem
+							//						,
+							//						pathAndFile
+							//						,
+							//						fileType
+							//					);
+							//		break;
+							//	}
 							default:
 								break;
 						}
@@ -604,7 +603,8 @@ namespace SetGlobalVersion.Helpers
 				{
 					// Check if the project is a C# project
 					//if (project.Kind == ProjectKinds.vsProjectKindSolutionFolder)
-					if (project.Kind == PrjKind.prjKindCSharpProject)
+					//if (project.Kind == PrjKind.prjKindCSharpProject)
+					if (project.Kind == ProjectTypes.CSHARP)
 					{
 						if
 						(
@@ -634,6 +634,29 @@ namespace SetGlobalVersion.Helpers
 
 						FoundVersionContainingFileInProject |=
 							await SearchProjectItemsAsync(project.ProjectItems);
+					}
+					else if (project.Kind == EksProjectTypes.PACKAGING_PROJECT)
+					{
+						//string pathAndFile = project.FullName;
+						//bool FoundInThisSolitm = false;
+
+						//FilesContainingVersionTypes fileType =
+						//	FilesContainingVersionTypes.projwapproj;
+
+						//FoundVersionContainingFileInProject |=
+						//	FoundInThisSolitm =
+						//	await CheckOutFromSourceControlAddToProjsWithVersionFilesAsync
+						//		(
+						//			project
+						//			,
+						//			pathAndFile
+						//			,
+						//			fileType
+						//		);
+
+						FoundVersionContainingFileInProject |=
+							await SearchProjectItemsAsync(project.ProjectItems);
+
 					}
 
 					VersionContainingProjectFileFound |= FoundVersionContainingFileInProject;
@@ -960,8 +983,7 @@ namespace SetGlobalVersion.Helpers
 
 			)
 		{
-			string filePathAndName = "";
-
+			string filePathAndName;
 			try
 			{
 				foreach (SolutionItem SLI in projChldrn)

@@ -4,7 +4,7 @@
     <ExtensibilityEssentialsInstalled>true</ExtensibilityEssentialsInstalled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <StartProgram>D:\Program_Files\Microsoft_Visual_Studio\2022\Preview\Common7\IDE\devenv.exe</StartProgram>
+    <StartProgram>D:\Program_Files\Microsoft_Visual_Studio\2022\Community\Common7\IDE\devenv.exe</StartProgram>
     <StartArguments>"D:\Users\eigil\projects\MAUI\ChronoWiz\ChronoWiz.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
     <StartAction>Program</StartAction>
     <DeployTargetInstanceId />
@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <StartArguments>"D:\Users\eigil\projects\MAUI\ChronoWiz\ChronoWiz.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
+    <StartArguments>"D:\Users\eigil\projects\juceProjs\GuitarFineTune\Builds\VisualStudio2022\GuitarFineTune.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartArguments>"D:\Users\eigil\projects\MAUI\ChronoWiz\ChronoWiz.sln" /ResetSkipPkgs /rootsuffix Exp</StartArguments>

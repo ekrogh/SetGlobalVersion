@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("5.5.2.2")]
+[assembly: AssemblyVersion("5.6.3.3")]
 [assembly: AssemblyFileVersion(Vsix.Version)]
 
 namespace System.Runtime.CompilerServices
