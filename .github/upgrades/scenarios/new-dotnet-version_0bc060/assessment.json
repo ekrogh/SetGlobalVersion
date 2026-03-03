@@ -1,0 +1,3566 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-03-03T00:01:05.9712803Z",
+  "analysisEndTime": "2026-03-03T00:01:08.9736051Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 1,
+      "issues": 6,
+      "incidents": 165,
+      "effort": 165
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 164,
+        "Optional": 0,
+        "Potential": 1,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 6,
+        "Project": 2,
+        "Api": 157
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+      "startingProject": true,
+      "issues": 5,
+      "storyPoints": 165,
+      "properties": {
+        "appName": "SetGlobalVersion",
+        "projectKind": "ClassicWpf",
+        "frameworks": [
+          "net48"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": false,
+        "numberOfFiles": 15,
+        "numberOfCodeFiles": 11,
+        "linesTotal": 12970,
+        "linesOfCode": 2600,
+        "totalApiScanned": 1274,
+        "minLinesOfCodeToChange": 157,
+        "maxLinesOfCodeToChange": 157
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "c594cb3d-2d8c-4d9b-af4f-fc4d138b504a",
+          "ruleId": "NuGet.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Community.VisualStudio.VSCT, 16.0.29.6\n\nRecommendation:\n\nNo supported version found",
+              "protected": "Community.VisualStudio.VSCT, 16.0.29.6\n\nRecommendation:\n\nNo supported version found"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Community.VisualStudio.VSCT, 16.0.29.6\n\nRecommendation:\n\nNo supported version found",
+            "protectedSnippet": "Community.VisualStudio.VSCT, 16.0.29.6\n\nRecommendation:\n\nNo supported version found",
+            "label": "Community.VisualStudio.VSCT 16.0.29.6",
+            "properties": {
+              "PackageId": "Community.VisualStudio.VSCT",
+              "PackageVersion": "16.0.29.6",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b6c88910-e5c6-404b-9c05-4a553aefa9f9",
+          "ruleId": "NuGet.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Community.VisualStudio.Toolkit.17, 17.0.507\n\nRecommendation:\n\nNo supported version found",
+              "protected": "Community.VisualStudio.Toolkit.17, 17.0.507\n\nRecommendation:\n\nNo supported version found"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Community.VisualStudio.Toolkit.17, 17.0.507\n\nRecommendation:\n\nNo supported version found",
+            "protectedSnippet": "Community.VisualStudio.Toolkit.17, 17.0.507\n\nRecommendation:\n\nNo supported version found",
+            "label": "Community.VisualStudio.Toolkit.17 17.0.507",
+            "properties": {
+              "PackageId": "Community.VisualStudio.Toolkit.17",
+              "PackageVersion": "17.0.507",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "7c91e7ee-4895-4b81-b06c-9b51d1434b7a",
+          "ruleId": "NuGet.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.SDK, 17.9.37000\n\nRecommendation:\n\nMicrosoft.VisualStudio.SDK, 16.0.208",
+              "protected": "Microsoft.VisualStudio.SDK, 17.9.37000\n\nRecommendation:\n\nMicrosoft.VisualStudio.SDK, 16.0.208"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Microsoft.VisualStudio.SDK, 17.9.37000\n\nRecommendation:\n\nMicrosoft.VisualStudio.SDK, 16.0.208",
+            "protectedSnippet": "Microsoft.VisualStudio.SDK, 17.9.37000\n\nRecommendation:\n\nMicrosoft.VisualStudio.SDK, 16.0.208",
+            "label": "Microsoft.VisualStudio.SDK 17.9.37000",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.SDK",
+              "PackageVersion": "17.9.37000",
+              "PackageNewVersion": "16.0.208",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "25947cd2-dd7a-42c5-8ffb-83e4111f9410",
+          "ruleId": "NuGet.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.BrowserLink.12.0, 12.0.0\n\nRecommendation:\n\nNo supported version found",
+              "protected": "Microsoft.VisualStudio.Web.BrowserLink.12.0, 12.0.0\n\nRecommendation:\n\nNo supported version found"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.BrowserLink.12.0, 12.0.0\n\nRecommendation:\n\nNo supported version found",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.BrowserLink.12.0, 12.0.0\n\nRecommendation:\n\nNo supported version found",
+            "label": "Microsoft.VisualStudio.Web.BrowserLink.12.0 12.0.0",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.BrowserLink.12.0",
+              "PackageVersion": "12.0.0",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "3bdbff1c-c691-4b06-b3b5-416c48d4b1c6",
+          "ruleId": "NuGet.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VSSDK.BuildTools, 17.9.3174\n\nRecommendation:\n\nMicrosoft.VSSDK.BuildTools, 15.7.104",
+              "protected": "Microsoft.VSSDK.BuildTools, 17.9.3174\n\nRecommendation:\n\nMicrosoft.VSSDK.BuildTools, 15.7.104"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Microsoft.VSSDK.BuildTools, 17.9.3174\n\nRecommendation:\n\nMicrosoft.VSSDK.BuildTools, 15.7.104",
+            "protectedSnippet": "Microsoft.VSSDK.BuildTools, 17.9.3174\n\nRecommendation:\n\nMicrosoft.VSSDK.BuildTools, 15.7.104",
+            "label": "Microsoft.VSSDK.BuildTools 17.9.3174",
+            "properties": {
+              "PackageId": "Microsoft.VSSDK.BuildTools",
+              "PackageVersion": "17.9.3174",
+              "PackageNewVersion": "15.7.104",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "dd793040-2fbf-46ff-9018-4ecc01a8069d",
+          "ruleId": "NuGet.0002",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.Encodings.Web, 8.0.0\n\nRecommendation:\n\nRemove System.Text.Encodings.Web, and replace with new package System.Text.Encodings.Web 10.0.3",
+              "protected": "System.Text.Encodings.Web, 8.0.0\n\nRecommendation:\n\nRemove System.Text.Encodings.Web, and replace with new package System.Text.Encodings.Web 10.0.3"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "System.Text.Encodings.Web, 8.0.0\n\nRecommendation:\n\nRemove System.Text.Encodings.Web, and replace with new package System.Text.Encodings.Web 10.0.3",
+            "protectedSnippet": "System.Text.Encodings.Web, 8.0.0\n\nRecommendation:\n\nRemove System.Text.Encodings.Web, and replace with new package System.Text.Encodings.Web 10.0.3",
+            "label": "System.Text.Encodings.Web 8.0.0",
+            "properties": {
+              "PackageId": "System.Text.Encodings.Web",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.3",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "6f1185ef-0b36-4bcd-9d65-971d659cb229",
+          "ruleId": "Project.0001",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj"
+          }
+        },
+        {
+          "incidentId": "4b587f34-1598-4cb1-86d2-f89d4f8f9698",
+          "ruleId": "Project.0002",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: .NETFramework,Version=v4.8\nRecommended target framework: net10.0-windows",
+              "protected": "Current target framework: .NETFramework,Version=v4.8\nRecommended target framework: net10.0-windows"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\SetGlobalVersion.csproj",
+            "snippet": "Current target framework: .NETFramework,Version=v4.8\nRecommended target framework: net10.0-windows",
+            "protectedSnippet": "Current target framework: .NETFramework,Version=v4.8\nRecommended target framework: net10.0-windows",
+            "properties": {
+              "CurrentTargetFramework": ".NETFramework,Version=v4.8",
+              "RecommendedTargetFramework": "net10.0-windows"
+            }
+          }
+        },
+        {
+          "incidentId": "2b92850b-c824-4686-b495-77f748101465",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void Common_GotFocus_Handler(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void Common_GotFocus_Handler(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1307,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "f380793b-81f4-4ce9-9a44-26a521f04e3c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "((TextBox)sender).Focus();",
+              "protected": "M:System.Windows.UIElement.Focus"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "((TextBox)sender).Focus();",
+            "protectedSnippet": "M:System.Windows.UIElement.Focus",
+            "label": "M:System.Windows.UIElement.Focus",
+            "line": 1310,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "92e22a79-a23d-41c4-9ab5-da8db3386162",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "((TextBox)sender).SelectAll();",
+              "protected": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "((TextBox)sender).SelectAll();",
+            "protectedSnippet": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll",
+            "label": "M:System.Windows.Controls.Primitives.TextBoxBase.SelectAll",
+            "line": 1309,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "a1630acb-5c69-42db-8ed6-cdeba62cd257",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void VersionMinorEntryName_GotFocus(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void VersionMinorEntryName_GotFocus(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1302,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "81c6ed5a-9c11-4b70-8943-44a64a47c9e1",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void RevisionNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+              "protected": "T:System.Windows.Input.ManipulationCompletedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void RevisionNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "label": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "line": 1297,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "a42f6259-bcfd-4dd1-b6d9-5e96c03c94e8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void RevisionNumberEntryName_LostFocus(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void RevisionNumberEntryName_LostFocus(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1292,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "a866c0af-5f63-4171-b93b-103f819ee0c1",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void BuildNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+              "protected": "T:System.Windows.Input.ManipulationCompletedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void BuildNumberEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "label": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "line": 1287,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "eddcc3ec-e132-416c-b01f-255af7eabdc2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void BuildNumberEntryName_LostFocus(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void BuildNumberEntryName_LostFocus(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1282,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "e8ebeea3-3341-4155-aaed-e4a05b03e23b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void VersionMinorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+              "protected": "T:System.Windows.Input.ManipulationCompletedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void VersionMinorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "label": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "line": 1277,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "26bac71d-2db6-4c81-b32f-8447e24b1f64",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void VersionMinorEntryName_LostFocus(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void VersionMinorEntryName_LostFocus(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1272,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "36c18a10-139c-4792-a774-57555288d3ea",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void VersionMajorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+              "protected": "T:System.Windows.Input.ManipulationCompletedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void VersionMajorEntryName_ManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "label": "T:System.Windows.Input.ManipulationCompletedEventArgs",
+            "line": 1267,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "559a36ae-61a0-4964-816a-959b850ab97a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void VersionMajorEntryName_LostFocus(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void VersionMajorEntryName_LostFocus(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1262,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "122d6b21-018b-480e-8ac5-bc061ef41083",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void OnSetNumbersButtonClicked(object sender, System.Windows.RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 1098,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "498916f9-03c5-4da8-bd59-a974013e4af0",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void OnRefreshButtonClicked(object sender, System.Windows.RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void OnRefreshButtonClicked(object sender, System.Windows.RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 429,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "c432d894-6e42-447a-8f40-b6566db916c6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private async Task OnRevisionNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private async Task OnRevisionNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 352,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "2a974765-ca5d-418c-a881-dc41b9740b4e",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private async Task OnBuildNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private async Task OnBuildNumberEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 331,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "4ddad5ba-f85c-4acd-ba78-b02a608f4956",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private async Task OnVersionMinorEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private async Task OnVersionMinorEntryCompletedAsync(object sender, System.Windows.RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 310,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "7d95e568-dc1e-42fa-b0c2-f30f99b66387",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private async Task OnVersionMajorEntryCompletedAsync(object sender, RoutedEventArgs e)",
+              "protected": "T:System.Windows.RoutedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private async Task OnVersionMajorEntryCompletedAsync(object sender, RoutedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.RoutedEventArgs",
+            "label": "T:System.Windows.RoutedEventArgs",
+            "line": 289,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "8ad336d1-947e-40f0-9f13-4a60ff6a5b27",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "mySolutionDataGrid.Columns.Add(solCol1);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "mySolutionDataGrid.Columns.Add(solCol1);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 255,
+            "column": 6
+          }
+        },
+        {
+          "incidentId": "4bfae632-bd7c-47f4-ab2f-290e242a9caf",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "mySolutionDataGrid.Columns.Add(solCol0);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "mySolutionDataGrid.Columns.Add(solCol0);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 254,
+            "column": 6
+          }
+        },
+        {
+          "incidentId": "ee625c1d-ad13-4418-85ba-cffe68b58315",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "myProjectsDataGrid.Columns.Add(projCol1);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "myProjectsDataGrid.Columns.Add(projCol1);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 135,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "ca2df7ad-05b0-4056-a936-179fdb01f63c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "myProjectsDataGrid.Columns.Add(projCol0);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "myProjectsDataGrid.Columns.Add(projCol0);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 134,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "a547949c-e83a-46a1-a6b7-a370aa162ffa",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "mySolutionDataGrid.Columns.Add(solCol1);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "mySolutionDataGrid.Columns.Add(solCol1);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 128,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "3490430f-429e-4007-bcbf-11ab1c035b85",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "mySolutionDataGrid.Columns.Add(solCol0);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "mySolutionDataGrid.Columns.Add(solCol0);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 127,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "e83cc7cc-329f-48a3-ba60-b5dbad972957",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1 = new()",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1 = new()",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 107,
+            "column": 21
+          }
+        },
+        {
+          "incidentId": "2bd134f0-2639-4935-8a05-7cf36a5d1b4e",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0 = new()",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0 = new()",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 106,
+            "column": 21
+          }
+        },
+        {
+          "incidentId": "c1cd52fa-a334-4e9e-a9c7-6754255611e3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1 = new()",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1 = new()",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 105,
+            "column": 21
+          }
+        },
+        {
+          "incidentId": "72843437-a488-4b2d-8e66-e284a975bdd6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0 = new()",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0 = new()",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 104,
+            "column": 21
+          }
+        },
+        {
+          "incidentId": "629293e0-a109-454c-a5eb-3d246f5a29e0",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "private void SetVersionNumberControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)",
+              "protected": "T:System.Windows.DependencyPropertyChangedEventArgs"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "private void SetVersionNumberControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)",
+            "protectedSnippet": "T:System.Windows.DependencyPropertyChangedEventArgs",
+            "label": "T:System.Windows.DependencyPropertyChangedEventArgs",
+            "line": 67,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "2f096c60-cf78-4b00-922b-dfddbc0700e6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "b9c37b4d-53cf-4056-b17b-4abb1e156bc2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "4ae12800-d9b0-41d1-9433-646d00aab8c4",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "F:System.Windows.Visibility.Visible"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "F:System.Windows.Visibility.Visible",
+            "label": "F:System.Windows.Visibility.Visible",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "bb48489d-1682-4f55-857f-4f48f640fb7a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "6e0f2a36-5607-4b46-830a-5e51545609cf",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "P:System.Windows.UIElement.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "P:System.Windows.UIElement.Visibility",
+            "label": "P:System.Windows.UIElement.Visibility",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "incidentId": "9766851d-9f81-4be5-bf12-855c7a11add9",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}",
+              "protected": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "if (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}",
+            "protectedSnippet": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue",
+            "label": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue",
+            "line": 75,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "21de12a3-7548-401d-b48f-4bf86ce8a4bc",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (!(bool)e.NewValue \u0026\u0026 (bool)e.OldValue)\r\n\t\t\t{\r\n\t\t\t\tWasInvisible = true;\r\n\t\t\t}\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tif (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}\r\n\t\t\t}",
+              "protected": "P:System.Windows.DependencyPropertyChangedEventArgs.OldValue"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "if (!(bool)e.NewValue \u0026\u0026 (bool)e.OldValue)\r\n\t\t\t{\r\n\t\t\t\tWasInvisible = true;\r\n\t\t\t}\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tif (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}\r\n\t\t\t}",
+            "protectedSnippet": "P:System.Windows.DependencyPropertyChangedEventArgs.OldValue",
+            "label": "P:System.Windows.DependencyPropertyChangedEventArgs.OldValue",
+            "line": 69,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "bfdc7a6b-2e78-4162-8de9-37a587fb5b5d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "if (!(bool)e.NewValue \u0026\u0026 (bool)e.OldValue)\r\n\t\t\t{\r\n\t\t\t\tWasInvisible = true;\r\n\t\t\t}\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tif (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}\r\n\t\t\t}",
+              "protected": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "if (!(bool)e.NewValue \u0026\u0026 (bool)e.OldValue)\r\n\t\t\t{\r\n\t\t\t\tWasInvisible = true;\r\n\t\t\t}\r\n\t\t\telse\r\n\t\t\t{\r\n\t\t\t\tif (WasInvisible \u0026\u0026 ((bool)e.NewValue))\r\n\t\t\t\t{\r\n\t\t\t\t\tVisibility = Visibility.Visible;\r\n\r\n\t\t\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\t\t\t\t}\r\n\t\t\t}",
+            "protectedSnippet": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue",
+            "label": "P:System.Windows.DependencyPropertyChangedEventArgs.NewValue",
+            "line": 69,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "95775ced-257b-4280-a68e-b2ffac7e80e3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Hidden;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Hidden;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 60,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "b2822fb5-7384-4261-ab74-26b03e865cd8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Hidden;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Hidden;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 60,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "4b1c3749-7c57-4e58-bd68-fe04ccb2d8e3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Hidden;",
+              "protected": "F:System.Windows.Visibility.Hidden"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Hidden;",
+            "protectedSnippet": "F:System.Windows.Visibility.Hidden",
+            "label": "F:System.Windows.Visibility.Hidden",
+            "line": 60,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "c7942d1b-b05e-4222-9c61-91f1322d4ec4",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Hidden;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Hidden;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 60,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "75336c6f-6081-464e-8a4b-09307d271273",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Hidden;",
+              "protected": "P:System.Windows.UIElement.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Hidden;",
+            "protectedSnippet": "P:System.Windows.UIElement.Visibility",
+            "label": "P:System.Windows.UIElement.Visibility",
+            "line": 60,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "6736d665-4b6c-4831-bd34-8aee946d5aa4",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "50e84554-926a-4228-b112-7f6730b3cd3b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "76d8fae0-5ab4-4759-9632-c80c4f3d12f6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "F:System.Windows.Visibility.Visible"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "F:System.Windows.Visibility.Visible",
+            "label": "F:System.Windows.Visibility.Visible",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "979c57f6-02d9-4eb2-a476-b03a25a982ae",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "T:System.Windows.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "T:System.Windows.Visibility",
+            "label": "T:System.Windows.Visibility",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1bfa1866-7e65-47f1-817e-f457c0e1b393",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Visibility = Visibility.Visible;",
+              "protected": "P:System.Windows.UIElement.Visibility"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "Visibility = Visibility.Visible;",
+            "protectedSnippet": "P:System.Windows.UIElement.Visibility",
+            "label": "P:System.Windows.UIElement.Visibility",
+            "line": 52,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1c0455cc-69dc-4133-a289-a63d35197f92",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "T:System.Windows.DependencyPropertyChangedEventHandler"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "label": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "fea3a88a-f669-4345-9542-f2c9a7a64f8a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "T:System.Windows.DependencyPropertyChangedEventHandler"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "label": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5c3b3021-4452-415d-a2d4-b6fe36ed9637",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "E:System.Windows.UIElement.IsVisibleChanged"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "E:System.Windows.UIElement.IsVisibleChanged",
+            "label": "E:System.Windows.UIElement.IsVisibleChanged",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "2e5a0a69-eb18-42b5-a8dc-8ed8d4a52bb2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1d47c9c2-5f84-4314-b896-15c0ca93f0e7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "e035de56-57b2-43a9-8370-80d2611c4264",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "65afa0c8-6f99-463c-967d-78902c86abf9",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "dfc2727a-3405-4b4c-a45b-07fc287ce0f3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Header = \u0022File containing version\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Header = \u0022File containing version\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 33,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "c3542a22-b030-474c-8897-b885a56edf47",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Header = \u0022File containing version\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Header = \u0022File containing version\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 33,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "63517a26-f5ff-4109-81f9-b1662b9d29c7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Header = \u0022Project\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Header = \u0022Project\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 32,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d7ebaf40-7508-4efd-8b38-6f85579f0572",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Header = \u0022Project\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Header = \u0022Project\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 32,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "006af030-0775-49f5-80f4-f4528a3b342b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d7f7f094-1685-48dd-8c20-03e616862cdf",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8b9a6c89-37b8-492f-bbc3-b8adddb1004e",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "a977fd29-95da-432c-b984-41fcd20010e7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "770f4667-bb98-4710-ad5a-43bfe74ceddd",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "ba97e667-76f4-4744-8328-ca29980f1373",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "541fd210-43bc-4d0c-9b14-3019260503da",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "4d6eaba0-12ee-4d43-83d8-41a183e730de",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "10e5b9c7-b2c7-48f6-8098-e5fea5f3cb83",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d79019fe-b4b2-4043-8c4b-eab2eeaf016d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "83bb03da-d58f-40e9-b401-177e02cafb10",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "9a3f0a3f-aa5b-4dc5-8177-95bf41ced4ae",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "bf4ca49f-d14b-45cc-b469-6660af262a0f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "931b8073-8f7b-497d-9809-edc219b5612a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "63e4ec92-32f4-4931-aa82-9234542d8f14",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Header = \u0022Path\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Header = \u0022Path\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 27,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "fb722ad3-cd8b-4d3b-8d71-1e4181d63141",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Header = \u0022Path\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Header = \u0022Path\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 27,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "72e79e90-e7bc-4364-a5f3-e1b25a382443",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Header = \u0022Solution\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Header = \u0022Solution\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 26,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "90763909-67d8-4b97-ae85-835b4426d17c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Header = \u0022Solution\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Header = \u0022Solution\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 26,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "3ef5be96-d66b-428f-8e27-92471aa87ab8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "68213d42-e878-4873-a2e5-845231dea4a3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "925c25b7-1d33-4dd2-abe1-9c7aeea2843d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1c01ca19-7e3c-40d9-a5cf-8ad076e3ea35",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "959fe7ec-d57e-405b-98bf-bb98fb6caea7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1fd8bee5-ad9b-4789-b0aa-d7c13d520e06",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1854cc72-45c8-47f0-802c-da1d1576aa1f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "9df912c3-bacf-41ac-a311-1e2184b87d2b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5ca93089-782f-4603-9b34-ff9608e5f31b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "1d3061ca-6a28-4a9e-8529-efa630fe5971",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "f144943e-8f09-4dfd-9ab9-8f2b76c8b295",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.TextWrapping"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.TextWrapping",
+            "label": "T:System.Windows.TextWrapping",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "265c3e2f-f527-4a6c-af28-6ef6cd03715a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.TextWrapping"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.TextWrapping",
+            "label": "T:System.Windows.TextWrapping",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "6442886e-a6c5-4909-bc4b-83ec30749aba",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "F:System.Windows.TextWrapping.Wrap"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "F:System.Windows.TextWrapping.Wrap",
+            "label": "F:System.Windows.TextWrapping.Wrap",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "300de42e-f7e5-43e3-8459-0d582ab638aa",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Controls.TextBlock"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Controls.TextBlock",
+            "label": "T:System.Windows.Controls.TextBlock",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "2c9b0a52-9535-47c1-a6e3-8541dc56277f",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.DependencyProperty"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.DependencyProperty",
+            "label": "T:System.Windows.DependencyProperty",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "16c4b26e-6eca-4ea5-9234-86a3c19d04b6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "F:System.Windows.Controls.TextBlock.TextWrappingProperty"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "F:System.Windows.Controls.TextBlock.TextWrappingProperty",
+            "label": "F:System.Windows.Controls.TextBlock.TextWrappingProperty",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "c362a4f3-8eb0-4013-a5f8-7dc04bd4e001",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Setter"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Setter",
+            "label": "T:System.Windows.Setter",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "3b97f444-d476-4739-b676-bbd26bc73f84",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)",
+            "label": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "91a186d0-ea2a-451c-83e3-97caa4a42f5a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "2156bf39-0b97-45de-a023-44758c790c77",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.SetterBaseCollection"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.SetterBaseCollection",
+            "label": "T:System.Windows.SetterBaseCollection",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "a27ed0ca-f879-4d1c-a9fc-e083efd26732",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "P:System.Windows.Style.Setters"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "P:System.Windows.Style.Setters",
+            "label": "P:System.Windows.Style.Setters",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "6be8324e-b601-434f-b3d1-a83841cd7d75",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "c6d50db9-777d-4da5-885e-10caad384b40",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "M:System.Windows.Style.#ctor(System.Type)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "M:System.Windows.Style.#ctor(System.Type)",
+            "label": "M:System.Windows.Style.#ctor(System.Type)",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "ae0c1ad7-c810-4d71-8a58-9645983d01cf",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "2a361061-0f0d-410a-a783-51f3ba041829",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public MyToolWindowControl()\r\n\t\t{\r\n\t\t\tInitializeComponent();\r\n\r\n\t\t\tDataGridTextColumnElementStyle = new(typeof(TextBlock));\r\n\t\t\tDataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));\r\n\r\n\t\t\tsolCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);\r\n\t\t\tsolCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);\r\n\t\t\tsolCol0.Header = \u0022Solution\u0022;\r\n\t\t\tsolCol1.Header = \u0022Path\u0022;\r\n\t\t\tsolCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tprojCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);\r\n\t\t\tprojCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);\r\n\t\t\tprojCol0.Header = \u0022Project\u0022;\r\n\t\t\tprojCol1.Header = \u0022File containing version\u0022;\r\n\t\t\tprojCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tVS.Events.SolutionEvents.OnAfterCloseSolution \u002B= SolutionEvents_OnAfterCloseSolution;\r\n\t\t\tVS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete \u002B=\r\n\t\t\t\tSolutionEvents_OnAfterBackgroundSolutionLoadComplete;\r\n\r\n\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\r\n\t\t\tIsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;\r\n\r\n\r\n\t\t}",
+              "protected": "M:System.Windows.Controls.UserControl.#ctor"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "public MyToolWindowControl()\r\n\t\t{\r\n\t\t\tInitializeComponent();\r\n\r\n\t\t\tDataGridTextColumnElementStyle = new(typeof(TextBlock));\r\n\t\t\tDataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));\r\n\r\n\t\t\tsolCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);\r\n\t\t\tsolCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);\r\n\t\t\tsolCol0.Header = \u0022Solution\u0022;\r\n\t\t\tsolCol1.Header = \u0022Path\u0022;\r\n\t\t\tsolCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tprojCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);\r\n\t\t\tprojCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);\r\n\t\t\tprojCol0.Header = \u0022Project\u0022;\r\n\t\t\tprojCol1.Header = \u0022File containing version\u0022;\r\n\t\t\tprojCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tVS.Events.SolutionEvents.OnAfterCloseSolution \u002B= SolutionEvents_OnAfterCloseSolution;\r\n\t\t\tVS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete \u002B=\r\n\t\t\t\tSolutionEvents_OnAfterBackgroundSolutionLoadComplete;\r\n\r\n\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\r\n\t\t\tIsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;\r\n\r\n\r\n\t\t}",
+            "protectedSnippet": "M:System.Windows.Controls.UserControl.#ctor",
+            "label": "M:System.Windows.Controls.UserControl.#ctor",
+            "line": 17,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "ca987c2f-1fca-430c-a2c2-e8bf71e84d60",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 16,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "bfc4c9d4-6ca1-45c4-84c5-5d84eaf1faa5",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "T:System.Windows.DependencyPropertyChangedEventHandler"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "label": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "9a995cd7-eb31-4bec-8c72-930de391513b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "T:System.Windows.DependencyPropertyChangedEventHandler"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "label": "T:System.Windows.DependencyPropertyChangedEventHandler",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5ed30abf-179e-49e1-96df-bd617c8bffa3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+              "protected": "E:System.Windows.UIElement.IsVisibleChanged"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "IsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;",
+            "protectedSnippet": "E:System.Windows.UIElement.IsVisibleChanged",
+            "label": "E:System.Windows.UIElement.IsVisibleChanged",
+            "line": 42,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "ffe6e1f4-4771-4be0-91cd-19d8c20a7aa0",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "4cf88610-6d56-432e-9f59-b06a5d649742",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "b30c5b05-d764-4d5e-b810-8ba3132dc4d2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "6331aca4-302e-4d9d-9357-cfbc796ef368",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "line": 34,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "03688eae-82f6-4d4b-bfdc-4b2156c3bc7a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Header = \u0022File containing version\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Header = \u0022File containing version\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 33,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "a8599158-3956-4ea5-bd4e-ddee4ebe8353",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Header = \u0022File containing version\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Header = \u0022File containing version\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 33,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "4f24fe53-51dc-46f0-8cba-9c1461218c70",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Header = \u0022Project\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Header = \u0022Project\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 32,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "fe1834e6-2ec0-498f-bf1f-bf6648be5fa3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Header = \u0022Project\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Header = \u0022Project\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 32,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "ce8bc2d6-5e52-46f1-bd97-5d43d2ea6c46",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8688cd25-661a-40a2-823c-1dc3d145845b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "7f11ab7a-de60-4a61-87e7-acc77ae7cfd6",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0825316c-3dc3-4f76-9224-d17a45bd926a",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5b85f735-7db3-4393-a95b-e0895e6e1557",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 31,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0d152192-277c-4cd1-a83d-588101c7acb8",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "e42538e1-0ca3-449e-957f-b01c538a3526",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8ba2fece-48af-4cbd-862f-41e08956fd0d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "3a007a10-7fa2-4c9e-88ac-3456d2028296",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "fdb19ac2-e179-4856-b0bb-0ee5a661547b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "projCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 30,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5b9b7741-1f70-4015-babb-2ff8d5f4f01e",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "66cc675a-37a6-4e01-8dc5-7ec3ab7e1c8d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d51e7d47-b83a-4441-91f0-67b585e6d870",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "fb6823f8-85bb-481c-bd11-3f21cf1b9641",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.ElementStyle = DataGridTextColumnElementStyle;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.ElementStyle",
+            "line": 28,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8d2726c8-04f1-4391-8353-79c6999bbd46",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Header = \u0022Path\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Header = \u0022Path\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 27,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "741b27c9-2b28-499f-8d15-4c714e43273d",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Header = \u0022Path\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Header = \u0022Path\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 27,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "3661f80f-5c1c-4684-a86c-161928569986",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Header = \u0022Solution\u0022;",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Header = \u0022Solution\u0022;",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 26,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0f54c7aa-f117-479b-9ce4-9e26e0dba2fc",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Header = \u0022Solution\u0022;",
+              "protected": "P:System.Windows.Controls.DataGridColumn.Header"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Header = \u0022Solution\u0022;",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridColumn.Header",
+            "label": "P:System.Windows.Controls.DataGridColumn.Header",
+            "line": 26,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "ace2b20b-385e-4023-a167-c896a4f29ec3",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "afc23316-d35e-486c-af78-230771fe94a5",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "79aa0c74-a0e4-48d5-aae9-d350d7f1bfaa",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "f6fb010a-d17a-4f2c-b696-6a9801c50b91",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8530d3ed-e2d2-49f6-adc7-b0a64c9cfa53",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 25,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "9834441c-04c0-4173-a2fa-f6a1836e4597",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Data.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.Binding",
+            "label": "T:System.Windows.Data.Binding",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d3e3a7b9-942d-49c2-b257-3bee0fe630bc",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "M:System.Windows.Data.Binding.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "label": "M:System.Windows.Data.Binding.#ctor(System.String)",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5dc39b13-7ec6-4621-a984-151c0ad0a1c5",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Controls.DataGridTextColumn"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Controls.DataGridTextColumn",
+            "label": "T:System.Windows.Controls.DataGridTextColumn",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d8015c58-7026-41e5-a0f9-893d7856dd52",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "T:System.Windows.Data.BindingBase"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "T:System.Windows.Data.BindingBase",
+            "label": "T:System.Windows.Data.BindingBase",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "53de969a-07e8-44c8-874a-142e47f604d9",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+              "protected": "P:System.Windows.Controls.DataGridBoundColumn.Binding"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "solCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);",
+            "protectedSnippet": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "label": "P:System.Windows.Controls.DataGridBoundColumn.Binding",
+            "line": 24,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "dcf39259-c360-4983-a44d-5f4439e1697c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.TextWrapping"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.TextWrapping",
+            "label": "T:System.Windows.TextWrapping",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "8d2c022d-5531-407a-9ee0-6ebc7b503db2",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.TextWrapping"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.TextWrapping",
+            "label": "T:System.Windows.TextWrapping",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0b389e2b-7c8c-468c-9d2d-56b953c8c958",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "F:System.Windows.TextWrapping.Wrap"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "F:System.Windows.TextWrapping.Wrap",
+            "label": "F:System.Windows.TextWrapping.Wrap",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0bda583c-415f-4661-abbc-985054644490",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Controls.TextBlock"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Controls.TextBlock",
+            "label": "T:System.Windows.Controls.TextBlock",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "82cee5ec-8b38-4954-af66-7efe08266b7c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.DependencyProperty"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.DependencyProperty",
+            "label": "T:System.Windows.DependencyProperty",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "5af6b6f3-7cc6-4474-925c-f9b3ae85092c",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "F:System.Windows.Controls.TextBlock.TextWrappingProperty"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "F:System.Windows.Controls.TextBlock.TextWrappingProperty",
+            "label": "F:System.Windows.Controls.TextBlock.TextWrappingProperty",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "cd39d297-2708-485f-aaa7-95cddb3c75b9",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Setter"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Setter",
+            "label": "T:System.Windows.Setter",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "90045313-af44-43c7-ac3f-6afa1a25d89e",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)",
+            "label": "M:System.Windows.Setter.#ctor(System.Windows.DependencyProperty,System.Object)",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0a0ef429-e22f-407a-b82f-2820f71e1835",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "668ad6d1-8779-48de-b8ff-1ad42364adaa",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "T:System.Windows.SetterBaseCollection"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "T:System.Windows.SetterBaseCollection",
+            "label": "T:System.Windows.SetterBaseCollection",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "4b478f06-6e22-46ca-9ee4-d82d8cc1183b",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+              "protected": "P:System.Windows.Style.Setters"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));",
+            "protectedSnippet": "P:System.Windows.Style.Setters",
+            "label": "P:System.Windows.Style.Setters",
+            "line": 22,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "0a1d9de9-a449-4278-b700-cc930fd19894",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "e9d8351b-c439-4368-8d2f-7dc5822c3ef7",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "M:System.Windows.Style.#ctor(System.Type)"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "M:System.Windows.Style.#ctor(System.Type)",
+            "label": "M:System.Windows.Style.#ctor(System.Type)",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "2d2e922a-9127-4557-b189-40be00358adb",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+              "protected": "T:System.Windows.Style"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "DataGridTextColumnElementStyle = new(typeof(TextBlock));",
+            "protectedSnippet": "T:System.Windows.Style",
+            "label": "T:System.Windows.Style",
+            "line": 21,
+            "column": 3
+          }
+        },
+        {
+          "incidentId": "d4c624c3-e00a-49d8-9fa7-9b12ae8d35de",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "public MyToolWindowControl()\r\n\t\t{\r\n\t\t\tInitializeComponent();\r\n\r\n\t\t\tDataGridTextColumnElementStyle = new(typeof(TextBlock));\r\n\t\t\tDataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));\r\n\r\n\t\t\tsolCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);\r\n\t\t\tsolCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);\r\n\t\t\tsolCol0.Header = \u0022Solution\u0022;\r\n\t\t\tsolCol1.Header = \u0022Path\u0022;\r\n\t\t\tsolCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tprojCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);\r\n\t\t\tprojCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);\r\n\t\t\tprojCol0.Header = \u0022Project\u0022;\r\n\t\t\tprojCol1.Header = \u0022File containing version\u0022;\r\n\t\t\tprojCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tVS.Events.SolutionEvents.OnAfterCloseSolution \u002B= SolutionEvents_OnAfterCloseSolution;\r\n\t\t\tVS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete \u002B=\r\n\t\t\t\tSolutionEvents_OnAfterBackgroundSolutionLoadComplete;\r\n\r\n\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\r\n\t\t\tIsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;\r\n\r\n\r\n\t\t}",
+              "protected": "M:System.Windows.Controls.UserControl.#ctor"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "public MyToolWindowControl()\r\n\t\t{\r\n\t\t\tInitializeComponent();\r\n\r\n\t\t\tDataGridTextColumnElementStyle = new(typeof(TextBlock));\r\n\t\t\tDataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));\r\n\r\n\t\t\tsolCol0.Binding = new Binding(\u0022ThisSolutionName\u0022);\r\n\t\t\tsolCol1.Binding = new Binding(\u0022ThisSolutionPath\u0022);\r\n\t\t\tsolCol0.Header = \u0022Solution\u0022;\r\n\t\t\tsolCol1.Header = \u0022Path\u0022;\r\n\t\t\tsolCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tprojCol0.Binding = new Binding(\u0022ThisSolutionProject\u0022);\r\n\t\t\tprojCol1.Binding = new Binding(\u0022ThisSolutionProjectPath\u0022);\r\n\t\t\tprojCol0.Header = \u0022Project\u0022;\r\n\t\t\tprojCol1.Header = \u0022File containing version\u0022;\r\n\t\t\tprojCol1.ElementStyle = DataGridTextColumnElementStyle;\r\n\r\n\t\t\tVS.Events.SolutionEvents.OnAfterCloseSolution \u002B= SolutionEvents_OnAfterCloseSolution;\r\n\t\t\tVS.Events.SolutionEvents.OnAfterBackgroundSolutionLoadComplete \u002B=\r\n\t\t\t\tSolutionEvents_OnAfterBackgroundSolutionLoadComplete;\r\n\r\n\t\t\t_ = GetShowPathsToVersionContainingFilesAsync();\r\n\r\n\t\t\tIsVisibleChanged \u002B= SetVersionNumberControl_IsVisibleChanged;\r\n\r\n\r\n\t\t}",
+            "protectedSnippet": "M:System.Windows.Controls.UserControl.#ctor",
+            "label": "M:System.Windows.Controls.UserControl.#ctor",
+            "line": 17,
+            "column": 2
+          }
+        },
+        {
+          "incidentId": "de1d49b3-6525-4eb6-a2bd-093116e20184",
+          "ruleId": "Api.0001",
+          "description": "API is unavailable in net8.0 ",
+          "projectPath": "SetGlobalVersion\\SetGlobalVersion.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "UserControl",
+              "protected": "T:System.Windows.Controls.UserControl"
+            },
+            "kind": "File",
+            "path": "SetGlobalVersion\\ToolWindows\\MyToolWindowControl.xaml.cs",
+            "snippet": "UserControl",
+            "protectedSnippet": "T:System.Windows.Controls.UserControl",
+            "label": "T:System.Windows.Controls.UserControl",
+            "line": 13,
+            "column": 44
+          }
+        }
+      ],
+      "features": [
+        {
+          "featureId": "Wpf",
+          "incidents": [
+            "de1d49b3-6525-4eb6-a2bd-093116e20184",
+            "d4c624c3-e00a-49d8-9fa7-9b12ae8d35de",
+            "5af6b6f3-7cc6-4474-925c-f9b3ae85092c",
+            "0bda583c-415f-4661-abbc-985054644490",
+            "53de969a-07e8-44c8-874a-142e47f604d9",
+            "d8015c58-7026-41e5-a0f9-893d7856dd52",
+            "5dc39b13-7ec6-4621-a984-151c0ad0a1c5",
+            "d3e3a7b9-942d-49c2-b257-3bee0fe630bc",
+            "9834441c-04c0-4173-a2fa-f6a1836e4597",
+            "8530d3ed-e2d2-49f6-adc7-b0a64c9cfa53",
+            "f6fb010a-d17a-4f2c-b696-6a9801c50b91",
+            "79aa0c74-a0e4-48d5-aae9-d350d7f1bfaa",
+            "afc23316-d35e-486c-af78-230771fe94a5",
+            "ace2b20b-385e-4023-a167-c896a4f29ec3",
+            "0f54c7aa-f117-479b-9ce4-9e26e0dba2fc",
+            "3661f80f-5c1c-4684-a86c-161928569986",
+            "741b27c9-2b28-499f-8d15-4c714e43273d",
+            "8d2726c8-04f1-4391-8353-79c6999bbd46",
+            "fb6823f8-85bb-481c-bd11-3f21cf1b9641",
+            "66cc675a-37a6-4e01-8dc5-7ec3ab7e1c8d",
+            "fdb19ac2-e179-4856-b0bb-0ee5a661547b",
+            "3a007a10-7fa2-4c9e-88ac-3456d2028296",
+            "8ba2fece-48af-4cbd-862f-41e08956fd0d",
+            "e42538e1-0ca3-449e-957f-b01c538a3526",
+            "0d152192-277c-4cd1-a83d-588101c7acb8",
+            "5b85f735-7db3-4393-a95b-e0895e6e1557",
+            "0825316c-3dc3-4f76-9224-d17a45bd926a",
+            "7f11ab7a-de60-4a61-87e7-acc77ae7cfd6",
+            "8688cd25-661a-40a2-823c-1dc3d145845b",
+            "ce8bc2d6-5e52-46f1-bd97-5d43d2ea6c46",
+            "fe1834e6-2ec0-498f-bf1f-bf6648be5fa3",
+            "4f24fe53-51dc-46f0-8cba-9c1461218c70",
+            "a8599158-3956-4ea5-bd4e-ddee4ebe8353",
+            "03688eae-82f6-4d4b-bfdc-4b2156c3bc7a",
+            "6331aca4-302e-4d9d-9357-cfbc796ef368",
+            "4cf88610-6d56-432e-9f59-b06a5d649742",
+            "2a361061-0f0d-410a-a783-51f3ba041829",
+            "16c4b26e-6eca-4ea5-9234-86a3c19d04b6",
+            "300de42e-f7e5-43e3-8459-0d582ab638aa",
+            "1d3061ca-6a28-4a9e-8529-efa630fe5971",
+            "5ca93089-782f-4603-9b34-ff9608e5f31b",
+            "9df912c3-bacf-41ac-a311-1e2184b87d2b",
+            "1854cc72-45c8-47f0-802c-da1d1576aa1f",
+            "1fd8bee5-ad9b-4789-b0aa-d7c13d520e06",
+            "959fe7ec-d57e-405b-98bf-bb98fb6caea7",
+            "1c01ca19-7e3c-40d9-a5cf-8ad076e3ea35",
+            "925c25b7-1d33-4dd2-abe1-9c7aeea2843d",
+            "68213d42-e878-4873-a2e5-845231dea4a3",
+            "3ef5be96-d66b-428f-8e27-92471aa87ab8",
+            "90763909-67d8-4b97-ae85-835b4426d17c",
+            "72e79e90-e7bc-4364-a5f3-e1b25a382443",
+            "fb722ad3-cd8b-4d3b-8d71-1e4181d63141",
+            "63e4ec92-32f4-4931-aa82-9234542d8f14",
+            "931b8073-8f7b-497d-9809-edc219b5612a",
+            "9a3f0a3f-aa5b-4dc5-8177-95bf41ced4ae",
+            "d79019fe-b4b2-4043-8c4b-eab2eeaf016d",
+            "10e5b9c7-b2c7-48f6-8098-e5fea5f3cb83",
+            "4d6eaba0-12ee-4d43-83d8-41a183e730de",
+            "541fd210-43bc-4d0c-9b14-3019260503da",
+            "ba97e667-76f4-4744-8328-ca29980f1373",
+            "770f4667-bb98-4710-ad5a-43bfe74ceddd",
+            "a977fd29-95da-432c-b984-41fcd20010e7",
+            "8b9a6c89-37b8-492f-bbc3-b8adddb1004e",
+            "d7f7f094-1685-48dd-8c20-03e616862cdf",
+            "006af030-0775-49f5-80f4-f4528a3b342b",
+            "d7ebaf40-7508-4efd-8b38-6f85579f0572",
+            "63517a26-f5ff-4109-81f9-b1662b9d29c7",
+            "c3542a22-b030-474c-8897-b885a56edf47",
+            "dfc2727a-3405-4b4c-a45b-07fc287ce0f3",
+            "65afa0c8-6f99-463c-967d-78902c86abf9",
+            "1d47c9c2-5f84-4314-b896-15c0ca93f0e7",
+            "72843437-a488-4b2d-8e66-e284a975bdd6",
+            "c1cd52fa-a334-4e9e-a9c7-6754255611e3",
+            "2bd134f0-2639-4935-8a05-7cf36a5d1b4e",
+            "e83cc7cc-329f-48a3-ba60-b5dbad972957",
+            "3490430f-429e-4007-bcbf-11ab1c035b85",
+            "a547949c-e83a-46a1-a6b7-a370aa162ffa",
+            "ca2df7ad-05b0-4056-a936-179fdb01f63c",
+            "ee625c1d-ad13-4418-85ba-cffe68b58315",
+            "4bfae632-bd7c-47f4-ab2f-290e242a9caf",
+            "8ad336d1-947e-40f0-9f13-4a60ff6a5b27",
+            "36c18a10-139c-4792-a774-57555288d3ea",
+            "e8ebeea3-3341-4155-aaed-e4a05b03e23b",
+            "a866c0af-5f63-4171-b93b-103f819ee0c1",
+            "81c6ed5a-9c11-4b70-8943-44a64a47c9e1",
+            "92e22a79-a23d-41c4-9ab5-da8db3386162"
+          ]
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "NuGet.0001": {
+      "id": "NuGet.0001",
+      "isFeature": false,
+      "description": "NuGet package is incompatible with selected target framework.\n\nPackage needs to be upgraded to a version supporting selected project target framework. If there no new package versions supporting new target framework, different package needs to be used and all code needs to be upgraded to new API.",
+      "label": "NuGet package is incompatible",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262529",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0001": {
+      "id": "Project.0001",
+      "isFeature": false,
+      "description": "Project file needs to be converted to SDK-style. Modern .NET framework projects require a change in the project file format and use SDK corresponding to project flavor and functionality.",
+      "label": "Project file needs to be converted to SDK-style",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0001": {
+      "id": "Api.0001",
+      "isFeature": false,
+      "description": "API is binary incompatible for selected .NET version: affects existing binaries, often requiring recompilation, because the API has changed in a way that prevents older binaries from loading or executing.",
+      "label": "Binary incompatible for selected .NET version",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Wpf": {
+      "id": "Wpf",
+      "isFeature": false,
+      "description": "WPF APIs for building Windows desktop applications with XAML-based UI that are available in .NET on Windows. WPF provides rich desktop UI capabilities with data binding and styling. Enable Windows Desktop support: Option 1 (Recommended): Target net9.0-windows; Option 2: Add \u003CUseWindowsDesktop\u003Etrue\u003C/UseWindowsDesktop\u003E.",
+      "label": "WPF (Windows Presentation Foundation)",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "WPF on .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2342008",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}

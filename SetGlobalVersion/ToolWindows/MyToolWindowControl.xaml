@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
 	x:Class="SetGlobalVersion.MyToolWindowControl"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,12 +7,10 @@
 	xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:theming="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Imaging"
-	xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
 	xmlns:util="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Utilities"
 	x:Name="Set_Version_Number"
 	Padding="10"
 	HorizontalAlignment="Left"
-	toolkit:Themes.UseVsTheme="True"
 	mc:Ignorable="d"
 	>
 
