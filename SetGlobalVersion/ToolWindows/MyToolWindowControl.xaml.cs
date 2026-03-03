@@ -1000,54 +1000,61 @@ namespace SetGlobalVersion
 						TheXmlDocument.SelectNodes("//ApplicationVersion");
 					XmlNodeList versionNodes =
 						TheXmlDocument.SelectNodes("//Version");
+					XmlNodeList assemblyVersionNodes =
+						TheXmlDocument.SelectNodes("//AssemblyVersion");
+					XmlNodeList fileVersionNodes =
+						TheXmlDocument.SelectNodes("//FileVersion");
+					XmlNodeList informationalVersionNodes =
+						TheXmlDocument.SelectNodes("//InformationalVersion");
 
-					foreach
-						(XmlNode applicationdisplayversionNode in applicationdisplayversionNodes)
+					string versionThreePart =
+						VersionMajor.ToString()
+						+
+						'.'
+						+
+						VersionMinor.ToString()
+						+
+						'.'
+						+
+						BuildNumber.ToString();
+
+					string versionFourPart =
+						versionThreePart
+						+
+						'.'
+						+
+						RevisionNumber.ToString();
+
+					foreach (XmlNode applicationdisplayversionNode in applicationdisplayversionNodes)
 					{
-						string applicationdisplayversion = applicationdisplayversionNode.InnerText;
-
-						applicationdisplayversionNode.InnerText =
-							VersionMajor.ToString()
-							+
-							'.'
-							+
-							VersionMinor.ToString()
-							+
-							'.'
-							+
-							BuildNumber.ToString()
-							;
-
-						applicationdisplayversion = applicationdisplayversionNode.InnerText;
+						applicationdisplayversionNode.InnerText = versionThreePart;
 					}
 
 					foreach (XmlNode applicationversionNode in applicationversionNodes)
 					{
-						string applicationversion = applicationversionNode.InnerText;
-
-						applicationversionNode.InnerText =
-								RevisionNumber.ToString();
-
-						applicationversion = applicationversionNode.InnerText;
+						applicationversionNode.InnerText = RevisionNumber.ToString();
 					}
 
 					foreach (XmlNode versionNode in versionNodes)
 					{
-						string version = versionNode.InnerText;
+						string currentVersion = versionNode.InnerText?.Trim() ?? string.Empty;
+						bool keepFourPartVersion = currentVersion.Split('.').Length >= 4;
+						versionNode.InnerText = keepFourPartVersion ? versionFourPart : versionThreePart;
+					}
 
-						versionNode.InnerText =
-							VersionMajor.ToString()
-							+
-							'.'
-							+
-							VersionMinor.ToString()
-							+
-							'.'
-							+
-							BuildNumber.ToString()
-							;
+					foreach (XmlNode assemblyVersionNode in assemblyVersionNodes)
+					{
+						assemblyVersionNode.InnerText = versionFourPart;
+					}
 
-						version = versionNode.InnerText;
+					foreach (XmlNode fileVersionNode in fileVersionNodes)
+					{
+						fileVersionNode.InnerText = versionFourPart;
+					}
+
+					foreach (XmlNode informationalVersionNode in informationalVersionNodes)
+					{
+						informationalVersionNode.InnerText = versionFourPart;
 					}
 
 					try
