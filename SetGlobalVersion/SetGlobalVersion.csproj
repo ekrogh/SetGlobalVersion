@@ -100,7 +100,7 @@
     <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
     <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.549" ExcludeAssets="Runtime" />
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3174">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.5.38461">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -115,3 +115,6 @@
   </Target>
   -->
 </Project>
+
+
+
