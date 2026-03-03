@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable">
 
   <Extern href="stdidcmd.h"/>
   <Extern href="vsshlids.h"/>
@@ -7,7 +7,6 @@
   <Include href="VSGlobals.vsct"/>
 
   <Commands package="SetGlobalVersion">
-    <!--This section defines the elements the user can interact with, like a menu command or a button or combo box in a toolbar. -->
     <Buttons>
       <Button guid="SetGlobalVersion" id="MyCommand" priority="0x0100" type="Button">
         <Parent guid="VSMainMenu" id="SolutionNode.PropertiesGroup"/>
