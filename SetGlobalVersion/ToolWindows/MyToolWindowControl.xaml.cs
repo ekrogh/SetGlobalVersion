@@ -993,13 +993,19 @@ namespace SetGlobalVersion
 					XmlDocument TheXmlDocument = new();
 					TheXmlDocument.Load(verFile.FilePathAndName);
 
-					// Use the SelectNodes method with an XPath expression to find the desired elements
+					// Namespace-agnostic queries (works for SDK-style and namespaced MSBuild XML)
 					XmlNodeList applicationdisplayversionNodes =
-						TheXmlDocument.SelectNodes("//ApplicationDisplayVersion");
+						TheXmlDocument.SelectNodes("//*[local-name()='ApplicationDisplayVersion']");
 					XmlNodeList applicationversionNodes =
-						TheXmlDocument.SelectNodes("//ApplicationVersion");
+						TheXmlDocument.SelectNodes("//*[local-name()='ApplicationVersion']");
 					XmlNodeList versionNodes =
-						TheXmlDocument.SelectNodes("//Version");
+						TheXmlDocument.SelectNodes("//*[local-name()='Version']");
+					XmlNodeList assemblyVersionNodes =
+						TheXmlDocument.SelectNodes("//*[local-name()='AssemblyVersion']");
+					XmlNodeList fileVersionNodes =
+						TheXmlDocument.SelectNodes("//*[local-name()='FileVersion']");
+					XmlNodeList informationalVersionNodes =
+						TheXmlDocument.SelectNodes("//*[local-name()='InformationalVersion']");
 
 					foreach
 						(XmlNode applicationdisplayversionNode in applicationdisplayversionNodes)
@@ -1048,6 +1054,40 @@ namespace SetGlobalVersion
 							;
 
 						version = versionNode.InnerText;
+					}
+
+					foreach (XmlNode assemblyVersionNode in assemblyVersionNodes)
+					{
+						assemblyVersionNode.InnerText =
+							VersionMajor.ToString()
+							+ '.'
+							+ VersionMinor.ToString()
+							+ '.'
+							+ BuildNumber.ToString()
+							+ '.'
+							+ RevisionNumber.ToString();
+					}
+
+					foreach (XmlNode fileVersionNode in fileVersionNodes)
+					{
+						fileVersionNode.InnerText =
+							VersionMajor.ToString()
+							+ '.'
+							+ VersionMinor.ToString()
+							+ '.'
+							+ BuildNumber.ToString()
+							+ '.'
+							+ RevisionNumber.ToString();
+					}
+
+					foreach (XmlNode informationalVersionNode in informationalVersionNodes)
+					{
+						informationalVersionNode.InnerText =
+							VersionMajor.ToString()
+							+ '.'
+							+ VersionMinor.ToString()
+							+ '.'
+							+ BuildNumber.ToString();
 					}
 
 					try

@@ -97,6 +97,16 @@ namespace SetGlobalVersion.Helpers
 				//, swapproj
 			];
 
+		private static bool ProjectFileContainsVersionNodes(string projectPath)
+		{
+			var projectText = File.ReadAllText(projectPath);
+			return projectText.Contains("ApplicationDisplayVersion")
+				|| projectText.Contains("<Version>")
+				|| projectText.Contains("<AssemblyVersion>")
+				|| projectText.Contains("<FileVersion>")
+				|| projectText.Contains("<InformationalVersion>");
+		}
+
 
 		public static void CleanUpHelpers()
 		{
@@ -502,13 +512,7 @@ namespace SetGlobalVersion.Helpers
 								}
 							case scsproj:
 								{
-									if
-									(
-										File.ReadAllText(pathAndFile).Contains
-											(
-												"ApplicationDisplayVersion"
-											)
-									)
+									if (ProjectFileContainsVersionNodes(pathAndFile))
 									{
 
 										fileType = FilesContainingVersionTypes.projcsproj;
@@ -606,13 +610,7 @@ namespace SetGlobalVersion.Helpers
 					//if (project.Kind == PrjKind.prjKindCSharpProject)
 					if (project.Kind == ProjectTypes.CSHARP)
 					{
-						if
-						(
-							File.ReadAllText(project.FullName).Contains
-								(
-									"ApplicationDisplayVersion"
-								)
-						)
+						if (ProjectFileContainsVersionNodes(project.FullName))
 						{
 							string pathAndFile = project.FullName;
 							bool FoundInThisSolitm = false;
