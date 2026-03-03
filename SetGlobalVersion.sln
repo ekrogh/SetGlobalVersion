@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.34814.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11520.95 d18.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetGlobalVersion", "SetGlobalVersion\SetGlobalVersion.csproj", "{1A5A2FE6-4EB5-4D95-9E1B-DA4BFDA47434}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MajorMinorBuildRevisionNumbersXmlFile", "MajorMinorBuildRevisionNumbersXmlFile", "{8EC10DC1-00BB-4989-8BDB-30B2F24B17CB}"
+	ProjectSection(SolutionItems) = preProject
+		MajorMinorBuildRevisionNumbers.xml = MajorMinorBuildRevisionNumbers.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

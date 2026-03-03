@@ -1,4 +1,4 @@
-﻿using SetGlobalVersion;
+using SetGlobalVersion;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion(Vsix.Version)]
+[assembly: AssemblyVersion("6.0.1.1")]
 [assembly: AssemblyFileVersion(Vsix.Version)]
 
 namespace System.Runtime.CompilerServices
