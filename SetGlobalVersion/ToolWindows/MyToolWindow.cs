@@ -8,7 +8,7 @@ namespace SetGlobalVersion
 {
 	public class MyToolWindow : BaseToolWindow<MyToolWindow>
 	{
-		public override string GetTitle(int toolWindowId) => "My Tool Window";
+		public override string GetTitle(int toolWindowId) => "Set Global Version Number";
 
 		public override Type PaneType => typeof(Pane);
 
@@ -17,8 +17,8 @@ namespace SetGlobalVersion
 			return Task.FromResult<FrameworkElement>(new MyToolWindowControl());
 		}
 
-		[Guid("a6806b75-2075-474c-875f-7fbc9c95bf31")]
-		internal class Pane : ToolkitToolWindowPane
+		[Guid("d047abcc-9a6a-4507-81a1-9a6d4608410d")]
+		internal class Pane : ToolWindowPane
 		{
 			public Pane()
 			{
