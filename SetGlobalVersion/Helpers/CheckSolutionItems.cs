@@ -28,6 +28,28 @@ namespace SetGlobalVersion.Helpers
 		public static bool MajorMinorBuildRevisionNumbersXmlFileExistedAtStart { get; set; } = false;
 		public static bool MajorMinorBuildRevisionNumbersXmlFileJustCreated { get; set; } = false;
 
+		private static readonly string[] CsprojVersionPropertyMarkers =
+		[
+			"ApplicationDisplayVersion",
+			"ApplicationVersion",
+			"Version",
+			"AssemblyVersion",
+			"FileVersion",
+			"InformationalVersion"
+		];
+
+		private static bool HasSupportedCsprojVersionMarkers(string projectFilePath)
+		{
+			if (!File.Exists(projectFilePath))
+			{
+				return false;
+			}
+
+			string projectText = File.ReadAllText(projectFilePath);
+			return CsprojVersionPropertyMarkers.Any(marker =>
+				projectText.IndexOf(marker, StringComparison.OrdinalIgnoreCase) >= 0);
+		}
+
 		public struct VersionFilePathAndType
 		{
 			public string FilePathAndName;
@@ -502,13 +524,7 @@ namespace SetGlobalVersion.Helpers
 								}
 							case scsproj:
 								{
-									if
-									(
-										File.ReadAllText(pathAndFile).Contains
-											(
-												"ApplicationDisplayVersion"
-											)
-									)
+									if (HasSupportedCsprojVersionMarkers(pathAndFile))
 									{
 
 										fileType = FilesContainingVersionTypes.projcsproj;
@@ -606,13 +622,7 @@ namespace SetGlobalVersion.Helpers
 					//if (project.Kind == PrjKind.prjKindCSharpProject)
 					if (project.Kind == ProjectTypes.CSHARP)
 					{
-						if
-						(
-							File.ReadAllText(project.FullName).Contains
-								(
-									"ApplicationDisplayVersion"
-								)
-						)
+						if (HasSupportedCsprojVersionMarkers(project.FullName))
 						{
 							string pathAndFile = project.FullName;
 							bool FoundInThisSolitm = false;
