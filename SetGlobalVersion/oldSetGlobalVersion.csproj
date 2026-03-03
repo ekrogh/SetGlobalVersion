@@ -33,8 +33,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SetGlobalVersion</RootNamespace>
     <AssemblyName>SetGlobalVersion</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>`r`n    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
