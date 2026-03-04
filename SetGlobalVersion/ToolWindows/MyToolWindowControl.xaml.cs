@@ -993,19 +993,19 @@ namespace SetGlobalVersion
 					XmlDocument TheXmlDocument = new();
 					TheXmlDocument.Load(verFile.FilePathAndName);
 
-					// Namespace-agnostic queries (works for SDK-style and namespaced MSBuild XML)
+					// Namespace-agnostic queries limited to PropertyGroup entries
 					XmlNodeList applicationdisplayversionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='ApplicationDisplayVersion']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='ApplicationDisplayVersion']");
 					XmlNodeList applicationversionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='ApplicationVersion']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='ApplicationVersion']");
 					XmlNodeList versionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='Version']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='Version']");
 					XmlNodeList assemblyVersionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='AssemblyVersion']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='AssemblyVersion']");
 					XmlNodeList fileVersionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='FileVersion']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='FileVersion']");
 					XmlNodeList informationalVersionNodes =
-						TheXmlDocument.SelectNodes("//*[local-name()='InformationalVersion']");
+						TheXmlDocument.SelectNodes("//*[local-name()='PropertyGroup']/*[local-name()='InformationalVersion']");
 
 					foreach
 						(XmlNode applicationdisplayversionNode in applicationdisplayversionNodes)
