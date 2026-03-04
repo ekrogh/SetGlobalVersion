@@ -1,0 +1,60 @@
+Files Edited for Version Changes by Project Type
+
+Based on the current implementation in SetGlobalVersion.
+
+Project types (and typical files updated)
+- .NET MAUI
+  - Usually updates version nodes in *.csproj
+  - Can also update platform files like AndroidManifest.xml and Info.plist when present
+- Xamarin.Forms
+  - Typically updates AndroidManifest.xml, Info.plist, and platform manifest.xml
+- UWP
+  - Typically updates Package.appxmanifest (and sometimes manifest.xml depending on project structure)
+- WPF
+  - Typically updates app.manifest, AssemblyInfo.cs, and/or *.csproj version nodes
+- WinUI 3
+  - Typically updates Package.appxmanifest and *.csproj version nodes
+- VSIX
+  - Updates *.vsixmanifest
+
+Android
+- AndroidManifest.xml (or files ending with manifest.xml that include Android version attributes)
+  - Updates: android:versionCode, android:versionName
+
+iOS / macOS (plist-based)
+- Info.plist (files ending with .plist containing bundle version keys)
+  - Updates: CFBundleVersion, CFBundleShortVersionString
+
+UWP
+- Package.appxmanifest (files ending with appxmanifest)
+  - Updates: Identity/@Version
+
+Tizen
+- manifest.xml for Tizen
+  - Updates: manifest/@version
+
+Windows app manifest
+- app.manifest
+  - Updates: assemblyIdentity/@version
+
+.NET Framework / legacy assembly metadata
+- AssemblyInfo.cs (files ending with assemblyinfo.cs)
+  - Updates: AssemblyVersion(...)
+
+VSIX projects
+- *.vsixmanifest
+  - Updates: Identity/@Version
+
+SDK-style / modern .NET project files
+- *.csproj (only when version nodes are present)
+  - Possible updates:
+    - <ApplicationDisplayVersion>
+    - <ApplicationVersion>
+    - <Version>
+    - <AssemblyVersion>
+    - <FileVersion>
+    - <InformationalVersion>
+
+Supporting file used by the extension
+- MajorMinorBuildRevisionNumbers.xml
+  - Stores last entered version values used by the tool.
