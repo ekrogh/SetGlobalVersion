@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
 	<Metadata>
-		<Identity Id="SetGlobalVersion.ca80294a-08df-4b04-857e-795dca8891db" Version="6.0" Language="en-US" Publisher="Eigil Krogh Sorensen" />
+		<Identity Id="SetGlobalVersion.ca80294a-08df-4b04-857e-795dca8891db" Version="6.1" Language="en-US" Publisher="Eigil Krogh Sorensen" />
 		<DisplayName>SetGlobalVersion</DisplayName>
 		<Description xml:space="preserve">SetGlobalVersion adds a Visual Studio tool window to quickly view and manage solution-level version settings from inside the IDE. It helps keep project version configuration consistent across a solution and reduces manual edits to version-related files.</Description>
 		<MoreInfo>https://github.com/ekrogh/SetGlobalVersion</MoreInfo>

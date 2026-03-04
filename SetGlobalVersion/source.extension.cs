@@ -11,7 +11,7 @@ namespace SetGlobalVersion
 		public const string Name = "SetGlobalVersion";
 		public const string Description = @"Empty VSIX Project.";
 		public const string Language = "en-US";
-		public const string Version = "1.0";
+		public const string Version = "6.1";
 		public const string Author = "Eigil Krogh Sorensen";
 		public const string Tags = "";
 	}

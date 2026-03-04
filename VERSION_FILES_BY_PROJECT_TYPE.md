@@ -16,6 +16,7 @@ Based on the current implementation in `SetGlobalVersion`.
   - Typically updates `Package.appxmanifest` and `*.csproj` version nodes
 - `VSIX`
   - Updates `*.vsixmanifest`
+  - Included when the project is `*.csproj`-based, even if Visual Studio reports a non-standard project kind
 
 ## Android
 - `AndroidManifest.xml` (or files ending with `manifest.xml` that include Android version attributes)
@@ -44,6 +45,7 @@ Based on the current implementation in `SetGlobalVersion`.
 ## VSIX projects
 - `*.vsixmanifest`
   - Updates: `Identity/@Version`
+  - Discovery note: supported for `*.csproj`-based VSIX projects regardless of `project.Kind` value
 
 ## SDK-style / modern .NET project files
 - `*.csproj` (only when version nodes are present)

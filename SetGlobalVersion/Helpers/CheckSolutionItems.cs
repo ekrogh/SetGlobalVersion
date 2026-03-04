@@ -605,14 +605,18 @@ namespace SetGlobalVersion.Helpers
 
 				foreach (EnvDTE.Project project in mySln.Projects)
 				{
+					string projectFullName = project.FullName ?? string.Empty;
+					bool isCsprojBasedProject =
+						projectFullName.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase);
+
 					// Check if the project is a C# project
 					//if (project.Kind == ProjectKinds.vsProjectKindSolutionFolder)
 					//if (project.Kind == PrjKind.prjKindCSharpProject)
-					if (project.Kind == ProjectTypes.CSHARP)
+					if ((project.Kind == ProjectTypes.CSHARP) || isCsprojBasedProject)
 					{
-						if (ProjectFileContainsVersionNodes(project.FullName))
+						if (ProjectFileContainsVersionNodes(projectFullName))
 						{
-							string pathAndFile = project.FullName;
+							string pathAndFile = projectFullName;
 							bool FoundInThisSolitm = false;
 
 							FilesContainingVersionTypes fileType =
@@ -630,8 +634,11 @@ namespace SetGlobalVersion.Helpers
 									);
 						}
 
-						FoundVersionContainingFileInProject |=
-							await SearchProjectItemsAsync(project.ProjectItems);
+						if (project.ProjectItems != null)
+						{
+							FoundVersionContainingFileInProject |=
+								await SearchProjectItemsAsync(project.ProjectItems);
+						}
 					}
 					else if (project.Kind == EksProjectTypes.PACKAGING_PROJECT)
 					{
@@ -652,8 +659,11 @@ namespace SetGlobalVersion.Helpers
 						//			fileType
 						//		);
 
-						FoundVersionContainingFileInProject |=
-							await SearchProjectItemsAsync(project.ProjectItems);
+						if (project.ProjectItems != null)
+						{
+							FoundVersionContainingFileInProject |=
+								await SearchProjectItemsAsync(project.ProjectItems);
+						}
 
 					}
 
