@@ -34,6 +34,13 @@
 
 		<StackPanel>
 
+			<TextBlock
+				x:Name="SgvVersionText"
+				HorizontalAlignment="Right"
+				FontSize="10"
+				Opacity="0.7"
+				/>
+
 			<Separator />
 
 			<Grid>

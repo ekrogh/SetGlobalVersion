@@ -18,6 +18,7 @@ namespace SetGlobalVersion
 		public MyToolWindowControl()
 		{
 			InitializeComponent();
+			SgvVersionText.Text = $"SGV v{Vsix.Version}";
 
 			DataGridTextColumnElementStyle = new(typeof(TextBlock));
 			DataGridTextColumnElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
